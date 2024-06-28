@@ -334,58 +334,41 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text' => 'multilevel',
+            'text' => 'Student',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'student list',
+                    'url' => 'admin/student-list',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'add student',
+                    'url' => 'admin/add-student-form',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Import Student',
+                    'url' => 'admin/import-student-data-form',
                 ],
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text' => 'important',
-            'icon_color' => 'red',
+            'text' => 'Session',
             'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
+            'submenu' => [
+                [
+                    'text' => 'Start Session',
+                    'url' => 'admin/session-page',
+                    'target' => '_blank',
+                ],
+                [
+                    'text' => 'All Student Records',
+                    'url' => 'admin/all-session',
+                ],
+                [
+                    'text' => 'All Student Today',
+                    'url' => 'admin/active-session',
+                ],
+            ],
         ],
     ],
 
