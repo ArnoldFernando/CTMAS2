@@ -1,15 +1,16 @@
 <x-app-layout>
 
-    @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Admin Dashboard</h1>
 @stop
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('Dashboard-page') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))

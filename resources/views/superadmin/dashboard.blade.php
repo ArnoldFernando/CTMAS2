@@ -1,9 +1,7 @@
 <x-app-layout>
 
-    @section('title', 'Dashboard')
-
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Super Admin Dashboard</h1>
 @stop
 <div class="container">
     <div class="row justify-content-center">
