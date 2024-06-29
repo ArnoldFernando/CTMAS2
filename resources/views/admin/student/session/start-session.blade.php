@@ -62,7 +62,6 @@
 
 <body>
     <div class="container bg-light text-dark d-flex flex-column min-vh-100 p-3">
-
         <div class="row">
             <div class="container p-2 text-dark col-6">
                 <h1 id="typingText" class="display-1"></h1>
@@ -76,30 +75,94 @@
                         <form id="timeForm" action="{{ route('student-time') }}" method="POST">
                             @csrf
                             <label for="student_id">Student ID:</label>
-                            <input type="text" id="student_id" name="student_id" required autofocus>
+                            <input type="text" id="student_id" name="id" required autofocus>
                             <button type="submit" style="display: none;">Submit</button>
                         </form>
-
                     </div>
                 </div>
 
                 @if (session('message'))
-                    <p>{{ session('message') }}</p>
+                    <div class="alert alert-info mt-3">
+                        {{ session('message') }}
+                    </div>
                 @endif
+                @if (session('messages'))
+                <div class="alert alert-danger mt-3">
+                    {{ session('messages') }}
+                </div>
+            @endif
 
                 @if (session('student'))
-                    <div>
-                        <h2>Student Details</h2>
-                        <p><strong>Name:</strong> {{ session('student')->name }}</p>
-                        <p><strong>Course:</strong> {{ session('student')->course }}</p>
-                        <p><strong>College:</strong> {{ session('student')->college }}</p>
-                        @if (session('student')->image)
-                            <img src="{{ asset('images/' . session('student')->image) }}" alt="Student Image"
-                                style="max-width: 200px;">
-                        @endif
+                    <div class="container mt-4">
+                        <div class="card">
+                            <div class="card-header text-center bg-primary text-white">
+                                <h2>Student Details</h2>
+                            </div>
+                            <div class="card-body bg-light">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td>{{ session('student')->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Course</th>
+                                            <td>{{ session('student')->course }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">College</th>
+                                            <td>{{ session('student')->college }}</td>
+                                        </tr>
+                                        @if (session('student')->image)
+                                        <tr>
+                                            <th scope="row">Image</th>
+                                            <td class="text-center">
+                                                <img src="{{ asset('images/' . session('student')->image) }}" alt="Student Image" class="img-fluid" style="max-width: 200px;">
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if (session('faculty'))
+                    <div class="container mt-4">
+                        <div class="card">
+                            <div class="card-header text-center bg-primary text-white">
+                                <h2>Faculty Details</h2>
+                            </div>
+                            <div class="card-body bg-light">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td>{{ session('faculty')->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">College</th>
+                                            <td>{{ session('faculty')->college }}</td>
+                                        </tr>
+                                        @if (session('faculty')->image)
+                                        <tr>
+                                            <th scope="row">Image</th>
+                                            <td class="text-center">
+                                                <img src="{{ asset('images/' . session('faculty')->image) }}" alt="Faculty Image" class="img-fluid" style="max-width: 200px;">
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 @endif
             </div>
         </div>
+    </div>
+
 </body>
+
 </html>
