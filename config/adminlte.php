@@ -352,6 +352,20 @@ return [
             ],
         ],
         [
+            'text' => 'Faculty and Staff',
+            'icon' => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Faculty and Staff list',
+                    'url' => 'admin/faculty-list',
+                ],
+                [
+                    'text' => 'add Faculty and Staff',
+                    'url' => 'admin/add-faculty-form',
+                ],
+            ],
+        ],
+        [
             'text' => 'Session',
             'url' => '#',
             'submenu' => [
