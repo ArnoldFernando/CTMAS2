@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportDataController;
 use App\Http\Controllers\SearchController;
@@ -37,6 +38,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::POST('/update-student', [StudentController::class, 'update_student'])->name('update.student');
     Route::get('delete/{id}', [StudentController::class, 'delete_student']);
 
+    // faculty and staff
+    Route::get('/faculty-list', [FacultyController::class, 'facultyList'])->name('faculty.list');
+    Route::view('/add-faculty-form', 'admin.faculty.add-faculty');
+    Route::post('/add-faculty', [FacultyController::class, 'addFaculty'])->name('add.faculty');
+    Route::get('edit-faculty/{id}', [FacultyController::class, 'edit_faculty']);
+    Route::POST('/update-faculty', [FacultyController::class, 'update_faculty'])->name('update.faculty');
+    Route::get('delete-faculty/{id}', [FacultyController::class, 'delete_faculty']);
 
     // session
     Route::get('/session-page', [SessionController::class, 'startSessionPage'])->name('session.page');
@@ -44,13 +52,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/all-session', [SessionController::class, 'ShowAllSession'])->name('session.all');
     Route::get('/active-session', [SessionController::class, 'showTodayTimeIns'])->name('active.session.view');
 
-    //
-    Route::post('/time-in', [SessionController::class, 'timeIn'])->name('time-in');
-    Route::post('/time-out', [SessionController::class, 'timeOut'])->name('time-out');
+    //session management
+    // Route::post('/time-in', [SessionController::class, 'timeIn'])->name('time-in');
+    // Route::post('/time-out', [SessionController::class, 'timeOut'])->name('time-out');
     Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time')
     ;
     // search
     Route::get('/search-student', [SearchController::class, 'searchStudent'])->name('search.student');
+    Route::get('/search-faculty', [SearchController::class, 'searchFaculty'])->name('search.faculty');
 
 
     Route::get('/import-student-data-form', [ImportDataController::class, 'showImportBlade']);
