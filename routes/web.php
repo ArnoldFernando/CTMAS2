@@ -37,6 +37,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('edit/{id}', [StudentController::class, 'edit_student']);
     Route::POST('/update-student', [StudentController::class, 'update_student'])->name('update.student');
     Route::get('delete/{id}', [StudentController::class, 'delete_student']);
+    Route::get('/all-student-records', [StudentController::class, 'allStudentRecords'])->name('student.records');
 
     // faculty and staff
     Route::get('/faculty-list', [FacultyController::class, 'facultyList'])->name('faculty.list');
@@ -45,11 +46,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('edit-faculty/{id}', [FacultyController::class, 'edit_faculty']);
     Route::POST('/update-faculty', [FacultyController::class, 'update_faculty'])->name('update.faculty');
     Route::get('delete-faculty/{id}', [FacultyController::class, 'delete_faculty']);
+    Route::get('/all-faculty-records', [FacultyController::class, 'allFacultyRecords'])->name('faculty.records');
 
     // session
     Route::get('/session-page', [SessionController::class, 'startSessionPage'])->name('session.page');
     Route::post('/session-store', [SessionController::class, 'createSession'])->name('session.store');
-    Route::get('/all-session', [SessionController::class, 'ShowAllSession'])->name('session.all');
+
     Route::get('/active-session', [SessionController::class, 'showTodayTimeIns'])->name('active.session.view');
 
     //session management
