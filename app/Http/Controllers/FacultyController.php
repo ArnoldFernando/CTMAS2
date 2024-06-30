@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faculty_and_staff;
+use App\Models\FacultyRecords;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
@@ -86,5 +88,40 @@ class FacultyController extends Controller
         $data->delete();
 
         return redirect()->back();
+    }
+
+    public function allFacultyRecords()
+    {
+        $todayDate = now()->timezone('Asia/Manila')->toDateString();
+
+        // Get all active sessions (records with null time_out) with faculty data
+        $activeSessions = FacultyRecords::whereNull('time_out')->with('faculty')->get();
+
+        // Get all sessions that have a time_in today with faculty data
+        $studentsTimedInToday = FacultyRecords::whereDate('created_at', $todayDate)
+            ->with('faculty')
+            ->get();
+
+        foreach ($studentsTimedInToday as $studentRecord) {
+            if ($studentRecord->time_out) {
+                $timeIn = Carbon::parse($studentRecord->time_in);
+                $timeOut = Carbon::parse($studentRecord->time_out);
+                $duration = $timeIn->diff($timeOut)->format('%H:%I:%S');
+                $studentRecord->duration = $duration;
+            } else {
+                $studentRecord->duration = null;
+            }
+        }
+
+        $allSessions = FacultyRecords::with('faculty')->get();
+        $sessionsByDay = $allSessions->groupBy(function ($session) {
+            return $session->created_at->format('Y-m-d');
+        });
+
+        return view('admin.faculty.all-faculty-records', [
+            'activeSessions' => $activeSessions,
+            'studentsTimedInToday' => $studentsTimedInToday,
+            'sessionsByDay' => $sessionsByDay,
+        ]);
     }
 }
