@@ -1,11 +1,5 @@
 <x-app-layout>
 
-
-    @section('content_header')
-        <h1>Add faculty</h1>
-    @stop
-
-
     <div class="py-2">
         <div class="container">
             <div class="bg-white shadow-sm rounded d-flex overflow-hidden">
