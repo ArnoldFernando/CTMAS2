@@ -335,52 +335,65 @@ return [
         ],
         [
             'text' => 'Student',
-            'icon' => 'fas fa-fw fa-share',
+            'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'student list',
+                    'text' => 'Student List',
                     'url' => 'admin/student-list',
+                    'icon' => 'fas fa-fw fa-list',
                 ],
                 [
-                    'text' => 'add student',
+                    'text' => 'Student Records',
+                    'url' => 'admin/all-student-records',
+                    'icon' => 'fas fa-fw fa-book',
+                ],
+                [
+                    'text' => 'Add Student',
                     'url' => 'admin/add-student-form',
+                    'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Import Student',
                     'url' => 'admin/import-student-data-form',
+                    'icon' => 'fas fa-fw fa-file-import',
                 ],
             ],
         ],
         [
             'text' => 'Faculty and Staff',
-            'icon' => 'fas fa-fw fa-share',
+            'icon' => 'fas fa-fw fa-user-tie',
             'submenu' => [
                 [
                     'text' => 'Faculty and Staff list',
                     'url' => 'admin/faculty-list',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text' => 'Faculty & Staff Records',
+                    'url' => 'admin/all-faculty-records',
+                    'icon' => 'fas fa-fw fa-book',
                 ],
                 [
                     'text' => 'add Faculty and Staff',
                     'url' => 'admin/add-faculty-form',
+                    'icon' => 'fas fa-fw fa-plus',
                 ],
             ],
         ],
         [
             'text' => 'Session',
-            'url' => '#',
+            'icon' => 'fas fa-fw fa-clock',
             'submenu' => [
                 [
                     'text' => 'Start Session',
                     'url' => 'admin/session-page',
                     'target' => '_blank',
-                ],
-                [
-                    'text' => 'All Student Records',
-                    'url' => 'admin/all-session',
+                    'icon' => 'fas fa-fw fa-play',
                 ],
                 [
                     'text' => 'All Student Today',
                     'url' => 'admin/active-session',
+                    'icon' => 'fas fa-fw fa-book',
                 ],
             ],
         ],
