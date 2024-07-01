@@ -37,7 +37,7 @@ class HomeController extends Controller
                 return view ('superadmin.dashboard');
             }
             else if($role == 'admin') {
-                return view('admin.dashboard');
+                return redirect()->route('student.records.dashboard');
             }
                 else return redirect()->back();
 
