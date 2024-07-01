@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportDataController;
@@ -30,6 +31,9 @@ Route::get('/home', [HomeController::class, 'auth'])
 
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+
+    // dashboard routes
+    Route::get('/student-records', [DashboardController::class, 'combinedDashboard'])->name('student.records.dashboard');
     // student
     Route::get('/student-list', [StudentController::class, 'studentList'])->name('student.list');
     Route::view('/add-student-form', 'admin.student.add-student');
