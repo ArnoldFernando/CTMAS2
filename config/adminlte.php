@@ -316,6 +316,11 @@ return [
             'can' => 'manage-blog',
         ],
         [
+            'text' => 'Dashboard',
+            'url' => 'admin/student-records',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
             'text' => 'pages',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',
