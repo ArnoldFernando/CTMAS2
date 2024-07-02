@@ -387,6 +387,11 @@ return [
                     'url' => 'admin/all-faculty-records',
                     'icon' => 'fas fa-fw fa-book',
                 ],
+                [
+                    'text' => 'Import Faculty',
+                    'url' => 'admin/import-faculty-data-form',
+                    'icon' => 'fas fa-fw fa-file-import',
+                ],
 
             ],
         ],
