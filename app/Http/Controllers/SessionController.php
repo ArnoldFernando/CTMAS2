@@ -17,7 +17,6 @@ class SessionController extends Controller
         return view('admin.student.session.start-session');
     }
 
-
     public function handleTime(Request $request)
     {
         $id = $request->input('id');
@@ -38,19 +37,27 @@ class SessionController extends Controller
         }
     }
 
-
-    // handle student time
+    // Handle student time
     protected function handleStudentTime($studentId, $student)
     {
-        $latestRecord = StudentRecords::where('student_id', $studentId)->whereNull('time_out')->first();
+        $latestRecord = StudentRecords::where('student_id', $studentId)->latest()->first();
 
-        if ($latestRecord) {
+        if ($latestRecord && !$latestRecord->time_out) {
             return $this->timeOut($latestRecord, $student);
-        } else {
-            return $this->timeIn($studentId, $student);
-        }
-    }
+        } elseif ($latestRecord && $latestRecord->time_out) {
+            $timeOut = Carbon::parse($latestRecord->time_out);
+            $currentTime = Carbon::now();
+            $diffInSeconds = $currentTime->diffInSeconds($timeOut);
 
+            if ($diffInSeconds < 20) {
+                return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
+                    ->with('student', $student)
+                    ->with('currentTime', Carbon::now()->format('H:i:s'));
+            }
+        }
+
+        return $this->timeIn($studentId, $student);
+    }
 
     protected function timeIn($studentId, $student)
     {
@@ -63,15 +70,6 @@ class SessionController extends Controller
             ->with('student', $student)
             ->with('currentTime', Carbon::now()->format('H:i:s'));
     }
-
-    // protected function timeOut($latestRecord, $student)
-    // {
-    //     $latestRecord->time_out = Carbon::now()->toTimeString();
-    //     $latestRecord->save();
-
-    //     return redirect()->back()->with('message', 'Student time out recorded successfully.')
-    //         ->with('student', $student);
-    // }
 
     protected function timeOut($latestRecord, $student)
     {
@@ -93,16 +91,26 @@ class SessionController extends Controller
             ->with('currentTime', Carbon::now()->format('H:i:s'));
     }
 
-    // HANDLE FACULTY TIMEOUT
+    // Handle faculty time
     protected function handleFacultyTime($facultyId, $faculty)
     {
-        $latestRecord = FacultyRecords::where('faculty_id', $facultyId)->whereNull('time_out')->first();
+        $latestRecord = FacultyRecords::where('faculty_id', $facultyId)->latest()->first();
 
-        if ($latestRecord) {
+        if ($latestRecord && !$latestRecord->time_out) {
             return $this->facultyTimeOut($latestRecord, $faculty);
-        } else {
-            return $this->facultyTimeIn($facultyId, $faculty);
+        } elseif ($latestRecord && $latestRecord->time_out) {
+            $timeOut = Carbon::parse($latestRecord->time_out);
+            $currentTime = Carbon::now();
+            $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+
+            if ($diffInSeconds < 20) {
+                return redirect()->back()->with('20second', 'Cannot time in within 20 seconds of time out.')
+                    ->with('faculty', $faculty)
+                    ->with('currentTime', Carbon::now()->format('H:i:s'));
+            }
         }
+
+        return $this->facultyTimeIn($facultyId, $faculty);
     }
 
     protected function facultyTimeIn($facultyId, $faculty)
@@ -136,8 +144,6 @@ class SessionController extends Controller
             ->with('faculty', $faculty)
             ->with('currentTime', Carbon::now()->format('H:i:s'));
     }
-
-
 
 
 
