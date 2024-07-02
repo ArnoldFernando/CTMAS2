@@ -68,8 +68,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/search-faculty', [SearchController::class, 'searchFaculty'])->name('search.faculty');
 
 
-    Route::get('/import-student-data-form', [ImportDataController::class, 'showImportBlade']);
+    // import data
+    Route::view('/import-student-data-form', 'admin.student.import-excel-data');
     Route::POST('/import-student-data', [ImportDataController::class, 'importStudentData'])->name('import.student.data');
+    Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
+    Route::POST('/import-student-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
 
 
 });
