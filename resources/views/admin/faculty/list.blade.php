@@ -2,7 +2,7 @@
 
 
     @section('content_header')
-        <h1>Studentlist</h1>
+        <h1>Faculty List</h1>
     @stop
 
 
@@ -36,7 +36,7 @@
                         <thead class="thead-dark">
                             <tr class="text-center">
                                 <th>ID</th>
-                                <th>STUDENT NAME</th>
+                                <th>Faculty NAME</th>
                                 <th>college</th>
                                 <th>Image</th>
                                 <th>Delete</th>
