@@ -104,7 +104,7 @@ class SessionController extends Controller
             $diffInSeconds = $currentTime->diffInSeconds($timeOut);
 
             if ($diffInSeconds < 20) {
-                return redirect()->back()->with('20second', 'Cannot time in within 20 seconds of time out.')
+                return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
                     ->with('faculty', $faculty)
                     ->with('currentTime', Carbon::now()->format('H:i:s'));
             }
