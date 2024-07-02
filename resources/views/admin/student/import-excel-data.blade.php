@@ -8,7 +8,7 @@
                         <form action="{{ route('import.student.data') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="d-flex justify-center items-center">
-                                <input type="file" required name="file" class="form-control-file" id="file">
+                                <input type="file" required name="file" accept=".xls,.xlsx" class="form-control-file" id="file">
                                 <button type="submit" class="btn btn-primary">Import</button>
                             </div>
 
