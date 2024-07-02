@@ -159,6 +159,29 @@
             })()
         </script>
     @endif
+
+    @if (session('20seconds-out'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'question',
+                    title: 'time in after 20 seconds'
+                })
+            })()
+        </script>
+    @endif
+
     <div class="container-fluid bg-light text-dark d-flex flex-column min-vh-100 p-3">
         <div class="row">
             <div class="container p-2 text-dark col-5">
