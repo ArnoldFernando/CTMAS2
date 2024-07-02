@@ -2,6 +2,11 @@
     background-color: #00a028bd !important;
 }
 
+.colored-toast-out {
+    background-color: #f4ce14 !important;
+    /* font-weight: 900; */
+}
+
 .colored-toast.swal2-icon-error {
     background-color: #f4ce14 !important;
 }
