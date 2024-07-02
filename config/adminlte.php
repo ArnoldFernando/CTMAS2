@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'CSU-APARRI LIBRARY',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -31,7 +31,7 @@ return [
     */
 
     'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'use_full_favicon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,12 @@ return [
     'google_fonts' => [
         'allowed' => true,
     ],
+    'assets' => [
+        'css' => [
+            'https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap',
+        ],
+        'favicon' => '<link rel="icon" type="image/png" href="IMG/csulogo.png">',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -63,12 +69,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '<b style="font-weight: 600; font-family: Poppins;">CSUA LIBRARY</b>',
+    'logo_img' => 'IMG/csulogo.png',
+    'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'CSU Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,11 +116,11 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'IMG/csulogo.png',
+            'alt' => 'CSU Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -154,8 +160,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -196,7 +202,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light-warning elevation-2',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -215,9 +221,9 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -297,7 +303,7 @@ return [
         // Navbar items:
         [
             'type' => 'navbar-search',
-            'text' => 'search',
+            'text' => 'Search',
             'topnav_right' => true,
         ],
         [
@@ -308,40 +314,43 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Search',
         ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
+        ['header' => 'NAVIGATION'],
         [
             'text' => 'Dashboard',
             'url' => 'admin/student-records',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fa-solid fa-house',
+            'icon_color' => 'blue',
         ],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Session',
+            'icon' => 'fas fa-fw fa-clock',
+            'submenu' => [
+                [
+                    'text' => 'Start Session',
+                    'url' => 'admin/session-page',
+                    'target' => '_blank',
+                    'icon' => 'fas fa-fw fa-play',
+                    'icon_color' => 'green',
+
+                ],
+                [
+                    'text' => 'All Student Today',
+                    'url' => 'admin/active-session',
+                    'icon' => 'fas fa-fw fa-book',
+                ],
+            ],
         ],
         [
             'text' => 'Student',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
+                [
+                    'text' => 'Add Student',
+                    'url' => 'admin/add-student-form',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
                 [
                     'text' => 'Student List',
                     'url' => 'admin/student-list',
@@ -351,11 +360,6 @@ return [
                     'text' => 'Student Records',
                     'url' => 'admin/all-student-records',
                     'icon' => 'fas fa-fw fa-book',
-                ],
-                [
-                    'text' => 'Add Student',
-                    'url' => 'admin/add-student-form',
-                    'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Import Student',
@@ -369,6 +373,11 @@ return [
             'icon' => 'fas fa-fw fa-user-tie',
             'submenu' => [
                 [
+                    'text' => 'Add Faculty & Staff',
+                    'url' => 'admin/add-faculty-form',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
                     'text' => 'Faculty and Staff list',
                     'url' => 'admin/faculty-list',
                     'icon' => 'fas fa-fw fa-list',
@@ -378,30 +387,23 @@ return [
                     'url' => 'admin/all-faculty-records',
                     'icon' => 'fas fa-fw fa-book',
                 ],
-                [
-                    'text' => 'add Faculty and Staff',
-                    'url' => 'admin/add-faculty-form',
-                    'icon' => 'fas fa-fw fa-plus',
-                ],
+
             ],
+        ],
+
+        ['header' => 'account_settings'],
+        [
+            'text' => 'Profile',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'Session',
-            'icon' => 'fas fa-fw fa-clock',
-            'submenu' => [
-                [
-                    'text' => 'Start Session',
-                    'url' => 'admin/session-page',
-                    'target' => '_blank',
-                    'icon' => 'fas fa-fw fa-play',
-                ],
-                [
-                    'text' => 'All Student Today',
-                    'url' => 'admin/active-session',
-                    'icon' => 'fas fa-fw fa-book',
-                ],
-            ],
+            'text' => 'change_password',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-lock',
         ],
+
+
     ],
 
     /*
@@ -509,6 +511,37 @@ return [
                 ],
             ],
         ],
+        'FontAwesome' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+                ],
+            ],
+        ],
+        'Bootstrap' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+                    'integrity' => 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH',
+                    'crossorigin' => 'anonymous',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+                    'integrity' => 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz',
+                    'crossorigin' => 'anonymous',
+                ],
+            ],
+        ],
+
+
     ],
 
     /*
