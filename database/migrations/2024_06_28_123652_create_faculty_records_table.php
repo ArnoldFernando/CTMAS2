@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('faculty_id')
                 ->references('faculty_id')
                 ->on('faculty_and_staffs')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
         });
     }
 
