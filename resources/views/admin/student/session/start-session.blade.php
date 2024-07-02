@@ -154,7 +154,7 @@
             (async () => {
                 await Toast.fire({
                     icon: 'success',
-                    title: 'Faculty time in recorded successfully'
+                    title: 'Faculty time out recorded successfully'
                 })
             })()
         </script>
@@ -284,7 +284,7 @@
         </div>
     </div>
     {{-- Script --}}
-    {{-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentIdInput = document.getElementById('student_id');
             const form = document.getElementById('timeForm');
@@ -295,7 +295,7 @@
                 }
             });
         });
-    </script> --}}
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
