@@ -57,16 +57,16 @@
                 position: 'top-end',
                 iconColor: 'white',
                 customClass: {
-                    popup: 'colored-toast',
+                    popup: 'colored-toast-out',
                 },
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 1500,
                 timerPr0ogressBar: true,
             });
             (async () => {
                 await Toast.fire({
                     icon: 'success',
-                    title: 'Student time out recorded successfully'
+                    title: 'Student TIME OUT recorded successfully'
                 })
             })()
         </script>
@@ -145,7 +145,7 @@
                 position: 'top-end',
                 iconColor: 'white',
                 customClass: {
-                    popup: 'colored-toast',
+                    popup: 'colored-toast-out',
                 },
                 showConfirmButton: false,
                 timer: 2500,
@@ -153,7 +153,7 @@
             });
             (async () => {
                 await Toast.fire({
-                    icon: 'success1',
+                    icon: 'success',
                     title: 'Faculty time in recorded successfully'
                 })
             })()
@@ -185,7 +185,7 @@
                         <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
                             <div class="row p-2">
                                 <div class="col-8">
-                                    <h5 class="fw-bold mb-3">Student Record</h5>
+                                    <h5 class="fw-bold mb-3">Student Details</h5>
 
                                     <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
                                     </h6>
@@ -200,10 +200,15 @@
                                             class="fa-solid fa-caret-right me-1"></i>Department: </h6>
                                     <h6 class="d-inline font">{{ session('student')->college }}</h6>
                                     <hr class="mt-0">
+                                    @if (session('currentTime'))
+                                        <h6 class="d-inline font"><i class="fa-solid fa-caret-right me-1"></i>Time:
+                                            {{ session('currentTime') }}</h6>
+                                    @endif
+                                    <hr class="mt-0">
                                 </div>
                                 <div class="col-4">
                                     @if (session('student')->image)
-                                        <div class="p-1 text-center">
+                                        <div class="p-1 mt-3 text-center">
                                             <img src="{{ asset('images/' . session('student')->image) }}"
                                                 class="border border-1 border-secondary rounded-2" height="170px"
                                                 width="170px" alt="">
@@ -216,80 +221,47 @@
                     </div>
                 @endif
 
-                {{-- @if (session('student'))
-                    <div class="container mt-4">
-                        <div class="card">
-                            <div class="card-header text-center bg-primary text-white">
-                                <h2>Student Details</h2>
-                            </div>
-                            <div class="card-body bg-light">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">Name</th>
-                                            <td>{{ session('student')->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Course</th>
-                                            <td>{{ session('student')->course }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">College</th>
-                                            <td>{{ session('student')->college }}</td>
-                                        </tr>
-                                        @if (session('student')->image)
-                                            <tr>
-                                                <th scope="row">Image</th>
-                                                <td class="text-center">
-                                                    <img src="{{ asset('images/' . session('student')->image) }}"
-                                                        alt="Student Image" class="img-fluid" style="max-width: 200px;">
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif --}}
+                @if (session('faculty'))
+                    <div class="px-5">
+                        <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
+                            <div class="row p-2">
+                                <div class="col-8">
+                                    <h5 class="fw-bold mb-3">Faculty Details</h5>
 
-                {{-- @if (session('faculty'))
-                    <div class="container mt-4">
-                        <div class="card">
-                            <div class="card-header text-center bg-primary text-white">
-                                <h2>Faculty Details</h2>
-                            </div>
-                            <div class="card-body bg-light">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">Name</th>
-                                            <td>{{ session('faculty')->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">College</th>
-                                            <td>{{ session('faculty')->college }}</td>
-                                        </tr>
-                                        @if (session('faculty')->image)
-                                            <tr>
-                                                <th scope="row">Image</th>
-                                                <td class="text-center">
-                                                    <img src="{{ asset('images/' . session('faculty')->image) }}"
-                                                        alt="Faculty Image" class="img-fluid" style="max-width: 200px;">
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
+                                    <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
+                                    </h6>
+                                    <h6 class="d-inline">{{ session('faculty')->name }}</h6>
+                                    <hr class="mt-0">
+                                    <h6 class="d-inline fw-bolder mt-1"><i
+                                            class="fa-solid fa-caret-right me-1"></i>Department: </h6>
+                                    <h6 class="d-inline font">{{ session('faculty')->college }}</h6>
+                                    <hr class="mt-0">
+                                    @if (session('currentTime'))
+                                        <h6 class="d-inline font"><i class="fa-solid fa-caret-right me-1"></i>Time:
+                                            {{ session('currentTime') }}</h6>
+                                    @endif
+                                    <hr class="mt-0">
+                                </div>
+                                <div class="col-4">
+                                    @if (session('faculty')->image)
+                                        <div class="p-1 mt-3 text-center">
+                                            <img src="{{ asset('images/' . session('faculty')->image) }}"
+                                                class="border border-1 border-secondary rounded-2" height="170px"
+                                                width="170px" alt="">
+                                        </div>
+                                    @endif
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                @endif --}}
+                @endif
+
             </div>
         </div>
     </div>
     {{-- Script --}}
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentIdInput = document.getElementById('student_id');
             const form = document.getElementById('timeForm');
@@ -300,7 +272,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
