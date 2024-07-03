@@ -32,7 +32,7 @@ class StudentController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('student-images'), $imageName);
         } else {
             $imageName = null; // If no image is uploaded, set imageName to null or specify a default image path
         }
@@ -67,7 +67,7 @@ class StudentController extends Controller
         if ($req->hasFile('image')) {
             $image = $req->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('student-images'), $imageName);
 
             // Update the image field with the new image
             $data->image = $imageName;
