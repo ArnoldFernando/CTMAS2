@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportDataController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
@@ -74,5 +75,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
     Route::POST('/import-student-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
 
-
+    // export pdf
+    Route::get('/export-students-pdf', [PDFController::class, 'StudentRecordsPDF'])->name('student-records.pdf');
+    \Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
 });
