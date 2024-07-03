@@ -8,6 +8,9 @@
         <div class="container p-4">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="w-100 max-w-4xl bg-white shadow rounded-lg overflow-auto" style="max-height: 24rem;">
+
+                    <a href="{{ route('student-records.pdf') }}">export pdf</a>
+
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark sticky-top">
                             <tr>
