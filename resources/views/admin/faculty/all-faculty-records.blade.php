@@ -2,6 +2,9 @@
     <div class="container">
         <div class="d-flex justify-content-center align-items-center">
             <div class="w-100 max-w-4xl bg-white shadow rounded-lg overflow-auto" style="max-height: 34rem;">
+
+                <a href="{{ route('faculty-records.pdf') }}">export pdf</a>
+
                 <table class="table table-striped table-hover">
                     <thead class="thead-dark sticky-top">
                         <tr>
@@ -29,16 +32,16 @@
                                     <td>{{ $session->faculty->college }}</td>
                                     <td>
                                         <?php
-                                            $timeIn = \Carbon\Carbon::parse($session->time_in);
-                                            $formattedTimeIn = $timeIn->format('h:i A');
+                                        $timeIn = \Carbon\Carbon::parse($session->time_in);
+                                        $formattedTimeIn = $timeIn->format('h:i A');
                                         ?>
                                         {{ $formattedTimeIn }}
                                     </td>
                                     <td>
                                         @if ($session->time_out)
                                             <?php
-                                                $timeOut = \Carbon\Carbon::parse($session->time_out);
-                                                $formattedTimeOut = $timeOut->format('h:i A');
+                                            $timeOut = \Carbon\Carbon::parse($session->time_out);
+                                            $formattedTimeOut = $timeOut->format('h:i A');
                                             ?>
                                             {{ $formattedTimeOut }}
                                         @else
@@ -48,7 +51,7 @@
                                     <td>
                                         @if ($session->time_out)
                                             <?php
-                                                $duration = $timeOut->diff($timeIn)->format('%H:%I:%S');
+                                            $duration = $timeOut->diff($timeIn)->format('%H:%I:%S');
                                             ?>
                                             {{ $duration }}
                                         @else
