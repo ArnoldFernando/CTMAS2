@@ -20,9 +20,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="college" class="form-label">faculty college</label>
-                            <input type="text" required name="college" id="college"
-                                placeholder="input faculty college" class="form-control">
+                            <label for="college" class="form-label">Faculty College</label>
+                            <select required name="college" id="college" class="form-control">
+                                <option value="" disabled selected>Select College</option>
+                                <option value="CICS">College of Information And Computing Sciences</option>
+                                <option value="CBEA">College of Business Entrepreneurship And Accountancy</option>
+                                <option value="CTED">College of Teacher Education</option>
+                                <option value="CCJE">College of Criminal Justice Education</option>
+                                <option value="CFAS">College of Fisheries And Aquatic Sciences</option>
+                                <option value="CIT">College Of Industrial Technology</option>
+                                <option value="CHM">College of Hospitality Management</option>
+                                <!-- Add more options as needed -->
+                            </select>
                         </div>
 
                         <div class="mb-3">
