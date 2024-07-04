@@ -94,19 +94,31 @@ class StudentController extends Controller
     }
 
 
-    public function allStudentRecords()
+    public function allStudentRecords(Request $request)
     {
         $todayDate = now()->timezone('Asia/Manila')->toDateString();
 
-        // Get all active sessions (records with null time_out) with student data
-        $activeSessions = StudentRecords::whereNull('time_out')->with('student')->get();
+        // Get filter dates from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-        // Get all sessions that have a time_in today with student data
-        $studentsTimedInToday = StudentRecords::whereDate('created_at', $todayDate)
+        // Default to today if no dates are provided
+        if (!$startDate) {
+            $startDate = $todayDate;
+        }
+        if (!$endDate) {
+            $endDate = $todayDate;
+        }
+
+        // Adjust end date to include the entire day
+        $endDate = Carbon::parse($endDate)->endOfDay();
+
+        // Get all sessions that have a time_in within the specified date range with student data
+        $filteredSessions = StudentRecords::whereBetween('created_at', [$startDate, $endDate])
             ->with('student')
             ->get();
 
-        foreach ($studentsTimedInToday as $studentRecord) {
+        foreach ($filteredSessions as $studentRecord) {
             if ($studentRecord->time_out) {
                 $timeIn = Carbon::parse($studentRecord->time_in);
                 $timeOut = Carbon::parse($studentRecord->time_out);
@@ -117,15 +129,17 @@ class StudentController extends Controller
             }
         }
 
-        $allSessions = StudentRecords::with('student')->get();
-        $sessionsByDay = $allSessions->groupBy(function ($session) {
+        $sessionsByDay = $filteredSessions->groupBy(function ($session) {
             return $session->created_at->format('F j, Y');
         });
 
         return view('admin.student.session.all-student-records', [
-            'activeSessions' => $activeSessions,
-            'studentsTimedInToday' => $studentsTimedInToday,
             'sessionsByDay' => $sessionsByDay,
+            'startDate' => $startDate,
+            'endDate' => $endDate->format('Y-m-d'),
         ]);
     }
+
+
+
 }
