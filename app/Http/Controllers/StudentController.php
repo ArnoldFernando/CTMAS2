@@ -119,7 +119,7 @@ class StudentController extends Controller
 
         $allSessions = StudentRecords::with('student')->get();
         $sessionsByDay = $allSessions->groupBy(function ($session) {
-            return $session->created_at->format('Y-m-d');
+            return $session->created_at->format('F j, Y');
         });
 
         return view('admin.student.session.all-student-records', [
@@ -128,5 +128,4 @@ class StudentController extends Controller
             'sessionsByDay' => $sessionsByDay,
         ]);
     }
-
 }
