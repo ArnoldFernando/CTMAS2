@@ -1,71 +1,103 @@
 <x-app-layout>
-    <div class="container">
-        <div class="d-flex justify-content-center align-items-center">
-            <div class="w-100 max-w-4xl bg-white shadow rounded-lg overflow-auto" style="max-height: 34rem;">
+    @section('content_header')
+        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Faculty Records</h5>
+    @stop
 
-                <a href="{{ route('faculty-records.pdf') }}">export pdf</a>
+    @section('content')
+        <div class="container-fluid p-1 font">
+            <div class="bg-secondary bg-opacity-50 rounded-2">
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex justify-content-end align-items-center py-1 px-1">
+                            <form method="GET" action="{{ route('faculty.records') }}" class="d-flex align-items-center">
+                                <div class="me-2">
+                                    <label for="start_date">Start Date:</label>
+                                    <input type="date" id="start_date" name="start_date" class="form-control"
+                                        value="{{ $startDate }}">
+                                </div>
+                                <div class="me-2">
+                                    <label for="end_date">End Date:</label>
+                                    <input type="date" id="end_date" name="end_date" class="form-control"
+                                        value="{{ $endDate }}">
+                                </div>
+                                <div class="me-2">
+                                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                                </div>
+                            </form>
+                            <a href="{{ route('faculty-records.pdf') }}" class="btn btn-danger">
+                                <i class="fa-solid fa-file-pdf me-1"></i>Export PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-0">
+                <div class="row mt-1 px-1">
+                    <div class="col">
+                        <div class="table-responsive" style="max-height: 600px; overflow-y: auto; position: relative;">
+                            <style>
+                                .table-responsive::-webkit-scrollbar {
+                                    display: none;
+                                }
 
-                <table class="table table-striped table-hover">
-                    <thead class="thead-dark sticky-top">
-                        <tr>
-                            <th>#</th> {{-- New column for sequential number --}}
-                            <th>Faculty-ID</th>
-                            <th>Name</th>
-                            <th>College</th>
-                            <th>Time In</th>
-                            <th>Time Out</th>
-                            <th>Duration</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $counter = 1 @endphp {{-- Initialize counter --}}
-                        @foreach ($sessionsByDay as $day => $sessions)
-                            <tr>
-                                <td colspan="10" class="bg-dark text-white px-3 py-2">{{ $day }}</td>
-                            </tr>
-                            @foreach ($sessions as $session)
-                                <tr>
-                                    <td>{{ $counter++ }}</td> {{-- Increment counter for each row --}}
-                                    <td>{{ $session->faculty_id }}</td>
-                                    <td>{{ $session->faculty->name }}</td>
-                                    <td>{{ $session->faculty->college }}</td>
-                                    <td>
-                                        <?php
-                                        $timeIn = \Carbon\Carbon::parse($session->time_in);
-                                        $formattedTimeIn = $timeIn->format('h:i A');
-                                        ?>
-                                        {{ $formattedTimeIn }}
-                                    </td>
-                                    <td>
-                                        @if ($session->time_out)
-                                            <?php
-                                            $timeOut = \Carbon\Carbon::parse($session->time_out);
-                                            $formattedTimeOut = $timeOut->format('h:i A');
-                                            ?>
-                                            {{ $formattedTimeOut }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($session->time_out)
-                                            <?php
-                                            $duration = $timeOut->diff($timeIn)->format('%H:%I:%S');
-                                            ?>
-                                            {{ $duration }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>
-                                    <td>{{ $session->created_at->format('Y-m-d') }}</td>
-                                </tr>
-                            @endforeach
-                        @endforeach
-                    </tbody>
-                </table>
-
+                                .table-responsive {
+                                    -ms-overflow-style: none;
+                                    /* IE and Edge */
+                                    scrollbar-width: none;
+                                    /* Firefox */
+                                }
+                            </style>
+                            <table class="table table-bordered text-center" style="margin-right: -17px;">
+                                <thead class="table-dark sticky-top">
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Faculty ID</th>
+                                        <th>Name</th>
+                                        <th>College</th>
+                                        <th>Time In</th>
+                                        <th>Time Out</th>
+                                        <th>Duration</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $counter = 1 @endphp
+                                    @foreach ($sessionsByDay as $day => $sessions)
+                                        <tr>
+                                            <td colspan="8" class="table-warning px-3 py-2">
+                                                {{ $day }}
+                                            </td>
+                                        </tr>
+                                        @foreach ($sessions as $session)
+                                            <tr>
+                                                <td>{{ $counter++ }}</td>
+                                                <td>{{ $session->faculty_id }}</td>
+                                                <td>{{ $session->faculty->name }}</td>
+                                                <td>{{ $session->faculty->college }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($session->time_in)->format('h:i A') }}</td>
+                                                <td>{{ $session->time_out ? \Carbon\Carbon::parse($session->time_out)->format('h:i A') : 'N/A' }}
+                                                </td>
+                                                <td>
+                                                    @if ($session->time_out)
+                                                        @php
+                                                            $timeIn = \Carbon\Carbon::parse($session->time_in);
+                                                            $timeOut = \Carbon\Carbon::parse($session->time_out);
+                                                            $duration = $timeOut->diff($timeIn)->format('%H:%I:%S');
+                                                        @endphp
+                                                        {{ $duration }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $session->created_at->format('Y-m-d') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    @stop
 </x-app-layout>

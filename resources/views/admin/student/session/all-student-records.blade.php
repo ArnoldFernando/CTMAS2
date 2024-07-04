@@ -9,6 +9,21 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-end align-items-center py-1 px-1">
+                            <form method="GET" action="{{ route('student.records') }}" class="d-flex align-items-center">
+                                <div class="me-2">
+                                    <label for="start_date">Start Date:</label>
+                                    <input type="date" id="start_date" name="start_date" class="form-control"
+                                        value="{{ $startDate }}">
+                                </div>
+                                <div class="me-2">
+                                    <label for="end_date">End Date:</label>
+                                    <input type="date" id="end_date" name="end_date" class="form-control"
+                                        value="{{ $endDate }}">
+                                </div>
+                                <div class="me-2">
+                                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                                </div>
+                            </form>
                             <a href="{{ route('student-records.pdf') }}" class="btn btn-danger">
                                 <i class="fa-solid fa-file-pdf me-1"></i>Export PDF
                             </a>
