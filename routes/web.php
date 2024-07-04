@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FacultyController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImportDataController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImportDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,8 +63,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     //session management
     // Route::post('/time-in', [SessionController::class, 'timeIn'])->name('time-in');
     // Route::post('/time-out', [SessionController::class, 'timeOut'])->name('time-out');
-    Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time')
-    ;
+    Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time');
     // search
     Route::get('/search-student', [SearchController::class, 'searchStudent'])->name('search.student');
     Route::get('/search-faculty', [SearchController::class, 'searchFaculty'])->name('search.faculty');
@@ -73,9 +73,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::view('/import-student-data-form', 'admin.student.import-excel-data');
     Route::POST('/import-student-data', [ImportDataController::class, 'importStudentData'])->name('import.student.data');
     Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
-    Route::POST('/import-student-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
+    Route::POST('/import-faculty-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
 
     // export pdf
     Route::get('/export-students-pdf', [PDFController::class, 'StudentRecordsPDF'])->name('student-records.pdf');
-    \Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
+    Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
 });
