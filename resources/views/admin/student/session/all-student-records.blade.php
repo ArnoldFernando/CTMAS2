@@ -69,7 +69,7 @@
                                 </thead>
                                 <tbody>
                                     @php $counter = 1 @endphp
-                                    @foreach ($sessionsByDay as $day => $sessions)
+                                    @foreach ($sessionsByDay->sortByDesc('created_at') as $day => $sessions)
                                         <tr>
                                             <td colspan="9" class="table-warning px-3 py-2">
                                                 {{ $day }}
