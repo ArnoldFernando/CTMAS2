@@ -10,7 +10,7 @@
                         <table class="table table-bordered text-center font">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>No.1</th>
+                                    <th>No.</th>
                                     <th>Student ID</th>
                                     <th>Name</th>
                                     <th>Course</th>
@@ -21,19 +21,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $counter = 1 @endphp
-                                @foreach ($studentsTimedInToday as $student)
+                                @php $counter = $studentsTimedInToday->count() @endphp
+                                @foreach ($studentsTimedInToday->sortByDesc('created_at') as $student)
                                     <tr>
-                                        <td>{{ $counter++ }}</td>
+                                        <td>{{ $counter-- }}</td>
                                         <td>{{ $student->student_id }}</td>
                                         <td>{{ $student->student->name }}</td>
                                         <td>{{ $student->student->course }}</td>
                                         <td>Active</td>
                                         <td>{{ \Carbon\Carbon::parse($student->time_in)->format('h:i A') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($student->time_out)->format('h:i A') }}</td>
+                                        @if ($student->time_out === null)
+                                            <td>N/A</td>
+                                        @else
+                                            <td>{{ \Carbon\Carbon::parse($student->time_out)->format('h:i A') }}</td>
+                                        @endif
                                         <td>{{ $student->duration }}</td>
                                     </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
