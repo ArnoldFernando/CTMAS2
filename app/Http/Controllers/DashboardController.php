@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentRecords;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,20 @@ class DashboardController extends Controller
     public function recordCountsStudent()
     {
         $now = Carbon::now();
+
+        // student total records
+        $today = Carbon::today();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $startOfYear = Carbon::now()->startOfYear();
+
+        $dailyCount = StudentRecords::whereDate('created_at', $today)->count();
+        $weeklyCount = StudentRecords::whereBetween('created_at', [$startOfWeek, Carbon::now()])->count();
+        $monthlyCount = StudentRecords::whereBetween('created_at', [$startOfMonth, Carbon::now()])->count();
+        $yearlyCount = StudentRecords::whereBetween('created_at', [$startOfYear, Carbon::now()])->count();
+
+
+
 
         // Daily records count
         $dailyStudentCounts = DB::table('student_records')
@@ -61,6 +76,11 @@ class DashboardController extends Controller
             ->first();
 
         return [
+
+            'dailyCount' => $dailyCount,
+            'weeklyCount' => $weeklyCount,
+            'monthlyCount' => $monthlyCount,
+            'yearlyCount' => $yearlyCount,
             'dailyStudentCounts' => $dailyStudentCounts,
             'weeklyStudentCounts' => $weeklyStudentCounts,
             'monthlyStudentCounts' => $monthlyStudentCounts,
@@ -73,6 +93,17 @@ class DashboardController extends Controller
     public function recordCountsFaculty()
     {
         $now = Carbon::now();
+
+        $today = Carbon::today();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $startOfYear = Carbon::now()->startOfYear();
+
+        // faculty total r
+        $facultydailyCount = StudentRecords::whereDate('created_at', $today)->count();
+        $facultyweeklyCount = StudentRecords::whereBetween('created_at', [$startOfWeek, Carbon::now()])->count();
+        $facultymonthlyCount = StudentRecords::whereBetween('created_at', [$startOfMonth, Carbon::now()])->count();
+        $facultyyearlyCount = StudentRecords::whereBetween('created_at', [$startOfYear, Carbon::now()])->count();
 
         // Daily records count
         $dailyFacultyCounts = DB::table('faculty_records')
@@ -123,6 +154,10 @@ class DashboardController extends Controller
             ->first();
 
         return [
+            'facultydailyCount' => $facultydailyCount,
+            'facultyweeklyCount' => $facultyweeklyCount,
+            'facultymonthlyCount' => $facultymonthlyCount,
+            'facultyyearlyCount' => $facultyyearlyCount,
             'dailyFacultyCounts' => $dailyFacultyCounts,
             'weeklyFacultyCounts' => $weeklyFacultyCounts,
             'monthlyFacultyCounts' => $monthlyFacultyCounts,
