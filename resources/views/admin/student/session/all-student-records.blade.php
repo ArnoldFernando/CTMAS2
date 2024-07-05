@@ -9,21 +9,6 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-end align-items-center py-1 px-1">
-                            <form method="GET" action="{{ route('student.records') }}" class="d-flex align-items-center">
-                                <div class="me-2">
-                                    <label for="start_date">Start Date:</label>
-                                    <input type="date" id="start_date" name="start_date" class="form-control"
-                                        value="{{ $startDate }}">
-                                </div>
-                                <div class="me-2">
-                                    <label for="end_date">End Date:</label>
-                                    <input type="date" id="end_date" name="end_date" class="form-control"
-                                        value="{{ $endDate }}">
-                                </div>
-                                <div class="me-2">
-                                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
-                                </div>
-                            </form>
                             <a href="{{ route('student-records.pdf') }}" class="btn btn-danger">
                                 <i class="fa-solid fa-file-pdf me-1"></i>Export PDF
                             </a>
@@ -31,6 +16,28 @@
                     </div>
                 </div>
                 <hr class="mt-0">
+                <div class="row">
+                    <div class="col-12">
+                        <form method="GET" action="{{ route('student.records') }}" class="form-inline">
+                            <div class="form-group mb-2 col-md-4 text-dark">
+                                <label for="start_date" class="mr-2">Start Date:</label>
+                                <input type="date" id="start_date" name="start_date" class="form-control px-3"
+                                    value="{{ $startDate }}">
+                            </div>
+                            <div class="form-group mb-2 col-md-5 text-dark">
+                                <label for="end_date" class="mr-2">End Date:</label>
+                                <input type="date" id="end_date" name="end_date" class="form-control"
+                                    value="{{ $endDate }}">
+                                <button type="submit" class="btn btn-primary ms-3">Filter</button>
+                            </div>
+                            {{-- <div class="form-group mb-2 col-md-2">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </div> --}}
+                        </form>
+                    </div>
+                </div>
+                <hr class="mt-0">
+
                 <div class="row mt-1 px-1">
                     <div class="col">
                         <div class="table-responsive" style="max-height: 600px; overflow-y: auto; position: relative;">
