@@ -50,7 +50,7 @@
         }
 
         @page {
-            margin: 150px 25px;
+            margin: 200px 25px 150px;
         }
 
         header {
