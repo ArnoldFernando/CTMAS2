@@ -99,13 +99,10 @@ class StudentController extends Controller
         $todayDate = now()->timezone('Asia/Manila')->toDateString();
 
         // Get filter dates from the request
-        $startDate = $request->input('start_date');
+        $startDate = $request->input('start_date') ?? '07/01/2024';
         $endDate = $request->input('end_date');
 
         // Default to today if no dates are provided
-        if (!$startDate) {
-            $startDate = $todayDate;
-        }
         if (!$endDate) {
             $endDate = $todayDate;
         }
