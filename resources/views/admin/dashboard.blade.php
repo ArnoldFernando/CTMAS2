@@ -12,14 +12,11 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
-
-                                <p>Total Daily Record</p>
+                                <h3> {{ $dailyCount }}</h3 <p>Total Daily Record</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-
                         </div>
                     </div>
                     <!-- ./col -->
@@ -27,8 +24,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53</h3>
-
+                                <h3> {{ $weeklyCount }}</h3>
                                 <p>Total Weekly Record</p>
                             </div>
                             <div class="icon">
@@ -42,7 +38,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3> {{ $monthlyCount }}</h3>
 
                                 <p>Total Monthly Record</p>
                             </div>
@@ -57,7 +53,7 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
+                                <h3> {{ $yearlyCount }}</h3>
 
                                 <p>Total Yearly Record</p>
                             </div>
@@ -181,7 +177,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3>{{ $facultydailyCount }}</h3>
 
                                 <p>Total Daily Record</p>
                             </div>
@@ -196,7 +192,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53</h3>
+                                <h3>{{ $facultyweeklyCount }}</h3>
 
                                 <p>Total Weekly Record</p>
                             </div>
@@ -211,7 +207,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{ $facultymonthlyCount }}</h3>
 
                                 <p>Total Monthly Record</p>
                             </div>
@@ -226,7 +222,7 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
+                                <h3>{{ $facultyyearlyCount }}</h3>
 
                                 <p>Total Yearly Record</p>
                             </div>
