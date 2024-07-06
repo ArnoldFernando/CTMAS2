@@ -235,7 +235,7 @@
                                 <div class="col-4">
                                     @if (session('student')->image)
                                         <div class="p-1 mt-3 text-center">
-                                            <img src="{{ asset('images/' . session('student')->image) }}"
+                                            <img src="{{ asset('student-images/' . session('student')->image) }}"
                                                 class="border border-1 border-secondary rounded-2" height="170px"
                                                 width="170px" alt="">
                                         </div>
