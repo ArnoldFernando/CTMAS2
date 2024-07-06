@@ -47,10 +47,10 @@
                 })()
             </script>
         @endif
-        <div class="py-2 font">
+        <div class="py-1 font">
             <div class="container">
                 <div class="bg-white shadow-sm rounded d-flex overflow-hidden">
-                    <div class="p-4 text-dark flex-fill">
+                    <div class="p-3 text-dark flex-fill">
                         <form action="{{ route('add.student') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
@@ -113,7 +113,7 @@
                         </form>
                     </div>
                     <div class="flex-fill p-2 d-flex align-items-center justify-content-center">
-                        <img class="img-fluid w-50" src="{{ asset('IMG/formbg.png') }}" alt="CSU LOGO">
+                        <img class="img-fluid w-50" src="{{ asset('IMG/csulogo.png') }}" alt="CSU LOGO">
                     </div>
                 </div>
             </div>
