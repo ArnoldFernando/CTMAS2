@@ -239,6 +239,11 @@
                                                 class="border border-1 border-secondary rounded-2" height="170px"
                                                 width="170px" alt="">
                                         </div>
+                                    @else
+                                        <div class="p-1 mt-1 text-center">
+                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-2" height="170px"
+                                                width="170px" alt="">
+                                        </div>
                                     @endif
 
                                 </div>
@@ -273,6 +278,11 @@
                                         <div class="p-1 mt-3 text-center">
                                             <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
                                                 class="border border-1 border-secondary rounded-2" height="170px"
+                                                width="170px" alt="">
+                                        </div>
+                                    @else
+                                        <div class="p-1 mt-1 text-center">
+                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-2" height="170px"
                                                 width="170px" alt="">
                                         </div>
                                     @endif
