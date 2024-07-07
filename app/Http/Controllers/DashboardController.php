@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty_and_staff;
 use App\Models\StudentRecords;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -100,10 +101,10 @@ class DashboardController extends Controller
         $startOfYear = Carbon::now()->startOfYear();
 
         // faculty total r
-        $facultydailyCount = StudentRecords::whereDate('created_at', $today)->count();
-        $facultyweeklyCount = StudentRecords::whereBetween('created_at', [$startOfWeek, Carbon::now()])->count();
-        $facultymonthlyCount = StudentRecords::whereBetween('created_at', [$startOfMonth, Carbon::now()])->count();
-        $facultyyearlyCount = StudentRecords::whereBetween('created_at', [$startOfYear, Carbon::now()])->count();
+        $facultydailyCount = Faculty_and_staff::whereDate('created_at', $today)->count();
+        $facultyweeklyCount = Faculty_and_staff::whereBetween('created_at', [$startOfWeek, Carbon::now()])->count();
+        $facultymonthlyCount = Faculty_and_staff::whereBetween('created_at', [$startOfMonth, Carbon::now()])->count();
+        $facultyyearlyCount = Faculty_and_staff::whereBetween('created_at', [$startOfYear, Carbon::now()])->count();
 
         // Daily records count
         $dailyFacultyCounts = DB::table('faculty_records')
