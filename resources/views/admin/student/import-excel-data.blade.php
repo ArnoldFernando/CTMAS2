@@ -2,16 +2,19 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h1 class="">Insert Student List <small>(Excel file)</small></h1>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-5">
+                        <h1 class="mb-4">Insert Student List <small class="text-muted">(Excel file)</small></h1>
                         <form action="{{ route('import.student.data') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="d-flex justify-center items-center">
-                                <input type="file" required name="file" accept=".xls,.xlsx" class="form-control-file" id="file">
-                                <button type="submit" class="btn btn-primary">Import</button>
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Choose Excel File</label>
+                                <input type="file" required name="file" accept=".xls,.xlsx" class="form-control"
+                                    id="file">
                             </div>
-
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary btn-lg">Import</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -19,3 +22,23 @@
         </div>
     </div>
 </x-app-layout>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+</style>
