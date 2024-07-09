@@ -366,6 +366,11 @@ return [
                     'url' => 'admin/import-student-data-form',
                     'icon' => 'fas fa-fw fa-file-import',
                 ],
+                [
+                    'text' => 'Barcode Student',
+                    'url' => 'admin/students-barcode',
+                    'icon' => 'fas fa-fw fa-file-import',
+                ],
             ],
         ],
         [
