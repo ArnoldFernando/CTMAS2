@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarcodeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -78,4 +79,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // export pdf
     Route::get('/export-students-pdf', [PDFController::class, 'StudentRecordsPDF'])->name('student-records.pdf');
     Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
+
+    // barcode
+
+    Route::get('/students-barcode', [BarcodeController::class, 'studentBarcode'])->name('students.barcode');
 });
