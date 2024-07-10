@@ -26,6 +26,39 @@
         .font {
             font-family: 'Poppins';
         }
+
+        /* .body {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .body:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('IMG/bg.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .body:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.452);
+            z-index: -1;
+        } */
     </style>
 </head>
 
@@ -185,13 +218,13 @@
         </script>
     @endif
 
-    <div class="container-fluid bg-light text-dark d-flex flex-column min-vh-100 p-3">
+    <div class="container-fluid bg-light dark d-flex flex-column min-vh-100 p-3 body">
         <div class="row">
-            <div class="container p-2 text-dark col-5">
-                <h1 id="typingText" class="fw-bold display-1 ms-5 font"></h1>
+            <div class="container p-2 text-dark col-7">
+                <h1 id="typingText" class="fw-bold display-1 ms-5 mt-5 font"></h1>
             </div>
 
-            <div class="container p-2 col-7">
+            <div class="container p-2 col-5">
                 <div class="d-flex justify-content-center align-items-center px-5">
                     <div class="bg-secondary bg-opacity-50 p-3 rounded-3" style="width: 450px;">
                         <h2 class="h4 fw-bold mb-3">Start Session</h2>
@@ -248,7 +281,7 @@
                                 <div class="col-4 border text-center border-1 border-dark rounded-1">
                                     <h6 class="font mt-1"></i>Time</h6>
                                     @if (session('currentTime'))
-                                        <h2 class="mt-4 fw-bolder" style="color: #A50002;">{{ session('currentTime') }}
+                                        <h2 class="mt-2 fw-bolder" style="color: #A50002;">{{ session('currentTime') }}
                                         </h2>
                                     @endif
                                 </div>
@@ -303,50 +336,6 @@
                         </div>
                     </div>
                 @endif
-                {{-- 
-                    
-
-                @if (session('faculty'))
-                    <div class="px-5">
-                        <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
-                            <div class="row p-2">
-                                <div class="col-8">
-                                    <h5 class="fw-bold mb-3">Faculty Details</h5>
-
-                                    <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
-                                    </h6>
-                                    <h6 class="d-inline">{{ session('faculty')->name }}</h6>
-                                    <hr class="mt-0">
-                                    <h6 class="d-inline fw-bolder mt-1"><i
-                                            class="fa-solid fa-caret-right me-1"></i>Department: </h6>
-                                    <h6 class="d-inline font">{{ session('faculty')->college }}</h6>
-                                    <hr class="mt-0">
-                                    @if (session('currentTime'))
-                                        <h6 class="d-inline font"><i class="fa-solid fa-caret-right me-1"></i>Time:
-                                            {{ session('currentTime') }}</h6>
-                                    @endif
-                                    <hr class="mt-0">
-                                </div>
-                                <div class="col-4">
-                                    @if (session('faculty')->image)
-                                        <div class="p-1 mt-3 text-center">
-                                            <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
-                                                class="border border-1 border-secondary rounded-2" height="170px"
-                                                width="170px" alt="">
-                                        </div>
-                                    @else
-                                        <div class="p-1 mt-1 text-center">
-                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-2" height="170px"
-                                                width="170px" alt="">
-                                        </div>
-                                    @endif
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif --}}
-
             </div>
         </div>
     </div>
@@ -366,7 +355,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const text = "Cagayan State University Aparri Library";
+            const text = "Library Attendance Monitoring System Cagayan State University Aparri";
             const colors = ["#A50002"];
             const typingText = document.getElementById('typingText');
             let index = 0;
