@@ -52,7 +52,7 @@ class SessionController extends Controller
             if ($diffInSeconds < 20) {
                 return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
                     ->with('student', $student)
-                    ->with('currentTime', Carbon::now()->format('H:i:s'));
+                    ->with('currentTime', Carbon::now()->format('h:i A'));
             }
         }
 
@@ -68,7 +68,7 @@ class SessionController extends Controller
 
         return redirect()->back()->with('timein', 'Student time in recorded successfully.')
             ->with('student', $student)
-            ->with('currentTime', Carbon::now()->format('H:i:s'));
+            ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
     protected function timeOut($latestRecord, $student)
@@ -80,7 +80,7 @@ class SessionController extends Controller
         if ($diffInSeconds < 20) {
             return redirect()->back()->with('20second', 'Cannot time out within 20 seconds of time in.')
                 ->with('student', $student)
-                ->with('currentTime', Carbon::now()->format('H:i:s'));
+                ->with('currentTime', Carbon::now()->format('h:i A'));
         }
 
         $latestRecord->time_out = $currentTime->toTimeString();
@@ -88,7 +88,7 @@ class SessionController extends Controller
 
         return redirect()->back()->with('studentTimeout', 'Student time out recorded successfully.')
             ->with('student', $student)
-            ->with('currentTime', Carbon::now()->format('H:i:s'));
+            ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
     // Handle faculty time
@@ -106,7 +106,7 @@ class SessionController extends Controller
             if ($diffInSeconds < 20) {
                 return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
                     ->with('faculty', $faculty)
-                    ->with('currentTime', Carbon::now()->format('H:i:s'));
+                    ->with('currentTime', Carbon::now()->format('h:i A'));
             }
         }
 
@@ -122,7 +122,7 @@ class SessionController extends Controller
 
         return redirect()->back()->with('facultytimein', 'Faculty time in recorded successfully.')
             ->with('faculty', $faculty)
-            ->with('currentTime', Carbon::now()->format('H:i:s'));
+            ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
     protected function facultyTimeOut($latestRecord, $faculty)
@@ -134,7 +134,7 @@ class SessionController extends Controller
         if ($diffInSeconds < 20) {
             return redirect()->back()->with('20second', 'Cannot time out within 20 seconds of time in.')
                 ->with('faculty', $faculty)
-                ->with('currentTime', Carbon::now()->format('H:i:s'));
+                ->with('currentTime', Carbon::now()->format('h:i A'));
         }
 
         $latestRecord->time_out = $currentTime->toTimeString();
@@ -142,7 +142,7 @@ class SessionController extends Controller
 
         return redirect()->back()->with('facultytimeout', 'Faculty time out recorded successfully.')
             ->with('faculty', $faculty)
-            ->with('currentTime', Carbon::now()->format('H:i:s'));
+            ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
 
