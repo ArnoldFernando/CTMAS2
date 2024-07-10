@@ -23,31 +23,48 @@
                                     <i class="fa-solid fa-file-pdf me-1"></i>Export PDF
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item bg-success" href="{{ route('student-records.pdf') }}"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>All
-                                            Records</a>
+                                    <li>
+                                        <form action="{{ route('student-records.pdf') }}" method="GET">
+                                            <div class="form-group px-2">
+                                                <label for="start_date">Start Date:</label>
+                                                <input type="date" name="start_date" id="start_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="end_date">End Date:</label>
+                                                <input type="date" name="end_date" id="end_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="college">College:</label>
+                                                <select name="college" id="college" class="form-control">
+                                                    <option value="">All Colleges</option>
+                                                    <option value="CICS">CICS</option>
+                                                    <option value="CHM">CHM</option>
+                                                    <option value="CTE">CTE</option>
+                                                    <option value="CBEA">CBEA</option>
+                                                    <option value="CIT">CIT</option>
+                                                    <option value="CFAS">CFAS</option>
+                                                    <option value="CCJE">CCJE</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group px-2 py-2">
+                                                <button type="submit" class="btn btn-primary w-100">
+                                                    <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
+                                                </button>
+                                            </div>
+                                        </form>
                                     </li>
-                                    <li><a class="dropdown-item bg-orange" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CICS</a></li>
-                                    <li><a class="dropdown-item bg-pink" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CHM</a></li>
-                                    <li><a class="dropdown-item bg-primary" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CTE</a></li>
-                                    <li><a class="dropdown-item bg-yellow" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CBEA</a></li>
-                                    <li><a class="dropdown-item bg-secondary" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CIT</a></li>
-                                    <li><a class="dropdown-item bg-info" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CFAS</a></li>
-                                    <li><a class="dropdown-item bg-danger" href="#"><i
-                                                class="fa-solid fa-caret-right me-2 text-white "></i>CCJE</a></li>
                                 </ul>
                             </div>
-                            <button class="btn btn-success ms-2"><i class="fa-solid fa-file-export me-1"></i>Export All
-                                Records</button>
+                            <a class="btn btn-success ms-2" href="{{ route('student.reports') }}">
+                                <i class="fa-solid fa-file-export me-1"></i>
+                                Make Reports
+                            </a>
                         </div>
                     </div>
                 </div>
+
                 <hr class="mt-0">
                 <div class="row">
                     <div class="col-12">
