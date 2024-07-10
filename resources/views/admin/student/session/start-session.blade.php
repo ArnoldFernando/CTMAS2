@@ -192,7 +192,7 @@
             </div>
 
             <div class="container p-2 col-7">
-                <div class="d-flex justify-content-start align-items-center px-5">
+                <div class="d-flex justify-content-center align-items-center px-5">
                     <div class="bg-secondary bg-opacity-50 p-3 rounded-3" style="width: 450px;">
                         <h2 class="h4 fw-bold mb-3">Start Session</h2>
 
@@ -206,51 +206,105 @@
                     </div>
                 </div>
 
+                {{-- Student Displayed Data --}}
                 @if (session('student'))
                     <div class="px-5">
                         <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
+                            <div class="row p-1">
+                                <div class="">
+                                    @if (session('student')->image)
+                                        <div class="text-center">
+                                            <img src="{{ asset('student-images/' . session('student')->image) }}"
+                                                class="border border-1 border-secondary rounded-1" height="180px"
+                                                width="180px" alt="ID Picture">
+                                        </div>
+                                    @else
+                                        <div class="text-center">
+                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-1" height="180px"
+                                                width="180px" alt="ID Picture">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold mb-3 text-center">Student Details</h5>
                             <div class="row p-2">
                                 <div class="col-8">
-                                    <h5 class="fw-bold mb-3">Student Details</h5>
-
                                     <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
                                     </h6>
-                                    <h6 class="d-inline">{{ session('student')->name }}</h6>
+                                    <h6 class="d-inline">{{ session('student')->name }}</h6><br>
                                     <hr class="mt-0">
                                     <h6 class="d-inline fw-bolder mt-1"><i
                                             class="fa-solid fa-caret-right me-1"></i>Course:
                                     </h6>
-                                    <h6 class="d-inline">{{ session('student')->course }}</h6>
+                                    <h6 class="d-inline">{{ session('student')->course }}</h6><br>
                                     <hr class="mt-0">
                                     <h6 class="d-inline fw-bolder mt-1"><i
-                                            class="fa-solid fa-caret-right me-1"></i>Department: </h6>
-                                    <h6 class="d-inline font">{{ session('student')->college }}</h6>
-                                    <hr class="mt-0">
-                                    @if (session('currentTime'))
-                                        <h6 class="d-inline font"><i class="fa-solid fa-caret-right me-1"></i>Time:
-                                            {{ session('currentTime') }}</h6>
-                                    @endif
+                                            class="fa-solid fa-caret-right me-1"></i>Department:
+                                    </h6>
+                                    <h6 class="d-inline font">{{ session('student')->college }}</h6><br>
                                     <hr class="mt-0">
                                 </div>
-                                <div class="col-4">
-                                    @if (session('student')->image)
-                                        <div class="p-1 mt-3 text-center">
-                                            <img src="{{ asset('student-images/' . session('student')->image) }}"
-                                                class="border border-1 border-secondary rounded-2" height="170px"
-                                                width="170px" alt="">
-                                        </div>
-                                    @else
-                                        <div class="p-1 mt-1 text-center">
-                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-2" height="170px"
-                                                width="170px" alt="">
-                                        </div>
+                                <div class="col-4 border text-center border-1 border-dark rounded-1">
+                                    <h6 class="font mt-1"></i>Time</h6>
+                                    @if (session('currentTime'))
+                                        <h2 class="mt-4 fw-bolder" style="color: #A50002;">{{ session('currentTime') }}
+                                        </h2>
                                     @endif
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endif
+
+                {{-- Faculty Displayed Data --}}
+                @if (session('faculty'))
+                    <div class="px-5">
+                        <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
+                            <div class="row p-1">
+                                <div class="">
+                                    @if (session('faculty')->image)
+                                        <div class="text-center">
+                                            <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
+                                                class="border border-1 border-secondary rounded-1" height="180px"
+                                                width="180px" alt="ID Picture">
+                                        </div>
+                                    @else
+                                        <div class="text-center">
+                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-1" height="180px"
+                                                width="180px" alt="ID Picture">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold mb-3 text-center">Faculty Details</h5>
+                            <div class="row p-2">
+                                <div class="col-8">
+                                    <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
+                                    </h6>
+                                    <h6 class="d-inline">{{ session('faculty')->name }}</h6><br>
+                                    <hr class="mt-0">
+                                    <h6 class="d-inline fw-bolder mt-1"><i
+                                            class="fa-solid fa-caret-right me-1"></i>Department:
+                                    </h6>
+                                    <h6 class="d-inline font">{{ session('faculty')->college }}</h6><br>
+                                    <hr class="mt-0">
+                                </div>
+                                <div class="col-4 border text-center border-1 border-dark rounded-1">
+                                    <h6 class="font mt-1"></i>Time</h6>
+                                    @if (session('currentTime'))
+                                        <h2 class="mt-2 fw-bolder" style="color: #A50002;">
+                                            {{ session('currentTime') }}
+                                        </h2>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                {{-- 
+                    
 
                 @if (session('faculty'))
                     <div class="px-5">
@@ -291,7 +345,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
 
             </div>
         </div>
