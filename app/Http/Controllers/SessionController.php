@@ -109,23 +109,38 @@ class SessionController extends Controller
     // Handle faculty time
     protected function handleFacultyTime($facultyId, $faculty)
     {
-        $latestRecord = FacultyRecords::where('faculty_id', $facultyId)->latest()->first();
+        $latestRecord = StudentRecords::where('faculty_id', $facultyId)->latest()->first();
 
-        if ($latestRecord && !$latestRecord->time_out) {
-            return $this->facultyTimeOut($latestRecord, $faculty);
-        } elseif ($latestRecord && $latestRecord->time_out) {
-            $timeOut = Carbon::parse($latestRecord->time_out);
-            $currentTime = Carbon::now();
-            $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+        if ($latestRecord) {
+            $recordDate = Carbon::parse($latestRecord->created_at)->toDateString();
+            $currentDate = Carbon::now()->toDateString();
 
-            if ($diffInSeconds < 20) {
-                return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
-                    ->with('faculty', $faculty)
-                    ->with('currentTime', Carbon::now()->format('h:i A'));
+            if ($recordDate === $currentDate) {
+                // If the latest record is from today, check if time_out is null
+                if ($latestRecord->time_out === null) {
+                    return $this->timeOut($latestRecord, $faculty);
+                } else {
+                    $timeOut = Carbon::parse($latestRecord->time_out);
+                    $currentTime = Carbon::now();
+                    $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+
+                    if ($diffInSeconds < 20) {
+                        return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
+                            ->with('faculty', $faculty)
+                            ->with('currentTime', Carbon::now()->format('h:i A'));
+                    }
+                }
+            } else {
+                // If the latest record is from a previous day, create a new time in record
+                return $this->timeIn($facultyId, $faculty);
             }
+        } else {
+            // If no record exists, create a new time in record
+            return $this->timeIn($facultyId, $faculty);
         }
 
-        return $this->facultyTimeIn($facultyId, $faculty);
+        // Default to creating a new time in record
+        return $this->timeIn($facultyId, $faculty);
     }
 
     protected function facultyTimeIn($facultyId, $faculty)
