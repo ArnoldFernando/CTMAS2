@@ -109,7 +109,7 @@ class SessionController extends Controller
     // Handle faculty time
     protected function handleFacultyTime($facultyId, $faculty)
     {
-        $latestRecord = StudentRecords::where('faculty_id', $facultyId)->latest()->first();
+        $latestRecord = FacultyRecords::where('faculty_id', $facultyId)->latest()->first();
 
         if ($latestRecord) {
             $recordDate = Carbon::parse($latestRecord->created_at)->toDateString();
@@ -132,15 +132,15 @@ class SessionController extends Controller
                 }
             } else {
                 // If the latest record is from a previous day, create a new time in record
-                return $this->timeIn($facultyId, $faculty);
+                return $this->facultyTimeIn($facultyId, $faculty);
             }
         } else {
             // If no record exists, create a new time in record
-            return $this->timeIn($facultyId, $faculty);
+            return $this->facultyTimeIn($facultyId, $faculty);
         }
 
         // Default to creating a new time in record
-        return $this->timeIn($facultyId, $faculty);
+        return $this->facultyTimeIn($facultyId, $faculty);
     }
 
     protected function facultyTimeIn($facultyId, $faculty)
