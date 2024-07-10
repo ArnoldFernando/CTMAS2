@@ -42,20 +42,35 @@ class SessionController extends Controller
     {
         $latestRecord = StudentRecords::where('student_id', $studentId)->latest()->first();
 
-        if ($latestRecord && !$latestRecord->time_out) {
-            return $this->timeOut($latestRecord, $student);
-        } elseif ($latestRecord && $latestRecord->time_out) {
-            $timeOut = Carbon::parse($latestRecord->time_out);
-            $currentTime = Carbon::now();
-            $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+        if ($latestRecord) {
+            $recordDate = Carbon::parse($latestRecord->created_at)->toDateString();
+            $currentDate = Carbon::now()->toDateString();
 
-            if ($diffInSeconds < 20) {
-                return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
-                    ->with('student', $student)
-                    ->with('currentTime', Carbon::now()->format('h:i A'));
+            if ($recordDate === $currentDate) {
+                // If the latest record is from today, check if time_out is null
+                if ($latestRecord->time_out === null) {
+                    return $this->timeOut($latestRecord, $student);
+                } else {
+                    $timeOut = Carbon::parse($latestRecord->time_out);
+                    $currentTime = Carbon::now();
+                    $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+
+                    if ($diffInSeconds < 20) {
+                        return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
+                            ->with('student', $student)
+                            ->with('currentTime', Carbon::now()->format('h:i A'));
+                    }
+                }
+            } else {
+                // If the latest record is from a previous day, create a new time in record
+                return $this->timeIn($studentId, $student);
             }
+        } else {
+            // If no record exists, create a new time in record
+            return $this->timeIn($studentId, $student);
         }
 
+        // Default to creating a new time in record
         return $this->timeIn($studentId, $student);
     }
 
