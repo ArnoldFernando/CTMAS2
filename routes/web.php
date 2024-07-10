@@ -76,11 +76,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
     Route::POST('/import-faculty-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
 
-    // export pdf
+    // export pdf STUDENT data
     Route::get('/export-students-pdf', [PDFController::class, 'StudentRecordsPDF'])->name('student-records.pdf');
+    Route::get('/student-reports', [PDFController::class, 'StudentReports'])->name('student.reports');
+
+
+    // export pdf FACULTY data
     Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
 
-    // barcode
 
+    // barcode
     Route::get('/students-barcode', [BarcodeController::class, 'studentBarcode'])->name('students.barcode');
+
+    // reports of student records
+    Route::view('College of Information and Computing Sciences', 'admin.student.reports-pdf');
 });
