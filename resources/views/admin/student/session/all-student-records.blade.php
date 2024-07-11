@@ -69,24 +69,24 @@
                 <div class="row">
                     <div class="col-12">
                         <form method="GET" action="{{ route('student.records') }}" class="form-inline">
-                            <div class="form-group mb-2 col-md-4 text-dark">
+                            <div class="form-group mb-2 col-md-7 text-dark">
                                 <label for="start_date" class="mr-2">Start Date:</label>
                                 <input type="date" id="start_date" name="start_date" class="form-control px-3"
                                     value="{{ $startDate }}">
+                                <div class="form-group ms-2">
+                                    <label for="end_date" class="mr-2">End Date:</label>
+                                    <input type="date" id="end_date" name="end_date" class="form-control"
+                                        value="{{ $endDate }}">
+                                    <button type="submit" class="btn btn-primary ms-1">Filter</button>
+                                </div>
                             </div>
-                            <div class="form-group mb-2 col-md-4 text-dark">
-                                <label for="end_date" class="mr-2">End Date:</label>
-                                <input type="date" id="end_date" name="end_date" class="form-control"
-                                    value="{{ $endDate }}">
-                                <button type="submit" class="btn btn-primary ms-1">Filter</button>
-                            </div>
-                            <div class="form-group mb-2 col-md-4 text-dark justify-content-end  ">
+
+                            <div class="form-group mb-2 col-md-5 text-dark justify-content-end  ">
                                 {{-- <label for="end_date" class="mr-2">End Date:</label> --}}
                                 <input type="text" class="form-control" placeholder="Search here...">
                                 <button type="submit" class="btn btn-primary ms-1"><i
                                         class="fa-solid fa-magnifying-glass me-1"></i>Search</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
