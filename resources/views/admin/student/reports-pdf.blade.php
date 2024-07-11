@@ -14,14 +14,10 @@
             text-align: center;
         }
 
-        p {
-            margin-bottom: 10px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            border: 3px solid #ddd;
+            border: 1px solid #ddd;
         }
 
         th,
@@ -29,16 +25,32 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            height: 50px;
-            width: 20%;
-            font-weight: 900;
+            font-weight: 400;
+            font-size: 12px;
+            vertical-align: top;
+            position: relative;
         }
 
         .headings {
-            font-weight: 900;
+            font-weight: 700;
             color: #fff;
-            background-color: gray;
+            background-color: #333;
             text-align: center;
+        }
+
+        .total-column {
+            text-align: right;
+            font-weight: bold;
+            font-size: 12px;
+            padding-right: 10px;
+        }
+
+        .courses span {
+            position: absolute;
+            right: 1rem;
+            font-weight: normal;
+            font-size: 10px;
+            color: #888;
         }
     </style>
 </head>
@@ -46,21 +58,35 @@
 <body>
     <h1>University Library Monthly Attendance Report</h1>
 
-    <p><strong>From: </strong> <strong>To: </strong> <strong>Semester: </strong> <strong>School Year: </strong></p>
+    <p><strong>From: </strong> July 1, 2024 <strong>To: </strong> July 31, 2024 <strong>Semester: </strong> Summer
+        <strong>School Year: </strong> 2024-2025
+    </p>
 
     <table>
-        @foreach ($courses as $course)
+        @foreach ($data as $college => $courses)
             <tr class="headings">
-                <td colspan="5">{{ $course->college }}</td>
+                <th colspan="5">{{ $college }}</th>
             </tr>
             <tr class="courses">
-                <td>{{ $course->course }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{ $totals[$course->course] }}</td>
+                @foreach ($courses as $course)
+                    <td>{{ $course['course'] }} <span>({{ $course['total'] }})</span></td>
+                @endforeach
+                @for ($i = 0; $i < 4 - count($courses); $i++)
+                    <td></td>
+                @endfor
+                <td class="total-column">Total: {{ array_sum(array_column($courses, 'total')) }}</td>
             </tr>
         @endforeach
+        <tr class="headings">
+            <th colspan="5">Total</th>
+        </tr>
+        <tr class="courses">
+            <td>{{ collect($data)->flatten(1)->sum('total') }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="total-column">Total: {{ collect($data)->flatten(1)->sum('total') }}</td>
+        </tr>
     </table>
 </body>
 
