@@ -1,15 +1,16 @@
 {{-- @extends('adminlte::auth.passwords.email') --}}
 @extends('adminlte::master')
+
 @section('title', 'CSU-APARRI LIBRARY')
+
 @section('adminlte_css')
-    <link rel="stylesheet" href="{{ url('Css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url('Css/fontawesome.min.css') }}">
+
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{ url('Image/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
         rel="stylesheet">
     <style>
         body {
@@ -57,15 +58,39 @@
             position: relative;
             z-index: 2;
         }
+
+        /* Define the keyframes for the popping animation */
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+
+            70% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Apply the animation to the card */
+        .popping-card {
+            animation: pop 0.5s ease-out;
+        }
     </style>
     @yield('css')
 @stop
 
 @section('classes_body', 'login-page')
+
 @section('body')
     <div class="background">
         <div class="d-flex align-items-center justify-content-center" style="min-height: 95vh;">
-            <div class="card rounded-4 shadow-lg p-5" style="width: 850px;">
+            <div class="card rounded-4 shadow-lg p-5 popping-card" style="width: 850px;">
                 <div class="row py-3">
                     <div class="col-md-6 pt-0">
                         <div class="d-flex align-items-center justify-content-center">
