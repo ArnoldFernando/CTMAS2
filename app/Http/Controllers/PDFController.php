@@ -49,31 +49,52 @@ class PDFController extends Controller
         return $pdf->download($filename);
     }
 
-    public function StudentReports()
+
+
+    public function StudentReports(Request $request)
     {
-        // Fetch all unique courses from student_lists table
-        $courses = StudentList::select('course', 'college')
+        // Define mappings for colleges and courses
+        $collegeMappings = [
+            'CBEA' => 'College of Business, Entrepreneurship and Accountancy',
+            'CCJE' => 'College of Criminal Justice Education',
+            'CHM' => 'College of Hospitality Management',
+            'CFAS' => 'College of Fisheries and Aquatic Science',
+            'CIT' => 'College of Industrial Technology',
+            'CICS' => 'College of Information and Computing Sciences',
+            'CTED' => 'College of Teacher Education',
+        ];
+
+        // Fetch all courses grouped by college
+        $allCourses = StudentList::select('college', 'course')
             ->distinct()
-            ->get();
+            ->get()
+            ->groupBy('college');
 
-        $totals = [];
+        // Fetch the count of student records grouped by course and college
+        $courseCounts = StudentList::select('student_lists.course', 'student_lists.college', DB::raw('COUNT(student_records.id) as total'))
+            ->leftJoin('student_records', 'student_lists.student_id', '=', 'student_records.student_id')
+            ->groupBy('student_lists.course', 'student_lists.college')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->college . '-' . $item->course;
+            });
 
-        // Calculate total records for each course
-        foreach ($courses as $course) {
-            $totalRecords = StudentRecords::join('student_lists', 'student_records.student_id', '=', 'student_lists.student_id')
-                ->where('student_lists.course', $course->course)
-                ->count();
-
-            $totals[$course->course] = $totalRecords;
+        // Prepare the data for the view
+        $data = [];
+        foreach ($allCourses as $college => $courses) {
+            foreach ($courses as $course) {
+                $key = $college . '-' . $course->course;
+                $data[$collegeMappings[$college]][] = [
+                    'course' => $course->course,
+                    'total' => $courseCounts[$key]->total ?? 0,
+                ];
+            }
         }
 
-        // Generate PDF using dompdf
-        $pdf = PDF::loadView('admin.student.reports-pdf', compact('courses', 'totals'));
+        $pdf = PDF::loadView('admin.student.reports-pdf', compact('data'));
 
-        // Download the PDF file with the report name
-        return $pdf->download('student-attendance-report.pdf');
+        return $pdf->stream('attendance_report.pdf');
     }
-
 
 
 
