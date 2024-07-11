@@ -49,7 +49,7 @@
         @endif
         <div class="py-2 font">
             <div class="container">
-                <div class="bg-white shadow-sm rounded d-flex overflow-hidden">
+                <div class="bg-secondary bg-opacity-25 shadow-sm rounded d-flex overflow-hidden">
                     <div class="p-4 text-dark flex-fill">
                         <form action="{{ route('add.student') }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -108,7 +108,7 @@
                             </div>
 
                             <div class="d-flex justify-content-start gap-2">
-                                <button type="submit" class="btn btn-primary px-5">Save</button>
+                                <button type="submit" class="btn btn-primary px-5">Add</button>
                             </div>
                         </form>
                     </div>
