@@ -1,12 +1,10 @@
 <x-app-layout>
 
-
     @section('content_header')
-        <h1>Faculty List</h1>
+        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Faculty List</h5>
     @stop
 
-
-    <div class="container-fluid font">
+    <div class="container-fluid font bg-secondary bg-opacity-50 rounded-1 p-2">
         <div class="d-flex justify-content-end mb-2">
             <form action="{{ route('search.faculty') }}" method="GET" class="d-flex">
                 <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
@@ -25,8 +23,7 @@
                                 <th>Faculty NAME</th>
                                 <th>College</th>
                                 <th>Image</th>
-                                <th>Delete</th>
-                                <th>Update</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         @if (isset($results) && count($results) > 0)
@@ -41,16 +38,15 @@
                                                 <img src="{{ asset('faculty-images/' . $faculty->image) }}"
                                                     alt="Faculty Photo" class="img-fluid" style="height: 3rem;">
                                             @else
-                                                <p>No photo available</p>
+                                                <img src="{{ asset('IMG/default.jpg') }}" class="img-fluid"
+                                                    alt="" style="border-radius: 50%; height:25px; width:25px;">
                                             @endif
                                         </td>
                                         <td>
                                             <a href="{{ 'delete-faculty/' . $faculty['id'] }}"
-                                                class="btn btn-danger">Delete</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ 'edit-faculty/' . $faculty['id'] }}"
-                                                class="btn btn-primary">Update</a>
+                                                class="d-inline btn btn-danger">Delete</a> <a
+                                                href="{{ 'edit-faculty/' . $faculty['id'] }}"
+                                                class="d-inline btn btn-primary">Update</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -59,7 +55,8 @@
                             <tbody class="text-center">
                                 @foreach ($Faculty_lists as $group => $Faculty_list)
                                     <tr class="bg-light">
-                                        <td colspan="10" class="py-1 table-warning text-uppercase">{{ $group }}
+                                        <td colspan="10" class="py-1 table-warning text-uppercase">
+                                            {{ $group }}
                                         </td>
                                     </tr>
                                     @foreach ($Faculty_list as $faculty)
@@ -78,11 +75,9 @@
                                             </td>
                                             <td>
                                                 <a href="{{ 'delete-faculty/' . $faculty['id'] }}"
-                                                    class="btn btn-danger">Delete</a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ 'edit-faculty/' . $faculty['id'] }}"
-                                                    class="btn btn-primary">Update</a>
+                                                    class="d-inline btn btn-danger">Delete</a> <a
+                                                    href="{{ 'edit-faculty/' . $faculty['id'] }}"
+                                                    class="d-inline btn btn-primary">Update</a>
                                             </td>
                                         </tr>
                                     @endforeach
