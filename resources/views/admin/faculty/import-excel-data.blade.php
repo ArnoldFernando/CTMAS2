@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container py-5">
+    <div class="container py-5 font">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-sm border-0">
@@ -13,7 +13,7 @@
                                     id="file">
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary btn-lg">Import</button>
+                                <button type="submit" class="btn btn-success">Import</button>
                             </div>
                         </form>
                     </div>
