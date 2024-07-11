@@ -4,10 +4,8 @@
 @section('title', 'CSU-APARRI LIBRARY')
 
 @section('adminlte_css')
-    <link rel="stylesheet" href="{{ url('Css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url('Css/fontawesome.min.css') }}">
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{ url('Image/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link
@@ -59,6 +57,29 @@
             position: relative;
             z-index: 2;
         }
+
+        /* Define the keyframes for the popping animation */
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+
+            70% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Apply the animation to the card */
+        .popping-card {
+            animation: pop 0.5s ease-out;
+        }
     </style>
     @yield('css')
 @stop
@@ -68,7 +89,7 @@
 @section('body')
     <div class="background">
         <div class="d-flex align-items-center justify-content-center" style="min-height: 95vh;">
-            <div class="card rounded-4 shadow-lg p-3" style="width: 850px;">
+            <div class="card rounded-4 shadow-lg p-3 popping-card" style="width: 850px;">
                 <div class="row py-3">
                     <div class="col-md-6 pt-0">
                         <div class="d-flex align-items-center justify-content-center">
@@ -142,7 +163,7 @@
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <button type="submit"
-                                                class="btn btn-block text-light btn-primary fw-bold"">Register</button>
+                                                class="btn btn-block text-light btn-primary fw-bold">Register</button>
                                         </div>
                                     </div>
                                 </form>
