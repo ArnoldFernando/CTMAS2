@@ -64,15 +64,42 @@ class PDFController extends Controller
             'CTED' => 'College of Teacher Education',
         ];
 
+        // Get the date range from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Determine the school year and semester based on the start date
+        $startMonth = (int) date('m', strtotime($startDate));
+        $startYear = (int) date('Y', strtotime($startDate));
+        $schoolYear = '';
+        $semester = '';
+
+        if ($startMonth == 7) {
+            // Vacation period in July
+            $schoolYear = $startYear . '-' . ($startYear + 1);
+            $semester = 'Vacation';
+        } else if ($startMonth >= 8 && $startMonth <= 12) {
+            // First semester
+            $schoolYear = $startYear . '-' . ($startYear + 1);
+            $semester = 'First Semester';
+        } else if ($startMonth >= 1 && $startMonth <= 6) {
+            // Second semester
+            $schoolYear = ($startYear - 1) . '-' . $startYear;
+            $semester = 'Second Semester';
+        }
+
         // Fetch all courses grouped by college
         $allCourses = StudentList::select('college', 'course')
             ->distinct()
             ->get()
             ->groupBy('college');
 
-        // Fetch the count of student records grouped by course and college
+        // Fetch the count of student records grouped by course and college within the date range
         $courseCounts = StudentList::select('student_lists.course', 'student_lists.college', DB::raw('COUNT(student_records.id) as total'))
-            ->leftJoin('student_records', 'student_lists.student_id', '=', 'student_records.student_id')
+            ->leftJoin('student_records', function ($join) use ($startDate, $endDate) {
+                $join->on('student_lists.student_id', '=', 'student_records.student_id')
+                    ->whereBetween('student_records.created_at', [$startDate, $endDate]);
+            })
             ->groupBy('student_lists.course', 'student_lists.college')
             ->get()
             ->keyBy(function ($item) {
@@ -91,10 +118,11 @@ class PDFController extends Controller
             }
         }
 
-        $pdf = PDF::loadView('admin.student.reports-pdf', compact('data'));
+        $pdf = PDF::loadView('admin.student.reports-pdf', compact('data', 'startDate', 'endDate', 'schoolYear', 'semester'));
 
         return $pdf->stream('attendance_report.pdf');
     }
+
 
 
 
