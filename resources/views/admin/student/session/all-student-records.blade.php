@@ -57,10 +57,81 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a class="btn btn-success ms-2" href="{{ route('student.reports') }}">
-                                <i class="fa-solid fa-file-export me-1"></i>
-                                Make Reports
-                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="true">
+                                    <i class="fa-solid fa-file-export me-1"></i> Make Reports
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form action="{{ route('student.reports') }}" method="GET">
+                                            <div class="form-group px-2">
+                                                <label for="start_date">Start Date:</label>
+                                                <input type="date" name="start_date" id="start_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="end_date">End Date:</label>
+                                                <input type="date" name="end_date" id="end_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="school_year">School Year:</label>
+                                                <input type="text" name="school_year" id="school_year"
+                                                    class="form-control" readonly>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="semester">Semester:</label>
+                                                <input type="text" name="semester" id="semester" class="form-control"
+                                                    readonly>
+                                            </div>
+                                            <div class="form-group px-2 py-2">
+                                                <button type="submit" class="btn btn-primary w-100">
+                                                    <i class="fa-solid fa-file-export me-1"></i> Filter Reports
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <script>
+                                document.getElementById('start_date').addEventListener('change', updateSchoolYearAndSemester);
+                                document.getElementById('end_date').addEventListener('change', updateSchoolYearAndSemester);
+
+                                function updateSchoolYearAndSemester() {
+                                    const startDate = new Date(document.getElementById('start_date').value);
+                                    const endDate = new Date(document.getElementById('end_date').value);
+
+                                    if (startDate && endDate) {
+                                        let schoolYear = '';
+                                        let semester = '';
+
+                                        const startMonth = startDate.getMonth() + 1;
+                                        const startYear = startDate.getFullYear();
+
+                                        if (startMonth == 7) {
+                                            // Vacation period in July
+                                            schoolYear = `${startYear}-${startYear + 1}`;
+                                            semester = 'Vacation';
+                                        } else if (startMonth >= 8 && startMonth <= 12) {
+                                            // First semester
+                                            schoolYear = `${startYear}-${startYear + 1}`;
+                                            semester = 'First Semester';
+                                        } else if (startMonth >= 1 && startMonth <= 6) {
+                                            // Second semester
+                                            schoolYear = `${startYear - 1}-${startYear}`;
+                                            semester = 'Second Semester';
+                                        }
+
+                                        document.getElementById('school_year').value = schoolYear;
+                                        document.getElementById('semester').value = semester;
+                                    }
+                                }
+                            </script>
+
+
+
                         </div>
                     </div>
                 </div>

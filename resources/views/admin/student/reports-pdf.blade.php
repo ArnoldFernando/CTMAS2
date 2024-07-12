@@ -12,6 +12,7 @@
 
         h1 {
             text-align: center;
+            font-size: 20px;
         }
 
         table {
@@ -52,15 +53,39 @@
             font-size: 10px;
             color: #888;
         }
+
+        .header {
+            display: flex;
+            font-size: 12px;
+            justify-content: space-between;
+        }
+
+        .header div {
+            display: inline;
+        }
     </style>
 </head>
 
-<body>
-    <h1>University Library Monthly Attendance Report</h1>
+</style>
+</head>
 
-    <p><strong>From: </strong> July 1, 2024 <strong>To: </strong> July 31, 2024 <strong>Semester: </strong> Summer
-        <strong>School Year: </strong> 2024-2025
-    </p>
+<body>
+    <h1>University Library Attendance Report</h1>
+
+    <div class="header">
+        <div>
+            <strong>From: </strong> {{ $startDate }}
+        </div>
+        <div>
+            <strong>To: </strong> {{ $endDate }}
+        </div>
+        <div>
+            <strong>Semester: </strong>{{ $semester }}
+        </div>
+        <div>
+            <strong>School Year: </strong> {{ $schoolYear }}
+        </div>
+    </div>
 
     <table>
         @foreach ($data as $college => $courses)
