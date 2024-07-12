@@ -18,7 +18,7 @@
                 margin: 0;
                 padding: 0;
                 list-style: none;
-                animation: scroll 1s linear infinite;
+                animation: scroll 20s linear infinite;
             }
 
             .card-body:hover .scroll-list {
