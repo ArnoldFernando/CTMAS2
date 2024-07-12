@@ -8,11 +8,13 @@
         <div class="container-fluid font">
             <div class="d-flex justify-content-end mb-2">
                 <form action="{{ route('search.student') }}" method="GET" class="d-flex">
-                    <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
-                    <button type="submit" class="btn btn-primary d-flex align-items-center"><i
-                            class="fa-solid fa-magnifying-glass me-2"></i>Search
+                    <input type="text" name="query" placeholder="Search..." class="form-control mr-2"
+                        value="{{ request()->input('query') }}">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                     </button>
                 </form>
+
             </div>
             <div class="bg-dark bg-opacity-25 p-1 rounded-2">
                 <div class="row">
