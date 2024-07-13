@@ -217,11 +217,144 @@
             })()
         </script>
     @endif
+    <style>
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #f0f0f0;
+        }
+
+        .infinite-scroll {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .table-responsive {
+            position: relative;
+            height: 200px;
+            /* Fixed height */
+            overflow: hidden;
+            /* Hide the scrollbar */
+        }
+
+        .table-responsive.no-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for Chrome, Safari and Opera */
+        }
+
+        .table-responsive.no-scrollbar {
+            -ms-overflow-style: none;
+            /* Hide scrollbar for IE and Edge */
+            scrollbar-width: none;
+            /* Hide scrollbar for Firefox */
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .thead-fixed th {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .table thead,
+        .table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .table tbody {
+            display: block;
+            animation: scroll 50s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(calc(-100% - 10px * {{ count($rankedStudents) }}));
+                /* Adjust based on row height and margin */
+            }
+        }
+
+        .rank {
+            height: 200px;
+            /* Fixed height */
+        }
+
+        .h1 {
+            height: 60vh;
+
+        }
+
+        /* Ensure the card-body has a fixed height */
+        .card-body {
+            height: 200px;
+            /* Ensure the card body is exactly 200px */
+        }
+    </style>
+
+
+
 
     <div class="container-fluid bg-light dark d-flex flex-column min-vh-100 p-3 body">
         <div class="row">
             <div class="container p-2 text-dark col-7">
-                <h1 id="typingText" class="fw-bold display-1 ms-5 mt-5 font"></h1>
+                <h1 id="typingText" class="fw-bold display-1 ms-5  font h1"></h1>
+                <div class="d-flex flex-column justify-content-between align-items-start mt-auto mb-5 rank">
+                    <!-- This div will align content at the bottom -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <h5 class="card-header bg-danger fw-bold font text-white">Ranked Students
+                                <small>Course</small><small> Visits-Count</small>
+                            </h5>
+                            <div class="card-body infinite-scroll">
+                                <div class="table-responsive no-scrollbar">
+                                    <table class="table table-striped">
+                                        <thead class="thead-fixed">
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Name</th>
+                                                <th>Course</th>
+                                                <th>Visits Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rankedStudents as $key => $student)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td class="fw-bold">{{ $student->name }}</td>
+                                                    <td class="text-muted">{{ $student->course }}</td>
+                                                    <td class="text-muted">{{ $student->total_records }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+
+                                        <tbody>
+                                            @foreach ($rankedStudents as $key => $student)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td class="fw-bold">{{ $student->name }}</td>
+                                                    <td class="text-muted">{{ $student->course }}</td>
+                                                    <td class="text-muted">{{ $student->total_records }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="container p-2 col-5">
@@ -240,58 +373,115 @@
                 </div>
 
                 {{-- Student Displayed Data --}}
-                @if (session('student'))
-                    <div class="px-5">
-                        <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
-                            <div class="row p-1">
-                                <div class="">
-                                    @if (session('student')->image)
-                                        <div class="text-center">
-                                            <img src="{{ asset('student-images/' . session('student')->image) }}"
-                                                class="border border-1 border-secondary rounded-1" height="180px"
-                                                width="180px" alt="ID Picture">
-                                        </div>
-                                    @else
-                                        <div class="text-center">
-                                            <img src="{{ asset('IMG/default.jpg') }}" class=" rounded-1" height="180px"
-                                                width="180px" alt="ID Picture">
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
 
-                            <h5 class="fw-bold mb-3 text-center">Student Details</h5>
-                            <div class="row p-2">
-                                <div class="col-8">
-                                    <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
-                                    </h6>
-                                    <h6 class="d-inline">{{ session('student')->name }}</h6><br>
-                                    <hr class="mt-0">
-                                    <h6 class="d-inline fw-bolder mt-1"><i
-                                            class="fa-solid fa-caret-right me-1"></i>Course:
-                                    </h6>
-                                    <h6 class="d-inline">{{ session('student')->course }}</h6><br>
-                                    <hr class="mt-0">
-                                    <h6 class="d-inline fw-bolder mt-1"><i
-                                            class="fa-solid fa-caret-right me-1"></i>Department:
-                                    </h6>
-                                    <h6 class="d-inline font">{{ session('student')->college }}</h6><br>
-                                    <hr class="mt-0">
-                                </div>
-                                <div class="col-4 border text-center border-1 border-dark rounded-1">
-                                    <h6 class="font mt-1"></i>Time</h6>
-                                    @if (session('currentTime'))
-                                        <h2 class="mt-2 fw-bolder" style="color: #A50002;">{{ session('currentTime') }}
-                                        </h2>
+                <div class="px-5">
+                    <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
+                        <div class="row p-1">
+                            <div class="">
+
+                                <div class="text-center">
+                                    {{--  student  --}}
+                                    @if (session('student'))
+                                        @if (session('student')->image)
+                                            <img src="{{ asset('student-images/' . session('student')->image) }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @else
+                                            <img src="{{ asset('IMG/default.jpg') }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @endif
+                                    @elseif (session('faculty'))
+                                        @if (session('faculty')->image)
+                                            <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @else
+                                            <img src="{{ asset('IMG/default.jpg') }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('IMG/default.jpg') }}"
+                                            class="border border-1 border-secondary rounded-1"
+                                            style="height: 180px; width: 180px;" alt="ID Picture">
+
                                     @endif
+
+                                    {{--  faculty
+                                    @if (session('faculty'))
+                                        @if (session('faculty')->image)
+                                            <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @else
+                                            <img src="{{ asset('IMG/default.jpg') }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('IMG/default.jpg') }}"
+                                            class="border border-1 border-secondary rounded-1"
+                                            style="height: 180px; width: 180px;" alt="ID Picture">
+                                    @endif  --}}
                                 </div>
                             </div>
                         </div>
+
+                        @if (session('student'))
+                            <h5 class="fw-bold mb-3 text-center">Student Details</h5>
+                        @elseif (session('faculty'))
+                            <h5 class="fw-bold mb-3 text-center">Faculty Details</h5>
+                        @else
+                            <h5 class="fw-bold mb-3 text-center">Scan your Barcode</h5>
+                        @endif
+                        <div class="row p-2">
+                            <div class="col-8">
+                                <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:
+                                </h6>
+                                @if (session('student'))
+                                    <h6 class="d-inline">{{ session('student')->name }}</h6><br>
+                                @elseif (session('faculty'))
+                                    <h6 class="d-inline">{{ session('faculty')->name }}</h6><br>
+                                @endif
+                                <hr class="mt-0">
+                                <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
+                                </h6>
+                                @if (session('student'))
+                                    <h6 class="d-inline">{{ session('student')->course }}</h6><br>
+                                @elseif (session('faculty'))
+                                    <h6 class="d-inline">N/A</h6><br>
+                                @else
+                                    <h6 class="d-inline">N/A</h6><br>
+                                @endif
+                                <hr class="mt-0">
+                                <h6 class="d-inline fw-bolder mt-1"><i
+                                        class="fa-solid fa-caret-right me-1"></i>Department:
+                                </h6>
+                                @if (session('student'))
+                                    <h6 class="d-inline font">{{ session('student')->college }}</h6><br>
+                                @elseif (session('faculty'))
+                                    <h6 class="d-inline font">{{ session('faculty')->college }}</h6><br>
+                                @endif
+                                <hr class="mt-0">
+                            </div>
+                            <div class="col-4 border text-center border-1 border-dark rounded-1">
+                                <h6 class="font mt-1"></i>Time</h6>
+
+                                <h2 class="mt-2 fw-bolder" style="color: #A50002;">
+                                    @if (session('currentTime'))
+                                        {{ session('currentTime') }}
+                                    @endif
+                                </h2>
+
+                            </div>
+                        </div>
                     </div>
-                @endif
+                </div>
+
 
                 {{-- Faculty Displayed Data --}}
-                @if (session('faculty'))
+                {{--  @if (session('faculty'))
                     <div class="px-5">
                         <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3">
                             <div class="row p-1">
@@ -335,7 +525,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif  --}}
             </div>
         </div>
     </div>
