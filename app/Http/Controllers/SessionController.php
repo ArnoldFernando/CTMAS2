@@ -9,12 +9,19 @@ use App\Models\FacultyRecords;
 use App\Models\StudentRecords;
 use App\Models\Faculty_and_staff;
 use Illuminate\Support\Facades\Log;
+use DB;
 
 class SessionController extends Controller
 {
     public function startSessionPage()
     {
-        return view('admin.student.session.start-session');
+        $rankedStudents = DB::table('student_records')
+            ->join('student_lists', 'student_records.student_id', '=', 'student_lists.student_id')
+            ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(student_records.id) as total_records'))
+            ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
+            ->orderByDesc('total_records')
+            ->get();
+        return view('admin.student.session.start-session', compact('rankedStudents'));
     }
 
     public function handleTime(Request $request)
@@ -197,4 +204,9 @@ class SessionController extends Controller
             'studentsTimedInToday' => $studentsTimedInToday,
         ]);
     }
+
+
+
+    // ranking of most visitors students in library
+
 }
