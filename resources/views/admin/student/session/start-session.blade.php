@@ -314,9 +314,7 @@
                     <!-- This div will align content at the bottom -->
                     <div class="col-md-12">
                         <div class="card">
-                            <h5 class="card-header bg-danger fw-bold font text-white">Ranked Students
-                                <small>Course</small><small> Visits-Count</small>
-                            </h5>
+                            <h5 class="card-header bg-danger fw-bold font text-white">Top Students of Library</h5>
                             <div class="card-body infinite-scroll">
                                 <div class="table-responsive no-scrollbar">
                                     <table class="table table-striped">
@@ -443,6 +441,8 @@
                                     <h6 class="d-inline">{{ session('student')->name }}</h6><br>
                                 @elseif (session('faculty'))
                                     <h6 class="d-inline">{{ session('faculty')->name }}</h6><br>
+                                @else
+                                    <h6 class="d-inline">N/A</h6><br>
                                 @endif
                                 <hr class="mt-0">
                                 <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
@@ -462,6 +462,8 @@
                                     <h6 class="d-inline font">{{ session('student')->college }}</h6><br>
                                 @elseif (session('faculty'))
                                     <h6 class="d-inline font">{{ session('faculty')->college }}</h6><br>
+                                @else
+                                    <h6 class="d-inline">N/A</h6><br>
                                 @endif
                                 <hr class="mt-0">
                             </div>
