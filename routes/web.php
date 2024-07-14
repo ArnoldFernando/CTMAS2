@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\BarcodeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -90,4 +91,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // reports of student records
     Route::view('College of Information and Computing Sciences', 'admin.student.reports-pdf');
+
+    // analysis
+    Route::view('analysis-page', 'admin.analysis');
+    Route::get('/analysis', [AnalysisController::class, 'index'])->name('analysis.result');
 });
