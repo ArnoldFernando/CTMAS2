@@ -340,6 +340,12 @@ return [
                     'url' => 'admin/active-session',
                     'icon' => 'fas fa-fw fa-book',
                 ],
+
+                [
+                    'text' => 'Analysis',
+                    'url' => 'admin/analysis',
+                    'icon' => 'fas fa-fw fa-book',
+                ],
             ],
         ],
         [
