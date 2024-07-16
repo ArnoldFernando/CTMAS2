@@ -57,9 +57,43 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="{{ route('faculty-records.pdf') }}" class="btn btn-success ms-2">
-                                <i class="fa-solid fa-file-pdf me-1"></i>Makes Report
-                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="true">
+                                    <i class="fa-solid fa-file-export me-1"></i> Make Reports
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form action="{{ route('faculty.reports') }}" method="GET">
+                                            <div class="form-group px-2">
+                                                <label for="start_date">Start Date:</label>
+                                                <input type="date" name="start_date" id="start_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="end_date">End Date:</label>
+                                                <input type="date" name="end_date" id="end_date" class="form-control"
+                                                    required>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="school_year">School Year:</label>
+                                                <input type="text" name="school_year" id="school_year"
+                                                    class="form-control" readonly>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label for="semester">Semester:</label>
+                                                <input type="text" name="semester" id="semester" class="form-control"
+                                                    readonly>
+                                            </div>
+                                            <div class="form-group px-2 py-2">
+                                                <button type="submit" class="btn btn-primary w-100">
+                                                    <i class="fa-solid fa-file-export me-1"></i> Filter Reports
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
