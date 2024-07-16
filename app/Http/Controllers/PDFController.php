@@ -8,7 +8,7 @@ use App\Models\StudentList;
 use App\Models\StudentRecords;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class PDFController extends Controller
 {
@@ -48,8 +48,6 @@ class PDFController extends Controller
         // Return the generated PDF for download with the dynamic filename
         return $pdf->download($filename);
     }
-
-
 
     public function StudentReports(Request $request)
     {
@@ -145,4 +143,43 @@ class PDFController extends Controller
         // Return the generated PDF for download
         return $pdf->download('Faculty_records.pdf');
     }
+
+
+    public function FacultyReports(Request $request)
+    {
+        // Define mappings for colleges
+        $collegeMappings = [
+            'CBEA' => 'College of Business, Entrepreneurship and Accountancy',
+            'CCJE' => 'College of Criminal Justice Education',
+            'CHM' => 'College of Hospitality Management',
+            'CFAS' => 'College of Fisheries and Aquatic Science',
+            'CIT' => 'College of Industrial Technology',
+            'CICS' => 'College of Information and Computing Sciences',
+            'CTED' => 'College of Teacher Education',
+        ];
+
+        // Get the date range from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Fetch the count of faculty records grouped by college within the date range
+        $collegeCounts = Faculty_and_staff::select('college', DB::raw('COUNT(faculty_records.id) as total'))
+            ->leftJoin('faculty_records', function ($join) use ($startDate, $endDate) {
+                $join->on('faculty_and_staffs.faculty_id', '=', 'faculty_records.faculty_id')
+                    ->whereBetween('faculty_records.created_at', [$startDate, $endDate]);
+            })
+            ->groupBy('college')
+            ->get()
+            ->mapWithKeys(function ($item) use ($collegeMappings) {
+                return [$collegeMappings[$item->college] => $item->total];
+            });
+
+        $pdf = PDF::loadView('admin.faculty.reports-pdf', compact('collegeCounts', 'startDate', 'endDate'));
+
+        return $pdf->stream('faculty_attendance_report.pdf');
+    }
+
+
+
+
 }
