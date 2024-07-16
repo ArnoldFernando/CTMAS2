@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\FacultyRecords;
 use App\Models\StudentRecords;
 use App\Models\Faculty_and_staff;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use DB;
+
 
 class SessionController extends Controller
 {
