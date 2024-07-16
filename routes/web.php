@@ -84,6 +84,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // export pdf FACULTY data
     Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
+    Route::get('/faculty-reports', [PDFController::class, 'FacultyReports'])->name('faculty.reports');
 
 
     // barcode
