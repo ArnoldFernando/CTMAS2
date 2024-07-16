@@ -21,19 +21,30 @@
                                 placeholder="Input Faculty Name" class="form-control">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="college" class="form-label">Faculty College</label>
-                            <select required name="college" id="college" class="form-control">
+                            <select required name="college" id="college" class="form-select">
                                 <option value="" disabled selected>Select College</option>
-                                <option value="CICS">College of Information And Computing Sciences</option>
-                                <option value="CBEA">College of Business Entrepreneurship And Accountancy</option>
-                                <option value="CTED">College of Teacher Education</option>
-                                <option value="CCJE">College of Criminal Justice Education</option>
-                                <option value="CFAS">College of Fisheries And Aquatic Sciences</option>
-                                <option value="CIT">College Of Industrial Technology</option>
-                                <option value="CHM">College of Hospitality Management</option>
+
+                                <option value="CBEA" class="college-cbea">College of Business, Entrepreneurship and
+                                    Accountancy - CBEA</option>
+                                <option value="CCJE" class="college-ccje">College of Criminal Justice Education - CCJE
+                                </option>
+                                <option value="CHM" class="college-chm">College of Hospitality Management – CHM
+                                </option>
+                                <option value="CFAS" class="college-cfas">College of Fisheries and Aquatic Science –
+                                    CFAS</option>
+                                <option value="CIT" class="college-cit">College of Industrial Technology – CIT
+                                </option>
+                                <option value="CICS" class="college-cics">College of Information and Computing
+                                    Sciences - CICS</option>
+                                <option value="CTED" class="college-cted">College of Teacher Education - CTED</option>
+
                                 <!-- Add more options as needed -->
                             </select>
+                            <span class="position-absolute end-0 top-50 translate-middle-y pe-3">
+                                <i class="bi bi-caret-down-fill"></i>
+                            </span>
                         </div>
 
                         <div class="mb-3">
@@ -64,3 +75,42 @@
         </div>
     </div>
 </x-app-layout>
+
+
+<style>
+    /* Define custom background colors for colleges */
+    .college-cbea {
+        background-color: #f0ad4e;
+        color: #fff;
+    }
+
+    .college-ccje {
+        background-color: #d9534f;
+        color: #fff;
+    }
+
+    .college-chm {
+        background-color: #5bc0de;
+        color: #fff;
+    }
+
+    .college-cfas {
+        background-color: #5bc0de;
+        color: #fff;
+    }
+
+    .college-cit {
+        background-color: #337ab7;
+        color: #fff;
+    }
+
+    .college-cics {
+        background-color: #5cb85c;
+        color: #fff;
+    }
+
+    .college-cted {
+        background-color: #d9534f;
+        color: #fff;
+    }
+</style>
