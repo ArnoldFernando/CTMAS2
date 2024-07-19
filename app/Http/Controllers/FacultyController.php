@@ -64,7 +64,7 @@ class FacultyController extends Controller
         if ($req->hasFile('image')) {
             $image = $req->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('student-images'), $imageName);
+            $image->move(public_path('faculty-images'), $imageName);
 
             // Update the image field with the new image
             $data->image = $imageName;
