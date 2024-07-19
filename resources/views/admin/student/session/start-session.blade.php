@@ -64,7 +64,10 @@
 
 <body>
     {{-- Sweet Alert --}}
-    @if (session('timein'))
+
+
+    {{--  student  --}}
+    @if (session('studentTimein'))
         <script>
             const Toast = Swal.mixin({
                 toast: true,
@@ -108,7 +111,7 @@
         </script>
     @endif
 
-    @if (session('20second'))
+    @if (session('20seconds-in-student'))
         <script>
             const Toast = Swal.mixin({
                 toast: true,
@@ -129,6 +132,215 @@
             })()
         </script>
     @endif
+
+    @if (session('20seconds-out-student'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'question',
+                    title: 'time in after 20 seconds'
+                })
+            })()
+        </script>
+    @endif
+
+
+    {{--  faculty  --}}
+
+    @if (session('facultyTimein'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'success',
+                    title: 'Faculty time in recorded successfully'
+                })
+            })()
+        </script>
+    @endif
+
+    @if (session('facultyTimeout'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast-out',
+                },
+                showConfirmButton: false,
+                timer: 1500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'success',
+                    title: 'Faculty TIME OUT recorded successfully'
+                })
+            })()
+        </script>
+    @endif
+    @if (session('20seconds-in-faculty'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'warning',
+                    title: 'Cannot time out within 20 seconds of time in'
+                })
+            })()
+        </script>
+    @endif
+
+    @if (session('20seconds-out-faculty'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'question',
+                    title: 'time in after 20 seconds'
+                })
+            })()
+        </script>
+    @endif
+
+
+
+
+
+
+
+    {{--  graduate school  --}}
+    @if (session('gradschoolTimein'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'success',
+                    title: 'Graduate School time in recorded successfully'
+                })
+            })()
+        </script>
+    @endif
+
+    @if (session('gradschoolTimeout'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast-out',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'success',
+                    title: 'Graduate School time out recorded successfully'
+                })
+            })()
+        </script>
+    @endif
+
+    @if (session('20seconds-in-gradschool'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'warning',
+                    title: 'Cannot time out within 20 seconds of time in'
+                })
+            })()
+        </script>
+    @endif
+    @if (session('20seconds-out-gradschool'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 2500,
+                timerPr0ogressBar: true,
+            });
+            (async () => {
+                await Toast.fire({
+                    icon: 'question',
+                    title: 'time in after 20 seconds'
+                })
+            })()
+        </script>
+    @endif
+
+
+
 
     @if (session('idnotexist'))
         <script>
@@ -152,71 +364,7 @@
         </script>
     @endif
 
-    @if (session('facultytimein'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                iconColor: 'white',
-                customClass: {
-                    popup: 'colored-toast',
-                },
-                showConfirmButton: false,
-                timer: 2500,
-                timerPr0ogressBar: true,
-            });
-            (async () => {
-                await Toast.fire({
-                    icon: 'success',
-                    title: 'Faculty time in recorded successfully'
-                })
-            })()
-        </script>
-    @endif
 
-    @if (session('facultytimeout'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                iconColor: 'white',
-                customClass: {
-                    popup: 'colored-toast-out',
-                },
-                showConfirmButton: false,
-                timer: 2500,
-                timerPr0ogressBar: true,
-            });
-            (async () => {
-                await Toast.fire({
-                    icon: 'success',
-                    title: 'Faculty time out recorded successfully'
-                })
-            })()
-        </script>
-    @endif
-
-    @if (session('20seconds-out'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                iconColor: 'white',
-                customClass: {
-                    popup: 'colored-toast',
-                },
-                showConfirmButton: false,
-                timer: 2500,
-                timerPr0ogressBar: true,
-            });
-            (async () => {
-                await Toast.fire({
-                    icon: 'question',
-                    title: 'time in after 20 seconds'
-                })
-            })()
-        </script>
-    @endif
     <style>
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f9f9f9;
@@ -379,7 +527,11 @@
 
                                 <div class="text-center">
                                     {{--  student  --}}
-                                    @if (session('student'))
+                                    @if (session('student') ||
+                                            session('studentTimein') ||
+                                            session('20seconds-in-student') ||
+                                            session('studentTimeout') ||
+                                            session('20seconds-out-student'))
                                         @if (session('student')->image)
                                             <img src="{{ asset('student-images/' . session('student')->image) }}"
                                                 class="border border-1 border-secondary rounded-1"
@@ -389,9 +541,27 @@
                                                 class="border border-1 border-secondary rounded-1"
                                                 style="height: 180px; width: 180px;" alt="ID Picture">
                                         @endif
-                                    @elseif (session('faculty'))
+                                    @elseif (session('faculty') ||
+                                            session('facultyTimein') ||
+                                            session('20seconds-in-faculty') ||
+                                            session('facultyTimeout') ||
+                                            session('20seconds-out-faculty'))
                                         @if (session('faculty')->image)
                                             <img src="{{ asset('faculty-images/' . session('faculty')->image) }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @else
+                                            <img src="{{ asset('IMG/default.jpg') }}"
+                                                class="border border-1 border-secondary rounded-1"
+                                                style="height: 180px; width: 180px;" alt="ID Picture">
+                                        @endif
+                                    @elseif (session('gradschool') ||
+                                            session('gradschoolTimein') ||
+                                            session('20seconds-in-gradschool') ||
+                                            session('gradschoolTimeout') ||
+                                            session('20seconds-out-gradschool'))
+                                        @if (session('gradschool')->image)
+                                            <img src="{{ asset('graduateschool-images/' . session('gradschool')->image) }}"
                                                 class="border border-1 border-secondary rounded-1"
                                                 style="height: 180px; width: 180px;" alt="ID Picture">
                                         @else
@@ -426,10 +596,24 @@
                             </div>
                         </div>
 
-                        @if (session('student'))
+                        @if (session('student') ||
+                                session('studentTimein') ||
+                                session('20seconds-in-student') ||
+                                session('studentTimeout') ||
+                                session('20seconds-out-student'))
                             <h5 class="fw-bold mb-3 text-center">Student Details</h5>
-                        @elseif (session('faculty'))
+                        @elseif (session('faculty') ||
+                                session('facultyTimein') ||
+                                session('20seconds-in-faculty') ||
+                                session('facultyTimeout') ||
+                                session('20seconds-out-faculty'))
                             <h5 class="fw-bold mb-3 text-center">Faculty Details</h5>
+                        @elseif (session('gradschool') ||
+                                session('gradschoolTimein') ||
+                                session('20seconds-in-gradschool') ||
+                                session('gradschoolTimeout') ||
+                                session('20seconds-out-gradschool'))
+                            <h5 class="fw-bold mb-3 text-center">Graduate School Details</h5>
                         @else
                             <h5 class="fw-bold mb-3 text-center">Scan your Barcode</h5>
                         @endif
@@ -439,17 +623,42 @@
                                 </h6>
                                 @if (session('student'))
                                     <h6 class="d-inline">{{ session('student')->name }}</h6><br>
-                                @elseif (session('faculty'))
+                                @elseif (session('faculty') ||
+                                        session('facultyTimein') ||
+                                        session('20seconds-in-faculty') ||
+                                        session('facultyTimeout') ||
+                                        session('20seconds-out-faculty'))
                                     <h6 class="d-inline">{{ session('faculty')->name }}</h6><br>
+                                @elseif (session('gradschool') ||
+                                        session('gradschoolTimein') ||
+                                        session('20seconds-in-gradschool') ||
+                                        session('gradschoolTimeout') ||
+                                        session('20seconds-out-gradschool'))
+                                    <h6 class="d-inline">{{ session('gradschool')->name }}</h6><br>
                                 @else
                                     <h6 class="d-inline">N/A</h6><br>
                                 @endif
                                 <hr class="mt-0">
                                 <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
                                 </h6>
-                                @if (session('student'))
+
+                                @if (session('student') ||
+                                        session('studentTimein') ||
+                                        session('20seconds-in-student') ||
+                                        session('studentTimeout') ||
+                                        session('20seconds-out-student'))
                                     <h6 class="d-inline">{{ session('student')->course }}</h6><br>
-                                @elseif (session('faculty'))
+                                @elseif (session('gradschool') ||
+                                        session('gradschoolTimein') ||
+                                        session('20seconds-in-gradschool') ||
+                                        session('gradschoolTimeout') ||
+                                        session('20seconds-out-gradschool'))
+                                    <h6 class="d-inline">{{ session('gradschool')->course }}</h6><br>
+                                @elseif (session('faculty') ||
+                                        session('facultyTimein') ||
+                                        session('20seconds-in-faculty') ||
+                                        session('facultyTimeout') ||
+                                        session('20seconds-out-faculty'))
                                     <h6 class="d-inline">N/A</h6><br>
                                 @else
                                     <h6 class="d-inline">N/A</h6><br>
@@ -460,8 +669,8 @@
                                 </h6>
                                 @if (session('student'))
                                     <h6 class="d-inline font">{{ session('student')->college }}</h6><br>
-                                @elseif (session('faculty'))
-                                    <h6 class="d-inline font">{{ session('faculty')->college }}</h6><br>
+                                @elseif (session('gradschool'))
+                                    <h6 class="d-inline font">N/A</h6><br>
                                 @else
                                     <h6 class="d-inline">N/A</h6><br>
                                 @endif
