@@ -13,14 +13,14 @@ return new class extends Migration {
         Schema::create('graduate_school_records', function (Blueprint $table) {
 
             $table->id();
-            $table->unsignedInteger('graduate_id');
+            $table->unsignedInteger('graduateschool_id');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->timestamps();
 
-            $table->foreign('graduate_id')
-                ->references('graduate_id')
-                ->on('graduate_id')
+            $table->foreign('graduateschool_id')
+                ->references('graduateschool_id')
+                ->on('graduate_school_lists')
                 ->onDelete('cascade');
         });
     }

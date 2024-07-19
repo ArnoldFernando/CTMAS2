@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('graduate_school_lists', function (Blueprint $table) {
             $table->id();
-            $table->integer('graduate_id')->unsigned()->unique();
+            $table->integer('graduateschool_id')->unsigned()->unique();
             $table->string('name');
-            $table->string('college')->nullable();
+            $table->string('course')->nullable();
             $table->string('image', 300)->nullable();
             $table->timestamps();
 
-            $table->index('graduate_id');
+            $table->index('graduateschool_id');
         });
     }
 
