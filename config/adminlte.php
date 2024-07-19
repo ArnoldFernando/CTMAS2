@@ -406,6 +406,33 @@ return [
 
             ],
         ],
+        [
+            'text' => 'Graduate School',
+            'icon' => 'fas fa-fw fa-user-tie',
+            'submenu' => [
+                [
+                    'text' => 'Add Graduate School',
+                    'url' => 'admin/add-graduateschool-form',
+                    'icon' => 'fas fa-fw fa-plus',
+                ],
+                [
+                    'text' => 'Graduate School list',
+                    'url' => 'admin/graduateSchool-list',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text' => 'Graduate School Records',
+                    'url' => 'admin/all-gradschool-records',
+                    'icon' => 'fas fa-fw fa-book',
+                ],
+                [
+                    'text' => 'Import Graduate School',
+                    'url' => '#',
+                    'icon' => 'fas fa-fw fa-file-import',
+                ],
+
+            ],
+        ],
 
         ['header' => 'account_settings'],
         [
