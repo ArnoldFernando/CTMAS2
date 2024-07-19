@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\FacultyRecords;
 use App\Models\StudentRecords;
 use App\Models\Faculty_and_staff;
+use App\Models\GraduateSchoolList;
+use App\Models\GraduateSchoolRecords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -35,11 +37,14 @@ class SessionController extends Controller
         // Check if the ID exists in the student or faculty table
         $student = StudentList::where('student_id', $id)->first();
         $faculty = Faculty_and_staff::where('faculty_id', $id)->first();
+        $gradschool = GraduateSchoolList::where('graduateschool_id', $id)->first();
 
         if ($student) {
             return $this->handleStudentTime($id, $student);
         } elseif ($faculty) {
             return $this->handleFacultyTime($id, $faculty);
+        } elseif ($gradschool) {
+            return $this->handleGradschoolTime($id, $gradschool);
         } else {
             return redirect()->back()->with('idnotexist', 'ID does not exist.');
         }
@@ -57,51 +62,51 @@ class SessionController extends Controller
             if ($recordDate === $currentDate) {
                 // If the latest record is from today, check if time_out is null
                 if ($latestRecord->time_out === null) {
-                    return $this->timeOut($latestRecord, $student);
+                    return $this->StudentTimeOut($latestRecord, $student);
                 } else {
                     $timeOut = Carbon::parse($latestRecord->time_out);
                     $currentTime = Carbon::now();
                     $diffInSeconds = $currentTime->diffInSeconds($timeOut);
 
                     if ($diffInSeconds < 20) {
-                        return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
+                        return redirect()->back()->with('20seconds-out-student', 'Cannot time in within 20 seconds of time out.')
                             ->with('student', $student)
                             ->with('currentTime', Carbon::now()->format('h:i A'));
                     }
                 }
             } else {
                 // If the latest record is from a previous day, create a new time in record
-                return $this->timeIn($studentId, $student);
+                return $this->StudentTimeIn($studentId, $student);
             }
         } else {
             // If no record exists, create a new time in record
-            return $this->timeIn($studentId, $student);
+            return $this->StudentTimeIn($studentId, $student);
         }
 
         // Default to creating a new time in record
-        return $this->timeIn($studentId, $student);
+        return $this->StudentTimeIn($studentId, $student);
     }
 
-    protected function timeIn($studentId, $student)
+    protected function StudentTimeIn($studentId, $student)
     {
         $record = new StudentRecords();
         $record->student_id = $studentId;
         $record->time_in = Carbon::now()->toTimeString();
         $record->save();
 
-        return redirect()->back()->with('timein', 'Student time in recorded successfully.')
+        return redirect()->back()->with('studentTimein', 'Student time in recorded successfully.')
             ->with('student', $student)
             ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
-    protected function timeOut($latestRecord, $student)
+    protected function StudentTimeOut($latestRecord, $student)
     {
         $timeIn = Carbon::parse($latestRecord->time_in);
         $currentTime = Carbon::now();
         $diffInSeconds = $currentTime->diffInSeconds($timeIn);
 
         if ($diffInSeconds < 20) {
-            return redirect()->back()->with('20second', 'Cannot time out within 20 seconds of time in.')
+            return redirect()->back()->with('20seconds-in-student', 'Cannot time out within 20 seconds of time in.')
                 ->with('student', $student)
                 ->with('currentTime', Carbon::now()->format('h:i A'));
         }
@@ -126,14 +131,14 @@ class SessionController extends Controller
             if ($recordDate === $currentDate) {
                 // If the latest record is from today, check if time_out is null
                 if ($latestRecord->time_out === null) {
-                    return $this->timeOut($latestRecord, $faculty);
+                    return $this->facultyTimeOut($latestRecord, $faculty);
                 } else {
                     $timeOut = Carbon::parse($latestRecord->time_out);
                     $currentTime = Carbon::now();
                     $diffInSeconds = $currentTime->diffInSeconds($timeOut);
 
                     if ($diffInSeconds < 20) {
-                        return redirect()->back()->with('20seconds-out', 'Cannot time in within 20 seconds of time out.')
+                        return redirect()->back()->with('20seconds-out-faculty', 'Cannot time in within 20 seconds of time out.')
                             ->with('faculty', $faculty)
                             ->with('currentTime', Carbon::now()->format('h:i A'));
                     }
@@ -158,7 +163,7 @@ class SessionController extends Controller
         $record->time_in = Carbon::now()->toTimeString();
         $record->save();
 
-        return redirect()->back()->with('facultytimein', 'Faculty time in recorded successfully.')
+        return redirect()->back()->with('facultyTimein', 'Faculty time in recorded successfully.')
             ->with('faculty', $faculty)
             ->with('currentTime', Carbon::now()->format('h:i A'));
     }
@@ -170,7 +175,7 @@ class SessionController extends Controller
         $diffInSeconds = $currentTime->diffInSeconds($timeIn);
 
         if ($diffInSeconds < 20) {
-            return redirect()->back()->with('20second', 'Cannot time out within 20 seconds of time in.')
+            return redirect()->back()->with('20seconds-in-faculty', 'Cannot time out within 20 seconds of time in.')
                 ->with('faculty', $faculty)
                 ->with('currentTime', Carbon::now()->format('h:i A'));
         }
@@ -178,8 +183,77 @@ class SessionController extends Controller
         $latestRecord->time_out = $currentTime->toTimeString();
         $latestRecord->save();
 
-        return redirect()->back()->with('facultytimeout', 'Faculty time out recorded successfully.')
+        return redirect()->back()->with('facultyTimeout', 'Faculty time out recorded successfully.')
             ->with('faculty', $faculty)
+            ->with('currentTime', Carbon::now()->format('h:i A'));
+    }
+
+
+    protected function handleGradschoolTime($gradschoolId, $gradschool)
+    {
+        $latestRecord = GraduateSchoolRecords::where('graduateschool_id', $gradschoolId)->latest()->first();
+
+        if ($latestRecord) {
+            $recordDate = Carbon::parse($latestRecord->created_at)->toDateString();
+            $currentDate = Carbon::now()->toDateString();
+
+            if ($recordDate === $currentDate) {
+                // If the latest record is from today, check if time_out is null
+                if ($latestRecord->time_out === null) {
+                    return $this->GradschoolTimeOut($latestRecord, $gradschool);
+                } else {
+                    $timeOut = Carbon::parse($latestRecord->time_out);
+                    $currentTime = Carbon::now();
+                    $diffInSeconds = $currentTime->diffInSeconds($timeOut);
+
+                    if ($diffInSeconds < 20) {
+                        return redirect()->back()->with('20seconds-out-gradschool', 'Cannot time in within 20 seconds of time out.')
+                            ->with('gradschool', $gradschool)
+                            ->with('currentTime', Carbon::now()->format('h:i A'));
+                    }
+                }
+            } else {
+                // If the latest record is from a previous day, create a new time in record
+                return $this->GradschoolTimeIn($gradschoolId, $gradschool);
+            }
+        } else {
+            // If no record exists, create a new time in record
+            return $this->GradschoolTimeIn($gradschoolId, $gradschool);
+        }
+
+        // Default to creating a new time in record
+        return $this->GradschoolTimeIn($gradschoolId, $gradschool);
+    }
+
+    protected function GradschoolTimeIn($gradschoolId, $gradschool)
+    {
+        $record = new GraduateSchoolRecords();
+        $record->graduateschool_id = $gradschoolId;
+        $record->time_in = Carbon::now()->toTimeString();
+        $record->save();
+
+        return redirect()->back()->with('gradschoolTimein', 'Graduate School time in recorded successfully.')
+            ->with('gradschool', $gradschool)
+            ->with('currentTime', Carbon::now()->format('h:i A'));
+    }
+
+    protected function GradschoolTimeOut($latestRecord, $gradschool)
+    {
+        $timeIn = Carbon::parse($latestRecord->time_in);
+        $currentTime = Carbon::now();
+        $diffInSeconds = $currentTime->diffInSeconds($timeIn);
+
+        if ($diffInSeconds < 20) {
+            return redirect()->back()->with('20seconds-in-gradschool', 'Cannot time out within 20 seconds of time in.')
+                ->with('gradschool', $gradschool)
+                ->with('currentTime', Carbon::now()->format('h:i A'));
+        }
+
+        $latestRecord->time_out = $currentTime->toTimeString();
+        $latestRecord->save();
+
+        return redirect()->back()->with('gradschoolTimeout', 'Graduate School time out recorded successfully.')
+            ->with('gradschool', $gradschool)
             ->with('currentTime', Carbon::now()->format('h:i A'));
     }
 
