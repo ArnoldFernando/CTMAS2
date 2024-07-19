@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faculty_and_staff;
+use App\Models\GraduateSchoolList;
 use App\Models\StudentList;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class SearchController extends Controller
                 ->orWhere('college', 'like', '%' . $query . '%');
         })->get();
 
-        return view('admin.student.list', compact('results'))->withInput($request->all());
+        return view('admin.student.list', compact('results'))->with('input', $request->all());
     }
 
 
@@ -36,5 +37,19 @@ class SearchController extends Controller
         })->get();
 
         return view('admin.faculty.list', compact('results'));
+    }
+
+    public function searchGradschool(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Perform your search logic here using Eloquent ORM or other methods
+        $results = GraduateSchoolList::where(function ($queryBuilder) use ($query) {
+            $queryBuilder->where('name', 'like', '%' . $query . '%')
+                ->orWhere('graduateschool_id', 'like', '%' . $query . '%')
+                ->orWhere('course', 'like', '%' . $query . '%');
+        })->get();
+
+        return view('admin.graduateschool.list', compact('results'))->with('input', $request->all());
     }
 }
