@@ -11,6 +11,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GraduateSchoolController;
 use App\Http\Controllers\ImportDataController;
 
 /*
@@ -69,6 +70,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // search
     Route::get('/search-student', [SearchController::class, 'searchStudent'])->name('search.student');
     Route::get('/search-faculty', [SearchController::class, 'searchFaculty'])->name('search.faculty');
+    Route::get('/search-graduateschool', [SearchController::class, 'searchGradschool'])->name('search.gradschool');
 
 
     // import data
@@ -96,4 +98,16 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // analysis
     Route::view('analysis-page', 'admin.analysis');
     Route::get('/analysis', [AnalysisController::class, 'index'])->name('analysis.result');
+
+
+
+    // GRADUATE SCHOOL ROUTES
+    Route::view('/add-graduateschool-form', 'admin.graduateschool.add-graduateschool');
+    Route::post('/add-graduateschool', [GraduateSchoolController::class, 'addGraduateSchool'])->name('add.graduateSchool');
+    Route::get('/graduateSchool-list', [GraduateSchoolController::class, 'gradschoollist'])->name('gradSchool.list');
+    Route::get('delete-gradschool/{id}', [GraduateSchoolController::class, 'delete_gradschool']);
+    Route::get('edit-gradschool/{id}', [GraduateSchoolController::class, 'edit_gradschool']);
+    Route::POST('/update-graduateschool', [GraduateSchoolController::class, 'update_gradschool'])->name('update.gradschool');
+    Route::get('/all-gradschool-records', [GraduateSchoolController::class, 'allgradschoolRecords'])->name('gradschool.records');
+
 });
