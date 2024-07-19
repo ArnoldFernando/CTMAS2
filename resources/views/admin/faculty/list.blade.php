@@ -66,8 +66,8 @@
                                             <td>{{ $faculty['college'] }}</td>
                                             <td>
                                                 @if ($faculty->image)
-                                                    <img src="{{ asset('images/' . $faculty->image) }}"
-                                                        alt="Faculty Photo" class="img-fluid" style="height: 3rem;">
+                                                    <img src="{{ asset('faculty-images/' . $faculty->image) }}"
+                                                        alt="Faculty Photo" class="img-fluid" style="height: 1.5rem;">
                                                 @else
                                                     <img src="{{ asset('IMG/default.jpg') }}" class="img-fluid"
                                                         alt="" style="border-radius: 50%; height:25px;">
