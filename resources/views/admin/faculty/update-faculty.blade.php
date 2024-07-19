@@ -31,7 +31,7 @@
                         <div class="mb-3">
                             <label for="college" class="form-label">Faculty college</label>
                             <input type="text" name="college" placeholder="input faculty college"
-                                value="{{ $Faculty_and_staff['faculty_id'] }}" class="form-control">
+                                value="{{ $Faculty_and_staff['college'] }}" class="form-control">
                         </div>
 
                         <div class="mb-3">
