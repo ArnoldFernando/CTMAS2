@@ -95,13 +95,10 @@ class FacultyController extends Controller
         $todayDate = now()->timezone('Asia/Manila')->toDateString();
 
         // Get filter dates from the request
-        $startDate = $request->input('start_date');
+        $startDate = $request->input('start_date') ?? '07/01/2024';
         $endDate = $request->input('end_date');
 
         // Default to today if no dates are provided
-        if (!$startDate) {
-            $startDate = $todayDate;
-        }
         if (!$endDate) {
             $endDate = $todayDate;
         }
@@ -126,7 +123,7 @@ class FacultyController extends Controller
         }
 
         $sessionsByDay = $filteredSessions->groupBy(function ($session) {
-            return $session->created_at->format('Y-m-d');
+            return $session->created_at->format('F j, Y');
         });
 
         return view('admin.faculty.all-faculty-records', [
