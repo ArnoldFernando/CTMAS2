@@ -24,7 +24,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <form action="{{ route('faculty.records') }}" method="GET">
+                                        <form action="{{ route('faculty-records.pdf') }}" method="GET">
                                             <div class="form-group px-2">
                                                 <label for="start_date">Start Date:</label>
                                                 <input type="date" name="start_date" id="start_date" class="form-control"
