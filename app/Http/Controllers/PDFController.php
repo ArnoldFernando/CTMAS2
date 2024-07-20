@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculty_and_staff;
 use App\Models\FacultyRecords;
+use App\Models\GraduateSchoolList;
+use App\Models\GraduateSchoolRecords;
 use App\Models\StudentList;
 use App\Models\StudentRecords;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class PDFController extends Controller
 {
+
+    // students
     public function StudentRecordsPDF(Request $request)
     {
         // Get the selected college, start date, and end date from the request
@@ -24,7 +28,8 @@ class PDFController extends Controller
 
         // Fetch student records with related student details, optionally filtered by the selected college and date range
         $query = StudentRecords::with('student')
-            ->whereBetween('created_at', [$startDate, $endDate]);
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'asc');
 
         if ($selectedCollege) {
             $query->whereHas('student', function ($query) use ($selectedCollege) {
@@ -122,26 +127,43 @@ class PDFController extends Controller
     }
 
 
-
-
-
-
-
-    public function FacultyRecordsPDF()
+    // faculties
+    public function FacultyRecordsPDF(Request $request)
     {
-        // Fetch all student records with related student details
-        $facultyRecords = FacultyRecords::with('faculty')->get();
+        // Get the selected college, start date, and end date from the request
+        $selectedCollege = $request->input('college');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Adjust the end date to include the entire day
+        $endDate = \Carbon\Carbon::parse($endDate)->endOfDay();
+
+        // Fetch student records with related student details, optionally filtered by the selected college and date range
+        $query = FacultyRecords::with('faculty')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'asc');
+
+        if ($selectedCollege) {
+            $query->whereHas('faculty', function ($query) use ($selectedCollege) {
+                $query->where('college', $selectedCollege);
+            });
+        }
+
+        $facultyRecords = $query->get();
 
         // Pass data to the view
         $data = [
             'facultyRecords' => $facultyRecords
         ];
 
-        // Load the view and pass data
-        $pdf = PDF::loadView('admin.faculty.export-records', $data);
+        // Create a filename based on the selected college and date range
+        $filename = ($selectedCollege ? $selectedCollege : 'all') . '_student_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
 
-        // Return the generated PDF for download
-        return $pdf->download('Faculty_records.pdf');
+        // Load the view and pass data
+        $pdf = PDF::loadView('admin.faculty.export-records', $data)->setPaper([0, 0, 612, 936]);
+
+        // Return the generated PDF for download with the dynamic filename
+        return $pdf->download($filename);
     }
 
 
@@ -179,7 +201,77 @@ class PDFController extends Controller
         return $pdf->stream('faculty_attendance_report.pdf');
     }
 
+    // graduate school
+    public function GradschoolRecordsPDF(Request $request)
+    {
+        // Get the selected college, start date, and end date from the request
+        $selectedCourse = $request->input('course');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
+        // Adjust the end date to include the entire day
+        $endDate = \Carbon\Carbon::parse($endDate)->endOfDay();
+
+        // Fetch student records with related student details, optionally filtered by the selected college and date range
+        $query = GraduateSchoolRecords::with('graduateschool')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'asc');
+
+        if ($selectedCourse) {
+            $query->whereHas('graduateschool', function ($query) use ($selectedCourse) {
+                $query->where('course', $selectedCourse);
+            });
+        }
+
+        $GradschoolRecords = $query->get();
+
+        // Pass data to the view
+        $data = [
+            'GradschoolRecords' => $GradschoolRecords
+        ];
+
+        // Create a filename based on the selected college and date range
+        $filename = ($selectedCourse ? $selectedCourse : 'all') . '_student_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
+
+        // Load the view and pass data
+        $pdf = PDF::loadView('admin.graduateschool.export-records', $data)->setPaper([0, 0, 612, 936]);
+
+        // Return the generated PDF for download with the dynamic filename
+        return $pdf->download($filename);
+    }
+
+
+    public function GradschoolReports(Request $request)
+    {
+        // Define mappings for colleges
+        $courseMappings = [
+            'PHD-EM' => 'DOCTOR OF PHILOSOPHY IN EDUCATION MAJOR IN EDUCATIONAL MANAGEMENT',
+            'MAENG' => 'MASTER OF ARTS IN EDUCATION MAJOR IN ENGLISH',
+            'MAED-EM ' => 'MASTER OF ARTS MAJOR IN EDUCATIONAL MANAGEMENT',
+            'MSIT' => 'MASTER OF SCIENCE IN INFORMATION TECHNOLOGY',
+            'MST-MATH' => 'MASTER OF SCIENCE IN TEACHING MAJOR IN MATHEMATICS',
+        ];
+
+        // Get the date range from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Fetch the count of faculty records grouped by course within the date range
+        $courseCounts = GraduateSchoolList::select('course', DB::raw('COUNT(graduate_school_records.id) as total'))
+            ->leftJoin('graduate_school_records', function ($join) use ($startDate, $endDate) {
+                $join->on('graduate_school_lists.graduateschool_id', '=', 'graduate_school_records.graduateschool_id')
+                    ->whereBetween('graduate_school_records.created_at', [$startDate, $endDate]);
+            })
+            ->groupBy('course')
+            ->get()
+            ->mapWithKeys(function ($item) use ($courseMappings) {
+                return [$courseMappings[$item->course] => $item->total];
+            });
+
+        $pdf = PDF::loadView('admin.graduateschool.reports-pdf', compact('courseCounts', 'startDate', 'endDate'));
+
+        return $pdf->stream('GraduateSchool_attendance_report.pdf');
+    }
 
 
 }
