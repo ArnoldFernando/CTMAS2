@@ -88,6 +88,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/export-faculty-pdf', [PDFController::class, 'FacultyRecordsPDF'])->name('faculty-records.pdf');
     Route::get('/faculty-reports', [PDFController::class, 'FacultyReports'])->name('faculty.reports');
 
+    // Export pdf GRADUATE SCHOOL data
+    Route::get('/export-graduateschool-pdf', [PDFController::class, 'GradschoolRecordsPDF'])->name('gradschool-records.pdf');
+    Route::get('/Graduateschool-reports', [PDFController::class, 'GradschoolReports'])->name('gradschool.reports');
 
     // barcode
     Route::get('/students-barcode', [BarcodeController::class, 'studentBarcode'])->name('students.barcode');
