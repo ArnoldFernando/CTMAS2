@@ -24,7 +24,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <form action="{{ route('student-records.pdf') }}" method="GET">
+                                        <form action="{{ route('gradschool-records.pdf') }}" method="GET">
                                             <div class="form-group px-2">
                                                 <label for="start_date">Start Date:</label>
                                                 <input type="date" name="start_date" id="start_date" class="form-control"
@@ -36,16 +36,15 @@
                                                     required>
                                             </div>
                                             <div class="form-group px-2">
-                                                <label for="college">College:</label>
-                                                <select name="college" id="college" class="form-control">
-                                                    <option value="">All Colleges</option>
-                                                    <option value="CICS">CICS</option>
-                                                    <option value="CHM">CHM</option>
-                                                    <option value="CTE">CTE</option>
-                                                    <option value="CBEA">CBEA</option>
-                                                    <option value="CIT">CIT</option>
-                                                    <option value="CFAS">CFAS</option>
-                                                    <option value="CCJE">CCJE</option>
+                                                <label for="course">Course:</label>
+                                                <select name="course" id="course" class="form-control">
+                                                    <option value="">All Course</option>
+                                                    <option value="PHD-EM">PHD-EM</option>
+                                                    <option value="MAENG">MAENG</option>
+                                                    <option value="MAED-EM">MAED-EM</option>
+                                                    <option value="MSIT">MSIT</option>
+                                                    <option value="MST-MATH">MST-MATH</option>
+
                                                 </select>
                                             </div>
                                             <div class="form-group px-2 py-2">
@@ -64,7 +63,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <form action="{{ route('student.reports') }}" method="GET">
+                                        <form action="{{ route('gradschool.reports') }}" method="GET">
                                             <div class="form-group px-2">
                                                 <label for="start_date">Start Date:</label>
                                                 <input type="date" name="start_date" id="start_date" class="form-control"
