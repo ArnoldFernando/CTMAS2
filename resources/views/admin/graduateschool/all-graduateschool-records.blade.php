@@ -1,6 +1,6 @@
 <x-app-layout>
     @section('content_header')
-        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Student Records</h5>
+        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Graduate School Records</h5>
     @stop
     @section('css')
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">

@@ -1,7 +1,7 @@
 <x-app-layout>
 
     @section('content_header')
-        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Student List</h5>
+        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Graduate School List</h5>
     @stop
 
     @section('content')
