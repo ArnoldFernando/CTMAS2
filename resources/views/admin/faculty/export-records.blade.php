@@ -111,7 +111,7 @@
             Maura, Aparri, Cagayan
         </p>
         <p class="title">LIBRARY SERVICES</p>
-        <p>ATTENDANCE FOR STUDENTS LOG SHEET</p>
+        <p>ATTENDANCE FOR Faculty LOG SHEET</p>
     </header>
     <footer>
         <div class="div2">Footer Content Here</div>

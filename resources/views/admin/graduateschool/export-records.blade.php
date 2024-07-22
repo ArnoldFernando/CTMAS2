@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Student Records</title>
+    <title>Graduate School Records</title>
     <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
     <style>
         body {
