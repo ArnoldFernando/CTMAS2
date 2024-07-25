@@ -222,7 +222,7 @@
                             </div>
 
                             <div class="mb-3 position-relative">
-                                <label for="college" class="form-label">Faculty College</label>
+                                <label for="college" class="form-label">Student College</label>
                                 <select required name="college" id="college" class="form-select">
                                     <option value="" disabled selected>Select College</option>
 
