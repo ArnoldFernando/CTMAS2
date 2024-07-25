@@ -78,6 +78,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::POST('/import-student-data', [ImportDataController::class, 'importStudentData'])->name('import.student.data');
     Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
     Route::POST('/import-faculty-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
+    Route::view('/import-gradschool-data-form', 'admin.graduateschool.import-excel-data');
+    Route::POST('/import-gradschool-data', [ImportDataController::class, 'importGradschoolData'])->name('import.gradschool.data');
 
     // export pdf STUDENT data
     Route::get('/export-students-pdf', [PDFController::class, 'StudentRecordsPDF'])->name('student-records.pdf');
