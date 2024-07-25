@@ -427,7 +427,7 @@ return [
                 ],
                 [
                     'text' => 'Import Graduate School',
-                    'url' => '#',
+                    'url' => 'admin/import-gradschool-data-form',
                     'icon' => 'fas fa-fw fa-file-import',
                 ],
 
