@@ -1,8 +1,4 @@
 <x-app-layout>
-    @section('content_header')
-        <h5 class="fw-bold font"><i class="fa-solid fa-caret-right me-2 text-primary"></i>Dashboard</h5>
-    @stop
-
     @section('content')
         <style>
             .card-body {
@@ -39,8 +35,26 @@
                 height: 60px;
                 /* Adjust height to fit two items within the card body */
             }
+
+            .student {
+                height: 100vh;
+            }
+
+            .faculty {
+                height: 100vh;
+                padding-top: 1em;
+
+            }
+
+            .faculty h4 {
+                padding-top: 2em;
+            }
+
+            .space {
+                height: 10vh;
+            }
         </style>
-        <section class="content font p-4 border border-1">
+        <section class="content font p-4 border border-1 student">
             <h4 class="text-center fw-semibold font">Student Records</h4>
 
             <div class="container-fluid">
@@ -255,8 +269,9 @@
                 </div>
             </div>
         </section>
+
         {{-- FACULTY RECORD --}}
-        <section class="content font">
+        <section class="content font faculty p-4 border border-1 ">
             <h4 class="text-center fw-semibold font">Faculty Records</h4>
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
