@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty_and_staff;
+use App\Models\GraduateSchoolList;
 use App\Models\StudentList;
 use App\Models\StudentRecords;
 use Carbon\Carbon;
@@ -19,12 +21,20 @@ class StudentController extends Controller
         return view('admin.student.list', ['Student_lists' => $data]);
     }
 
+
     public function addStudent(Request $request)
     {
-        $existingStudent = StudentList::where('student_id', $request->student_id)->first();
+        // Check if the student ID exists in either StudentList or AnotherTable
+        $existingStudentInList = StudentList::where('student_id', $request->student_id)->first();
 
-        if ($existingStudent) {
-            session()->flash('error', 'Student ID already exists!');
+        $faculty = Faculty_and_staff::where('faculty_id', $request->student_id)->first();
+        $gradschool = GraduateSchoolList::where('graduateschool_id', $request->student_id)->first();
+
+        $existingStudentInAnotherTable = $faculty || $gradschool;
+
+        if ($existingStudentInList || $existingStudentInAnotherTable) {
+            // If student ID exists in either table, show an error message
+            session()->flash('error', 'Student ID already exists in the system!');
             return redirect()->back();
         }
 
@@ -34,10 +44,10 @@ class StudentController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('student-images'), $imageName);
         } else {
-            $imageName = null; // If no image is uploaded, set imageName to null or specify a default image path
+            $imageName = null; // Set imageName to null if no image is uploaded
         }
 
-        // Create new student record
+        // Create a new student record
         $addstudent = new StudentList;
         $addstudent->student_id = $request->student_id;
         $addstudent->name = $request->name;
@@ -48,9 +58,11 @@ class StudentController extends Controller
         $addstudent->updated_at = now();
         $addstudent->save();
 
+        // Flash success message
         session()->flash('success', 'Data saved successfully!');
         return redirect()->back();
     }
+
 
     public function edit_student($id)
     {

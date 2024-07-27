@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculty_and_staff;
 use App\Models\FacultyRecords;
+use App\Models\GraduateSchoolList;
+use App\Models\StudentList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -21,7 +23,14 @@ class FacultyController extends Controller
     {
         $existingFaculty = Faculty_and_staff::where('faculty_id', $request->faculty_id)->first();
 
-        if ($existingFaculty) {
+
+        $student = StudentList::where('student_id', $request->faculty_id)->first();
+        $gradschool = GraduateSchoolList::where('graduateschool_id', $request->faculty_id)->first();
+
+        $existingStudentInAnotherTable = $student || $gradschool;
+
+
+        if ($existingFaculty || $existingStudentInAnotherTable) {
             session()->flash('error', 'Faculty ID already exists!');
             return redirect()->back();
         }
