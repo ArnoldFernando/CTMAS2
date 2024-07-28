@@ -12,14 +12,21 @@ class ImportDataController extends Controller
 {
     public function importStudentData(Request $request)
     {
-
         $request->validate([
             'file' => 'required|file|mimes:xls,xlsx',
         ]);
-        Excel::import(new ImportStudentData, $request->file('file'));
 
-        return redirect()->route('student.list')->with('status', 'Imported successfully');
+        $import = new ImportStudentData;
+        Excel::import($import, $request->file('file'));
+
+        $existingRecords = $import->getExistingRecords();
+
+        return redirect()->route('student.list')->with([
+            'status' => 'Imported successfully',
+            'existingRecords' => $existingRecords
+        ]);
     }
+
 
     public function importFacultyData(Request $request)
     {
