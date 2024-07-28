@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use App\Models\Faculty_and_staff;
+use App\Models\GraduateSchoolList;
 use App\Models\StudentList;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -10,29 +12,50 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class ImportStudentData implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    private $existingRecords;
+
+    public function __construct()
+    {
+        $this->existingRecords = collect();
+    }
+
     public function model(array $row)
     {
-        $studentId = $row['student_id'];
+        $studentId = $row['student_id'] ?? null;
+        $facultyId = $row['faculty_id'] ?? null;
+        $graduateSchoolId = $row['graduateschool_id'] ?? null;
 
-        // Check if the student ID already exists in the database
-        $existingStudent = StudentList::where('student_id', $studentId)->first();
+        // Check if the IDs already exist in the respective tables
+        $existingStudent = $studentId ? StudentList::where('student_id', $studentId)->first() : null;
+        $existingFaculty = $facultyId ? Faculty_and_staff::where('faculty_id', $facultyId)->first() : null;
+        $existingGraduateSchool = $graduateSchoolId ? GraduateSchoolList::where('graduateschool_id', $graduateSchoolId)->first() : null;
 
-        // If the student ID doesn't exist, create a new record
-        if (!$existingStudent) {
+        if (!$existingStudent && !$existingFaculty && !$existingGraduateSchool) {
             return new StudentList([
-                'student_id' => $row['student_id'],
+                'student_id' => $studentId,
+
                 'name' => $row['name'],
                 'course' => $row['course'],
                 'college' => $row['college']
             ]);
         } else {
-            // If the student ID already exists, skip this row
+            // Collect the IDs that already exist and specify the table
+            if ($existingStudent) {
+                $this->existingRecords->push(['id' => $studentId, 'type' => 'student', 'table' => 'StudentList']);
+            }
+            if ($existingFaculty) {
+                $this->existingRecords->push(['id' => $facultyId, 'type' => 'faculty', 'table' => 'FacultyList']);
+            }
+            if ($existingGraduateSchool) {
+                $this->existingRecords->push(['id' => $graduateSchoolId, 'type' => 'graduate school', 'table' => 'GraduateSchoolList']);
+            }
+
             return null;
         }
+    }
+
+    public function getExistingRecords()
+    {
+        return $this->existingRecords;
     }
 }
