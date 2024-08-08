@@ -433,7 +433,22 @@ return [
 
             ],
         ],
+        // **********************************************
+        ['header' => ' COMPUTER'],
+        [
+            'text' => 'Start Session',
+            'url' => 'admin/computer-page',
+            'target' => '_blank',
+            'icon' => 'fas fa-fw fa-play',
+            'icon_color' => 'green',
 
+        ],
+        [
+            'text' => 'Computer log Book',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        // ********************************************
         ['header' => 'account_settings'],
         [
             'text' => 'Profile',
@@ -444,6 +459,11 @@ return [
             'text' => 'change_password',
             'url' => '#',
             'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
+            'text' => 'User List',
+            'url' => 'admin/userlist',
+            'icon' => 'fas fa-fw fa-user',
         ],
 
 
