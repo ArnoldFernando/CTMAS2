@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\ComputerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GraduateSchoolController;
 use App\Http\Controllers\ImportDataController;
+use App\Http\Controllers\SuperAdmin\SuperAdminController;
+use App\Http\Middleware\SuperAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,5 +117,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('edit-gradschool/{id}', [GraduateSchoolController::class, 'edit_gradschool']);
     Route::POST('/update-graduateschool', [GraduateSchoolController::class, 'update_gradschool'])->name('update.gradschool');
     Route::get('/all-gradschool-records', [GraduateSchoolController::class, 'allgradschoolRecords'])->name('gradschool.records');
+
+    // computer log book
+    Route::get('/computer-page', [ComputerController::class, 'computerPage'])->name('computer.page');
+    Route::post('/computer-time', [ComputerController::class, 'handleComputerTime'])->name('computer-time');
+
+
+    // Super Admin
+    // Userlist
+    Route::get('/userlist', [SuperAdminController::class, 'userlist'])->name('userlist');
+
 
 });
