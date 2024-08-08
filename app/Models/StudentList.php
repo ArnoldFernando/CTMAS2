@@ -21,4 +21,8 @@ class StudentList extends Model
     {
         return $this->hasMany(StudentRecords::class, 'student_id', 'student_id');
     }
+    public function computerRecords()
+    {
+        return $this->hasMany(ComputerRecords::class, 'student_id', 'student_id');
+    }
 }
