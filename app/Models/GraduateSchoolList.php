@@ -19,4 +19,9 @@ class GraduateSchoolList extends Model
     {
         return $this->hasMany(GraduateSchoolRecords::class, 'graduateschool_id', 'graduateschool_id');
     }
+
+    public function computerRecords()
+    {
+        return $this->hasMany(ComputerRecords::class, 'graduateschool_id', 'graduateschool_id');
+    }
 }

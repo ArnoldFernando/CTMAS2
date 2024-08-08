@@ -20,4 +20,10 @@ class Faculty_and_staff extends Model
     {
         return $this->hasMany(FacultyRecords::class, 'faculty_id', 'faculty_id');
     }
+
+
+    public function computerRecords()
+    {
+        return $this->hasMany(ComputerRecords::class, 'faculty_id', 'faculty_id');
+    }
 }
