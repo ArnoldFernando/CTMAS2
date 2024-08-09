@@ -24,7 +24,7 @@ class SessionController extends Controller
             ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
             ->orderByDesc('total_records')
             ->get();
-        return view('admin..session.start-session', compact('rankedStudents'));
+        return view('admin.student.session.start-session', compact('rankedStudents'));
     }
 
     public function handleTime(Request $request)
@@ -275,7 +275,7 @@ class SessionController extends Controller
             $student->duration = $timeOut ? $timeOut->diff($timeIn)->format('%H:%I:%S') : 'N/A';
         }
 
-        return view('admin.session.active-session', [
+        return view('admin.student.session.active-session', [
             'studentsTimedInToday' => $studentsTimedInToday,
         ]);
     }
