@@ -15,9 +15,9 @@ class ComputerController extends Controller
 {
     public function computerPage()
     {
-        $rankedStudents = DB::table('computer_records')
-            ->join('student_lists', 'computer_records.student_id', '=', 'student_lists.student_id')
-            ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(computer_records.id) as total_records'))
+        $rankedStudents = DB::table('student_records')
+            ->join('student_lists', 'student_records.student_id', '=', 'student_lists.student_id')
+            ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(student_records.id) as total_records'))
             ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
             ->orderByDesc('total_records')
             ->get();
@@ -34,14 +34,14 @@ class ComputerController extends Controller
         // Check if the ID exists in the student, faculty, or graduate school table
         $student = StudentList::where('student_id', $id)->first();
         $faculty = Faculty_and_staff::where('faculty_id', $id)->first();
-        $graduateschool = GraduateSchoolList::where('graduateschool_id', $id)->first();
+        $gradschool = GraduateSchoolList::where('graduateschool_id', $id)->first();
 
         if ($student) {
             return $this->handleComputerRecordTime($id, 'student', $student);
         } elseif ($faculty) {
             return $this->handleComputerRecordTime($id, 'faculty', $faculty);
-        } elseif ($graduateschool) {
-            return $this->handleComputerRecordTime($id, 'graduateschool', $graduateschool);
+        } elseif ($gradschool) {
+            return $this->handleComputerRecordTime($id, 'gradschool', $gradschool);
         } else {
             return redirect()->back()->with('idnotexist', 'ID does not exist.');
         }
