@@ -117,7 +117,7 @@
 
 <body>
     {{-- Sweet Alert --}}
-    @extends('admin.student.session.notification')
+    @extends('admin.computer.notification')
 
     <div class="container-fluid bg-light dark d-flex flex-column min-vh-100 p-3 body ict">
 
@@ -191,7 +191,7 @@
                         <div class="row p-1">
                             <div class="text-center">
                                 @php
-                                    $sessionTypes = ['student', 'faculty', 'gradschool'];
+                                    $sessionTypes = ['student', 'faculty', 'graduateschool'];
                                     $imagePath = 'IMG/default.jpg';
                                     $name = 'N/A';
                                     $course = 'N/A';
