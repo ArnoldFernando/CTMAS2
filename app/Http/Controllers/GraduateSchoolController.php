@@ -37,7 +37,7 @@ class GraduateSchoolController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('graduateschool-images'), $imageName);
+            $image->move(public_path('gradschool-images'), $imageName);
         } else {
             $imageName = null; // If no image is uploaded, set imageName to null or specify a default image path
         }
@@ -58,7 +58,7 @@ class GraduateSchoolController extends Controller
 
     public function edit_gradschool($id)
     {
-        $gradschool = GraduateSchoolList::findOrFail($id); // Assuming you're fetching a student from the database
+        $gradschool = GraduateSchoolList::findOrFail($id); // Assuming you're fetching a graduateschool from the database
         return view('admin.graduateschool.update-graduateschool', ['GradSchool_list' => $gradschool]);
     }
 
@@ -72,7 +72,7 @@ class GraduateSchoolController extends Controller
         if ($req->hasFile('image')) {
             $image = $req->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('graduateschool-images'), $imageName);
+            $image->move(public_path('gradschool-images'), $imageName);
 
             // Update the image field with the new image
             $data->image = $imageName;

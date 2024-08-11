@@ -47,10 +47,8 @@
 
                                                 </select>
                                             </div>
-                                            <div class="form-group px-2 py-2">
-                                                <button type="submit" class="btn btn-primary w-100">
-                                                    <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
-                                                </button>
+                                            <div class="form-group px-2 py-2 ">
+                                                <input type="submit" value="Export PDF" class="btn btn-primary w-100">
                                             </div>
                                         </form>
                                     </li>
@@ -85,9 +83,7 @@
                                                     readonly>
                                             </div>
                                             <div class="form-group px-2 py-2">
-                                                <button type="submit" class="btn btn-primary w-100">
-                                                    <i class="fa-solid fa-file-export me-1"></i> Filter Reports
-                                                </button>
+                                                <input type="submit" value="Export Reports" class="btn btn-primary w-100">
                                             </div>
                                         </form>
                                     </li>
@@ -138,7 +134,7 @@
                 <hr class="mt-0">
                 <div class="row">
                     <div class="col-12">
-                        <form method="GET" action="{{ route('student.records') }}" class="form-inline">
+                        <form method="GET" action="{{ route('gradschool.records') }}" class="form-inline">
                             <div class="form-group mb-2 col-md-7 text-dark">
                                 <label for="start_date" class="mr-2">Start Date:</label>
                                 <input type="date" id="start_date" name="start_date" class="form-control px-3"

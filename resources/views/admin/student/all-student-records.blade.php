@@ -48,10 +48,8 @@
                                                     <option value="CCJE">CCJE</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group px-2 py-2">
-                                                <button type="submit" class="btn btn-primary w-100">
-                                                    <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
-                                                </button>
+                                            <div class="form-group px-2 py-2 ">
+                                                <input type="submit" value="Export PDF" class="btn btn-primary w-100">
                                             </div>
                                         </form>
                                     </li>
@@ -86,9 +84,7 @@
                                                     readonly>
                                             </div>
                                             <div class="form-group px-2 py-2">
-                                                <button type="submit" class="btn btn-primary w-100">
-                                                    <i class="fa-solid fa-file-export me-1"></i> Filter Reports
-                                                </button>
+                                                <input type="submit" value="Export Reports" class="btn btn-primary w-100">
                                             </div>
                                         </form>
                                     </li>

@@ -23,6 +23,7 @@ class SessionController extends Controller
             ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(student_records.id) as total_records'))
             ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
             ->orderByDesc('total_records')
+            ->take(10)
             ->get();
         return view('admin..session.start-session', compact('rankedStudents'));
     }

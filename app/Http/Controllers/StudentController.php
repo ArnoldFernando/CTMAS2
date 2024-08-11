@@ -142,7 +142,7 @@ class StudentController extends Controller
             return $session->created_at->format('F j, Y');
         });
 
-        return view('admin.student.session.all-student-records', [
+        return view('admin.student.all-student-records', [
             'sessionsByDay' => $sessionsByDay,
             'startDate' => $startDate,
             'endDate' => $endDate->format('Y-m-d'),

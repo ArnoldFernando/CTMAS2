@@ -22,6 +22,19 @@
             font-family: 'Nunito';
         }
 
+        .container-fluid {
+            background-color: #F9DBBA;
+
+        }
+
+        .body .row-1 {
+            background-color: #F9DBBA;
+        }
+
+        .scan {
+            background-color: #f0f0f0
+        }
+
         .font {
             font-family: 'Poppins';
         }
@@ -116,8 +129,8 @@
     {{-- Sweet Alert --}}
     @extends('admin.session.notification')
 
-    <div class="container-fluid bg-light dark d-flex flex-column min-vh-100 p-3 body">
-        <div class="row">
+    <div class="container-fluid  d-flex flex-column min-vh-100 p-3 body">
+        <div class="row row-1">
             <div class="container p-2 text-dark col-7">
                 <h1 id="typingText" class="fw-bold display-1 ms-5  font h1"></h1>
                 <div class="d-flex flex-column justify-content-between align-items-start mt-auto mb-5 rank">
@@ -167,12 +180,12 @@
 
             <div class="container p-2 col-5">
                 <div class="d-flex justify-content-center align-items-center px-5">
-                    <div class="bg-secondary bg-opacity-50 p-3 rounded-3" style="width: 500px;">
+                    <div class="bg-light bg-opacity-70 p-3 rounded-3" style="width: 500px;">
                         <h2 class="h4 fw-bold mb-3">Start Session</h2>
 
                         <form id="timeForm" action="{{ route('student-time') }}" method="POST">
                             @csrf
-                            <label for="student_id" class="fw-semibold">Student ID:</label>
+                            <label for="student_id" class="fw-semibold">Scan ID:</label>
                             <input type="password" class="form-control" id="student_id" name="id" required
                                 autofocus>
                             <button type="submit" style="display: none;">Submit</button>
@@ -183,7 +196,7 @@
                 {{-- Student Displayed Data --}}
 
                 <div class="px-5">
-                    <div class="container rounded-3 mt-3 bg-secondary bg-opacity-25 p-3" style="width: 500px;">
+                    <div class="container rounded-3 mt-3 bg-light bg-opacity-70 p-3" style="width: 500px;">
                         <div class="row p-1">
                             <div class="text-center">
                                 @php

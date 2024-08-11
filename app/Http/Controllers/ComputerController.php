@@ -20,6 +20,7 @@ class ComputerController extends Controller
             ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(computer_records.id) as total_records'))
             ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
             ->orderByDesc('total_records')
+            ->take(10)
             ->get();
         return view('admin.computer.start-session', compact('rankedStudents'));
     }

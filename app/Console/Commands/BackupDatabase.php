@@ -22,7 +22,7 @@ class BackupDatabase extends Command
         $dbHost = env('DB_HOST', '127.0.0.1');
         $backupPath = public_path('backupdatabase/' . $dbName . '_' . now()->format('Y_m_d_H_i_s') . '.sql');
 
-        $command = "\"C:\\xampp\\mysql\\bin\\mysqldump\" --user={$dbUser} --password={$dbPass} --host={$dbHost} {$dbName} > {$backupPath}";
+        $command = "\"C:\\xampp\\mysql\\bin\\mysqldump.exe\" --user={$dbUser} --password={$dbPass} --host={$dbHost} {$dbName} > \"{$backupPath}\"";
 
 
 

@@ -4,7 +4,6 @@
             .card-body {
                 position: relative;
                 height: 120px;
-                /* Adjust height to fit two records */
                 overflow: hidden;
             }
 
@@ -15,6 +14,10 @@
                 padding: 0;
                 list-style: none;
                 animation: scroll 20s linear infinite;
+            }
+
+            .card-body.no-scroll .scroll-list {
+                animation: none;
             }
 
             .card-body:hover .scroll-list {
@@ -32,8 +35,7 @@
             }
 
             .list-group-item {
-                height: 60px;
-                /* Adjust height to fit two items within the card body */
+                height: 45px;
             }
 
             .student {
@@ -43,7 +45,6 @@
             .faculty {
                 height: 100vh;
                 padding-top: 1em;
-
             }
 
             .faculty h4 {
@@ -127,7 +128,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-info fw-bold font">Daily Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($dailyStudentCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="daily-records-list">
                                     @foreach ($dailyStudentCounts as $dailyCount)
                                         <li
@@ -138,15 +139,17 @@
                                     @endforeach
                                 </ul>
                                 <!-- Clone the list for infinite scrolling -->
-                                <ul class="list-group scroll-list" id="daily-records-list-clone">
-                                    @foreach ($dailyStudentCounts as $dailyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $dailyCount->course }}
-                                            <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($dailyStudentCounts) > 2)
+                                    <ul class="list-group scroll-list" id="daily-records-list-clone">
+                                        @foreach ($dailyStudentCounts as $dailyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $dailyCount->course }}
+                                                <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -154,7 +157,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-success fw-bold font">Weekly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($weeklyStudentCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="weekly-records-list">
                                     @foreach ($weeklyStudentCounts as $weeklyCount)
                                         <li
@@ -164,16 +167,18 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <!-- Clone the list for infinite scrolling -->
-                                <ul class="list-group scroll-list" id="weekly-records-list-clone">
-                                    @foreach ($weeklyStudentCounts as $weeklyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $weeklyCount->course }}
-                                            <span class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($weeklyStudentCounts) > 2)
+                                    <ul class="list-group scroll-list" id="weekly-records-list-clone">
+                                        @foreach ($weeklyStudentCounts as $weeklyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $weeklyCount->course }}
+                                                <span
+                                                    class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -181,7 +186,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-warning fw-bold font">Monthly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($monthlyStudentCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="monthly-records-list">
                                     @foreach ($monthlyStudentCounts as $monthlyCount)
                                         <li
@@ -191,16 +196,18 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <!-- Clone the list for infinite scrolling -->
-                                <ul class="list-group scroll-list" id="monthly-records-list-clone">
-                                    @foreach ($monthlyStudentCounts as $monthlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $monthlyCount->course }}
-                                            <span class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($monthlyStudentCounts) > 2)
+                                    <ul class="list-group scroll-list" id="monthly-records-list-clone">
+                                        @foreach ($monthlyStudentCounts as $monthlyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $monthlyCount->course }}
+                                                <span
+                                                    class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -208,7 +215,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-danger fw-bold font">Yearly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($yearlyStudentCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="yearly-records-list">
                                     @foreach ($yearlyStudentCounts as $yearlyCount)
                                         <li
@@ -218,19 +225,22 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <!-- Clone the list for infinite scrolling -->
-                                <ul class="list-group scroll-list" id="yearly-records-list-clone">
-                                    @foreach ($yearlyStudentCounts as $yearlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $yearlyCount->course }}
-                                            <span class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($yearlyStudentCounts) > 2)
+                                    <ul class="list-group scroll-list" id="yearly-records-list-clone">
+                                        @foreach ($yearlyStudentCounts as $yearlyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $yearlyCount->course }}
+                                                <span
+                                                    class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             {{--  <hr class="mt-0">  --}}
@@ -344,7 +354,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-info fw-bold font">Daily Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($dailyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="daily-record-list">
                                     @foreach ($dailyFacultyCounts as $dailyCount)
                                         <li
@@ -354,23 +364,26 @@
                                         </li>
                                     @endforeach
                                 </ul>
-
-                                <ul class="list-group scroll-list" id="daily-record-list-clone">
-                                    @foreach ($dailyFacultyCounts as $dailyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $dailyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $dailyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($dailyFacultyCounts) > 2)
+                                    <ul class="list-group scroll-list" id="daily-record-list-clone">
+                                        @foreach ($dailyFacultyCounts as $dailyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $dailyCount->college ?? 'No College' }}
+                                                <span
+                                                    class="badge badge-primary badge-pill">{{ $dailyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-success fw-bold font">Weekly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($weeklyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="weekly-record-list">
                                     @foreach ($weeklyFacultyCounts as $weeklyCount)
                                         <li
@@ -380,24 +393,26 @@
                                         </li>
                                     @endforeach
                                 </ul>
-
-                                <ul class="list-group scroll-list" id="weekly-record-list-clone">
-                                    @foreach ($weeklyFacultyCounts as $weeklyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $weeklyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $weeklyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-
+                                @if (count($weeklyFacultyCounts) > 2)
+                                    <ul class="list-group scroll-list" id="weekly-record-list-clone">
+                                        @foreach ($weeklyFacultyCounts as $weeklyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $weeklyCount->college ?? 'No College' }}
+                                                <span
+                                                    class="badge badge-primary badge-pill">{{ $weeklyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-warning fw-bold font">Monthly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($monthlyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="monthly-record-list">
                                     @foreach ($monthlyFacultyCounts as $monthlyCount)
                                         <li
@@ -407,23 +422,26 @@
                                         </li>
                                     @endforeach
                                 </ul>
-
-                                <ul class="list-group scroll-list" id="monthly-record-list-clone">
-                                    @foreach ($monthlyFacultyCounts as $monthlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $monthlyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $monthlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($monthlyFacultyCounts) > 2)
+                                    <ul class="list-group scroll-list" id="monthly-record-list-clone">
+                                        @foreach ($monthlyFacultyCounts as $monthlyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $monthlyCount->college ?? 'No College' }}
+                                                <span
+                                                    class="badge badge-primary badge-pill">{{ $monthlyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="card">
                             <h5 class="card-header bg-danger fw-bold font">Yearly Records</h5>
-                            <div class="card-body">
+                            <div class="card-body {{ count($yearlyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
                                 <ul class="list-group scroll-list" id="yearly-record-list">
                                     @foreach ($yearlyFacultyCounts as $yearlyCount)
                                         <li
@@ -433,19 +451,22 @@
                                         </li>
                                     @endforeach
                                 </ul>
-
-                                <ul class="list-group scroll-list" id="yearly-record-list-clone">
-                                    @foreach ($yearlyFacultyCounts as $yearlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $yearlyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $yearlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($yearlyFacultyCounts) > 2)
+                                    <ul class="list-group scroll-list" id="yearly-record-list-clone">
+                                        @foreach ($yearlyFacultyCounts as $yearlyCount)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $yearlyCount->college ?? 'No College' }}
+                                                <span
+                                                    class="badge badge-primary badge-pill">{{ $yearlyCount->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                 </div>
                 {{--  <hr class="mt-0">  --}}
                 <div class="row font">
