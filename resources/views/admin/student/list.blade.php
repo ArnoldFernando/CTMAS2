@@ -85,8 +85,8 @@
                                             <td>{{ $student['college'] }}</td>
                                             <td>{{ $student['image'] }}</td>
                                             <td>
-                                                <a href="{{ 'delete/' . $student['id'] }}"
-                                                    class="d-inline btn btn-danger">Delete</a>
+                                                {{--  <a href="{{ 'delete/' . $student['id'] }}"
+                                                    class="d-inline btn btn-danger">Delete</a>  --}}
                                                 <a href="{{ 'edit/' . $student['id'] }}"
                                                     class="d-inline btn btn-primary">Update</a>
                                             </td>
@@ -120,9 +120,9 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ 'delete/' . $student['id'] }}"
-                                                        class="d-inline btn btn-danger">Delete</a> <a
-                                                        href="{{ 'edit/' . $student['id'] }}"
+                                                    {{--  <a href="{{ 'delete/' . $student['id'] }}"
+                                                        class="d-inline btn btn-danger">Delete</a>   --}}
+                                                    <a href="{{ 'edit/' . $student['id'] }}"
                                                         class="d-inline btn btn-primary">Update</a>
                                                 </td>
 

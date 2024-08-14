@@ -157,7 +157,7 @@ class PDFController extends Controller
         ];
 
         // Create a filename based on the selected college and date range
-        $filename = ($selectedCollege ? $selectedCollege : 'all') . '_student_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
+        $filename = ($selectedCollege ? $selectedCollege : 'all') . '_faculty_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
 
         // Load the view and pass data
         $pdf = PDF::loadView('admin.faculty.export-records', $data)->setPaper([0, 0, 612, 936]);
@@ -231,7 +231,7 @@ class PDFController extends Controller
         ];
 
         // Create a filename based on the selected college and date range
-        $filename = ($selectedCourse ? $selectedCourse : 'all') . '_student_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
+        $filename = ($selectedCourse ? $selectedCourse : 'all') . 'graduateschool_records_' . $startDate . '_to_' . $endDate->format('Y-m-d') . '.pdf';
 
         // Load the view and pass data
         $pdf = PDF::loadView('admin.graduateschool.export-records', $data)->setPaper([0, 0, 612, 936]);

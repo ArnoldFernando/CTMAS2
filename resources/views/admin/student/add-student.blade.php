@@ -131,79 +131,7 @@
                                     placeholder="Input Student name" class="form-control">
                             </div>
 
-                            <style>
-                                /* Define custom background colors for colleges */
-                                .college-cbea {
-                                    background-color: #f0ad4e;
-                                    color: #fff;
-                                }
 
-                                .college-ccje {
-                                    background-color: #d9534f;
-                                    color: #fff;
-                                }
-
-                                .college-chm {
-                                    background-color: #5bc0de;
-                                    color: #fff;
-                                }
-
-                                .college-cfas {
-                                    background-color: #5bc0de;
-                                    color: #fff;
-                                }
-
-                                .college-cit {
-                                    background-color: #337ab7;
-                                    color: #fff;
-                                }
-
-                                .college-cics {
-                                    background-color: #5cb85c;
-                                    color: #fff;
-                                }
-
-                                .college-cted {
-                                    background-color: #d9534f;
-                                    color: #fff;
-                                }
-
-                                /* Define custom background colors for courses */
-                                .course-bsais {
-                                    background-color: #f0ad4e;
-                                    color: #fff;
-                                }
-
-                                .course-bscrim {
-                                    background-color: #d9534f;
-                                    color: #fff;
-                                }
-
-                                .course-bshm {
-                                    background-color: #5bc0de;
-                                    color: #fff;
-                                }
-
-                                .course-bsfas {
-                                    background-color: #5bc0de;
-                                    color: #fff;
-                                }
-
-                                .course-bsindtech {
-                                    background-color: #337ab7;
-                                    color: #fff;
-                                }
-
-                                .course-bsit {
-                                    background-color: #5cb85c;
-                                    color: #fff;
-                                }
-
-                                .course-cted {
-                                    background-color: #d9534f;
-                                    color: #fff;
-                                }
-                            </style>
 
                             <div class="mb-3">
                                 <label for="course" class="form-label">Student Course</label>
@@ -266,3 +194,80 @@
         </div>
     @stop
 </x-app-layout>
+
+
+
+<style>
+    /* Define custom background colors for colleges */
+    .college-cbea {
+        background-color: #F4CE14;
+        color: #fff;
+    }
+
+
+    .college-ccje {
+        background-color: #d9534f;
+        color: #fff;
+    }
+
+    .college-chm {
+        background-color: #FF4E88;
+        color: #fff;
+    }
+
+    .college-cfas {
+        background-color: #3795BD;
+        color: #fff;
+    }
+
+    .college-cit {
+        background-color: #1F316F;
+        color: #fff;
+    }
+
+    .college-cics {
+        background-color: #FF8343;
+        color: #fff;
+    }
+
+    .college-cted {
+        background-color: #5bc0de;
+        color: #fff;
+    }
+
+    /* Define custom background colors for courses */
+    .course-bsais {
+        background-color: #F4CE14;
+        color: #fff;
+    }
+
+    .course-bscrim {
+        background-color: #d9534f;
+        color: #fff;
+    }
+
+    .course-bshm {
+        background-color: #FF4E88;
+        color: #fff;
+    }
+
+    .course-bsfas {
+        background-color: #3795BD;
+        color: #fff;
+    }
+
+    .course-bsindtech {
+        background-color: #1F316F;
+        color: #fff;
+    }
+
+    .course-bsit {
+        background-color: #FF8343;
+        color: #fff;
+    }
+
+    .course-cted {
+        background-color: #5bc0de;
+        color: #fff;
+    }
+</style>

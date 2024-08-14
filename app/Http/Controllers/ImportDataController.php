@@ -13,10 +13,7 @@ class ImportDataController extends Controller
 {
     public function importStudentData(Request $request)
     {
-
-
         $existingRecords = null; // Initialize variable to avoid undefined variable error
-
         try {
             // Validate the file input
             $request->validate([
@@ -45,22 +42,57 @@ class ImportDataController extends Controller
     public function importFacultyData(Request $request)
     {
 
-        $request->validate([
-            'file' => 'required|file|mimes:xls,xlsx',
-        ]);
-        Excel::import(new importFacultyData, $request->file('file'));
+        $existingRecords = null; // Initialize variable to avoid undefined variable error
+        try {
+            // Validate the file input
+            $request->validate([
+                'file' => 'required|file|mimes:xls,xlsx',
+            ]);
 
-        return redirect()->route('faculty.list')->with('status', 'Imported successfully');
+            // Import the data
+            $import = new importFacultyData();
+            Excel::import($import, $request->file('file'));
+
+            // Get any existing records if the import was successful
+            $existingRecords = $import->getExistingRecords();
+
+            // Flash a success message
+            Session::flash('success', 'faculty list imported successfully.');
+        } catch (\Exception $e) {
+            // Flash an error message if import fails
+            Session::flash('error', 'Failed to import faculty list. Please check the file and try again.');
+        }
+
+        // Redirect to the student list route with any existing records (if applicable)
+        return redirect()->route('faculty.list')->with('existingRecords', $existingRecords);
     }
 
     public function importGradschoolData(Request $request)
     {
 
-        $request->validate([
-            'file' => 'required|file|mimes:xls,xlsx',
-        ]);
-        Excel::import(new importGradschoolData, $request->file('file'));
+        $existingRecords = null; // Initialize variable to avoid undefined variable error
+        try {
+            // Validate the file input
+            $request->validate([
+                'file' => 'required|file|mimes:xls,xlsx',
+            ]);
 
-        return redirect()->route('gradSchool.list')->with('status', 'Imported successfully');
+            // Import the data
+            $import = new importGradschoolData();
+            Excel::import($import, $request->file('file'));
+
+            // Get any existing records if the import was successful
+            $existingRecords = $import->getExistingRecords();
+
+            // Flash a success message
+            Session::flash('success', 'faculty list imported successfully.');
+        } catch (\Exception $e) {
+            // Flash an error message if import fails
+            Session::flash('error', 'Failed to import faculty list. Please check the file and try again.');
+        }
+
+        // Redirect to the student list route with any existing records (if applicable)
+        return redirect()->route('gradSchool.list')->with('existingRecords', $existingRecords);
+
     }
 }

@@ -4,8 +4,24 @@
             <div class="col-md-8">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-5">
-                        <h1 class="mb-4">Insert Graduate List <small class="text-muted">(Excel file)</small></h1>
-                        <form action="{{ route('import.gradschool.data') }}" method="post" enctype="multipart/form-data">
+                        <h1 class="mb-4">Insert Graduate School List <small class="text-muted">(Excel file)</small></h1>
+
+                        <!-- Success Message -->
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <!-- Error Message -->
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ route('import.gradschool.data') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="file" class="form-label">Choose Excel File</label>
@@ -22,6 +38,7 @@
         </div>
     </div>
 </x-app-layout>
+
 
 <style>
     body {

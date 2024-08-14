@@ -54,9 +54,15 @@
             .space {
                 height: 10vh;
             }
+
+            .most,
+            .least {
+                background-color: #921A40;
+                color: #fff;
+            }
         </style>
         <section class="content font p-4 border border-1 student">
-            <h4 class="text-center fw-semibold font">Student Records</h4>
+            <h4 class="text-center fw-semibold font pb-4">Student Records</h4>
 
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
@@ -118,12 +124,11 @@
                     </div>
                     <!-- ./col -->
                 </div>
-            </div><!-- /.container-fluid -->
-
+            </div>
 
             {{--  <hr class="mb-1">  --}}
-            <div class="container-fluid mt-0 font p-4">
-                {{--  <h4 class="text-center fw-semibold font">Student Records</h4>  --}}
+            <div class="container-fluid mt-0 font ">
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card">
@@ -243,14 +248,14 @@
 
                 </div>
             </div>
-            {{--  <hr class="mt-0">  --}}
+
             <div class="container-fluid mt-0 font">
                 {{-- MOST VISITED COURSE --}}
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold bg-secondary bg-opacity-50 text-black">Most Visited Course
+                            <h5 class="card-header fw-bold  most">Most Visited Course
                             </h5>
                             <div class="card-body">
                                 @if ($mostVisitedCourse)
@@ -264,7 +269,7 @@
                     </div>
                     <div class="col-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold bg-secondary bg-opacity-50 text-black">Least Visited Course
+                            <h5 class="card-header fw-bold least">Least Visited Course
                             </h5>
                             <div class="card-body">
                                 @if ($leastVisitedCourse)
@@ -282,7 +287,7 @@
 
         {{-- FACULTY RECORD --}}
         <section class="content font faculty p-4 border border-1 ">
-            <h4 class="text-center fw-semibold font">Faculty Records</h4>
+            <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
@@ -473,7 +478,7 @@
                     <div class="col-3"></div>
                     <div class="col-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold bg-secondary bg-opacity-50 text-black">Most Visited
+                            <h5 class="card-header fw-bold most">Most Visited
                                 Course</h5>
                             <div class="card-body">
                                 @if ($mostVisitedCollege)
@@ -488,7 +493,7 @@
                     </div>
                     <div class="col-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold bg-secondary bg-opacity-50 text-black">Least Visited
+                            <h5 class="card-header fw-bold least">Least Visited
                                 Course</h5>
                             <div class="card-body">
                                 @if ($leastVisitedCollege)

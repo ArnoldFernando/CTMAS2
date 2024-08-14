@@ -132,4 +132,48 @@ class ComputerController extends Controller
             'recordsTimedInToday' => $recordsTimedInToday,
         ]);
     }
+
+    public function allComputerRecords(Request $request)
+    {
+        $todayDate = now()->timezone('Asia/Manila')->toDateString();
+
+        // Get filter dates from the request
+        $startDate = $request->input('start_date') ?? '07/01/2024';
+        $endDate = $request->input('end_date');
+
+        // Default to today if no dates are provided
+        if (!$endDate) {
+            $endDate = $todayDate;
+        }
+
+        // Adjust end date to include the entire day
+        $endDate = Carbon::parse($endDate)->endOfDay();
+
+        // Get all sessions that have a time_in within the specified date range with student data
+        $filteredSessions = ComputerRecords::whereBetween('created_at', [$startDate, $endDate])
+            ->with('student', 'faculty', 'graduateSchool')
+            ->get();
+
+        foreach ($filteredSessions as $computerRecords) {
+            if ($computerRecords->time_out) {
+                $timeIn = Carbon::parse($computerRecords->time_in);
+                $timeOut = Carbon::parse($computerRecords->time_out);
+                $duration = $timeIn->diff($timeOut)->format('%H:%I:%S');
+                $computerRecords->duration = $duration;
+            } else {
+                $computerRecords->duration = null;
+            }
+        }
+
+        $sessionsByDay = $filteredSessions->groupBy(function ($session) {
+            return $session->created_at->format('F j, Y');
+        });
+
+        return view('admin.computer.all-computer-records', [
+            'sessionsByDay' => $sessionsByDay,
+            'startDate' => $startDate,
+            'endDate' => $endDate->format('Y-m-d'),
+        ]);
+    }
+
 }

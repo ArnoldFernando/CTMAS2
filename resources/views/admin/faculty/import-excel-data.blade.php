@@ -5,6 +5,21 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-5">
                         <h1 class="mb-4">Insert Faculty List <small class="text-muted">(Excel file)</small></h1>
+
+                        <!-- Success Message -->
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <!-- Error Message -->
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                         <form action="{{ route('import.faculty.data') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
@@ -22,6 +37,7 @@
         </div>
     </div>
 </x-app-layout>
+
 
 <style>
     body {

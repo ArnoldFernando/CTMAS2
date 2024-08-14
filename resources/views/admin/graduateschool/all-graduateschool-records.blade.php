@@ -133,96 +133,122 @@
 
                 <hr class="mt-0">
                 <div class="row">
-                    <div class="col-12">
-                        <form method="GET" action="{{ route('gradschool.records') }}" class="form-inline">
-                            <div class="form-group mb-2 col-md-7 text-dark">
+                    <div class="col-12 d-flex justify-content-between">
+                        <form method="GET" action="{{ route('gradschool.records') }}"
+                            class="form-inline d-flex align-items-center">
+                            <div class="form-group mb-2 text-dark">
                                 <label for="start_date" class="mr-2">Start Date:</label>
                                 <input type="date" id="start_date" name="start_date" class="form-control px-3"
                                     value="{{ $startDate }}">
-                                <div class="form-group ms-2">
-                                    <label for="end_date" class="mr-2">End Date:</label>
-                                    <input type="date" id="end_date" name="end_date" class="form-control"
-                                        value="{{ $endDate }}">
-                                    <button type="submit" class="btn btn-primary ms-1">Filter</button>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-2 col-md-5 text-dark justify-content-end  ">
-                                {{-- <label for="end_date" class="mr-2">End Date:</label> --}}
-                                <input type="text" class="form-control" placeholder="Search here...">
-                                <button type="submit" class="btn btn-primary ms-1"><i
-                                        class="fa-solid fa-magnifying-glass me-1"></i>Search</button>
+                                <label for="end_date" class="ms-2 mr-2">End Date:</label>
+                                <input type="date" id="end_date" name="end_date" class="form-control"
+                                    value="{{ $endDate }}">
+                                <button type="submit" class="btn btn-primary ms-2">Filter</button>
                             </div>
                         </form>
+
+                        <form action="{{ route('search.gradschool.records') }}" method="GET"
+                            class="d-flex align-items-center">
+                            <input type="text" name="query" placeholder="Search..." class="form-control me-2"
+                                value="{{ request()->input('query') }}">
+                            <button type="submit" class="btn btn-primary d-flex align-items-center">
+                                <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                            </button>
+                        </form>
                     </div>
+
                 </div>
+
                 <hr class="mt-0">
 
-                <div class="row mt-1 px-1">
-                    <div class="col">
-                        <div class="table-responsive" style="max-height: 600px; overflow-y: auto; position: relative;">
-                            <style>
-                                .table-responsive::-webkit-scrollbar {
-                                    display: none;
-                                }
-
-                                .table-responsive {
-                                    -ms-overflow-style: none;
-                                    /* IE and Edge */
-                                    scrollbar-width: none;
-                                    /* Firefox */
-                                }
-                            </style>
-                            <table class="table table-bordered text-center" style="margin-right: -17px;">
-                                <thead class="table-dark sticky-top">
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Student ID</th>
-                                        <th>Name</th>
-                                        <th>Course</th>
-                                        <th>Time In</th>
-                                        <th>Time Out</th>
-                                        <th>Duration</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php $counter = 1 @endphp
-                                    @foreach ($sessionsByDay->sortByDesc('created_at') as $day => $sessions)
+                @if (session('results'))
+                    <div class="row mt-1 px-1">
+                        <div class="col">
+                            <h6 class="fw-bold">Search Results:</h6>
+                            <div class="table-responsive"
+                                style="max-height: 600px; overflow-y: auto; position: relative;">
+                                <table class="table table-bordered text-center" style="margin-right: -17px;">
+                                    <thead class="table-dark sticky-top">
                                         <tr>
-                                            <td colspan="9" class="table-warning px-3 py-2">
-                                                {{ $day }}
-                                            </td>
+                                            <th>No.</th>
+                                            <th>gradschool ID</th>
+                                            <th>Name</th>
+                                            <th>Course</th>
+                                            <th>Time In</th>
+                                            <th>Time Out</th>
+                                            <th>Duration</th>
+                                            <th>Date</th>
                                         </tr>
-                                        @foreach ($sessions as $session)
+                                    </thead>
+                                    <tbody>
+                                        @php $counter = 1 @endphp
+                                        @foreach (session('results') as $result)
                                             <tr>
                                                 <td>{{ $counter++ }}</td>
-                                                <td>{{ $session->graduateschool_id }}</td>
-                                                <td>{{ $session->graduateschool->name }}</td>
-                                                <td>{{ $session->graduateschool->course }}</td>
-                                                <td>{{ $session->time_in }}</td>
-                                                <td>{{ $session->time_out ?: 'N/A' }}</td>
-                                                <td>
-                                                    @if ($session->time_out)
-                                                        @php
-                                                            $timeIn = \Carbon\Carbon::parse($session->time_in);
-                                                            $timeOut = \Carbon\Carbon::parse($session->time_out);
-                                                            $duration = $timeOut->diff($timeIn)->format('%H:%I:%S');
-                                                        @endphp
-                                                        {{ $duration }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </td>
-                                                <td>{{ $session->created_at->format('F j, Y') }}</td>
+                                                <td>{{ $result->graduateschool_id }}</td>
+                                                <td>{{ $result->graduateschool->name }}</td>
+                                                <td>{{ $result->graduateschool->course }}</td>
+                                                <td>{{ $result->time_in }}</td>
+                                                <td>{{ $result->time_out ?: 'N/A' }}</td>
+                                                <td>{{ $result->duration ?: 'N/A' }}</td>
+                                                <td>{{ $result->created_at->format('F j, Y') }}</td>
                                             </tr>
                                         @endforeach
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @elseif (isset($sessionsByDay))
+                    <div class="row mt-1 px-1">
+                        <div class="col">
+                            <div class="table-responsive"
+                                style="max-height: 600px; overflow-y: auto; position: relative;">
+                                <table class="table table-bordered text-center" style="margin-right: -17px;">
+                                    <thead class="table-dark sticky-top">
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>gradschool ID</th>
+                                            <th>Name</th>
+                                            <th>course</th>
+                                            <th>Time In</th>
+                                            <th>Time Out</th>
+                                            <th>Duration</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $counter = 1 @endphp
+                                        @foreach ($sessionsByDay as $day => $sessions)
+                                            <tr>
+                                                <td colspan="9" class="table-warning px-3 py-2">{{ $day }}
+                                                </td>
+                                            </tr>
+                                            @foreach ($sessions as $session)
+                                                <tr>
+                                                    <td>{{ $counter++ }}</td>
+                                                    <td>{{ $session->graduateschool_id }}</td>
+                                                    <td>{{ $session->graduateschool->name }}</td>
+                                                    <td>{{ $session->graduateschool->course }}</td>
+                                                    <td>{{ $session->time_in }}</td>
+                                                    <td>{{ $session->time_out ?: 'N/A' }}</td>
+                                                    <td>{{ $session->duration ?: 'N/A' }}</td>
+                                                    <td>{{ $session->created_at->format('F j, Y') }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="row mt-1 px-1">
+                        <div class="col">
+                            <p>No records found.</p>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     @stop

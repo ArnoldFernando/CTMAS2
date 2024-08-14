@@ -80,7 +80,7 @@
 <style>
     /* Define custom background colors for colleges */
     .college-cbea {
-        background-color: #f0ad4e;
+        background-color: #F4CE14;
         color: #fff;
     }
 
@@ -90,27 +90,27 @@
     }
 
     .college-chm {
-        background-color: #5bc0de;
+        background-color: #FF4E88;
         color: #fff;
     }
 
     .college-cfas {
-        background-color: #5bc0de;
+        background-color: #3795BD;
         color: #fff;
     }
 
     .college-cit {
-        background-color: #337ab7;
+        background-color: #1F316F;
         color: #fff;
     }
 
     .college-cics {
-        background-color: #5cb85c;
+        background-color: #FF8343;
         color: #fff;
     }
 
     .college-cted {
-        background-color: #d9534f;
+        background-color: #5bc0de;
         color: #fff;
     }
 </style>

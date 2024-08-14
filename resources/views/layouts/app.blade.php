@@ -67,8 +67,21 @@
             {{-- ION ICONS --}}
             <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
             <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-        @stop
 
+            <script>
+                document.addEventListener('keydown', function(event) {
+                    if (event.keyCode === 112) { // F1 key
+                        event.preventDefault(); // Prevent the default F1 behavior
+                        window.open("/admin/redirect", "_blank"); // Open the URL in a new tab
+                    }
+
+                    if (event.keyCode === 113) { // F2 key
+                        event.preventDefault(); // Prevent the default F1 behavior
+                        window.open("/admin/redirect-computer", "_blank"); // Open the URL in a new tab
+                    }
+                });
+            </script>
+        @stop
     </div>
 
 </body>

@@ -445,7 +445,7 @@ return [
         ],
         [
             'text' => 'Computer log Book',
-            'url' => '#',
+            'url' => 'admin/all-computer-records',
             'icon' => 'fas fa-fw fa-lock',
         ],
         // ********************************************
