@@ -13,9 +13,9 @@ return new class extends Migration {
 
         Schema::create('computer_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('faculty_id')->nullable();
-            $table->unsignedInteger('student_id')->nullable();
-            $table->unsignedInteger('graduateschool_id')->nullable();
+            $table->string('faculty_id')->nullable();
+            $table->string('student_id')->nullable();
+            $table->string('graduateschool_id')->nullable();
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->timestamps();

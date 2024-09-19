@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('student_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('student_id');
+            $table->string('student_id');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->timestamps();

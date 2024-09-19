@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('faculty_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('faculty_id');
+            $table->string('faculty_id');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->timestamps();
