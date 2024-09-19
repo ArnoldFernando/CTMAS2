@@ -70,10 +70,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Route::post('/time-in', [SessionController::class, 'timeIn'])->name('time-in');
     // Route::post('/time-out', [SessionController::class, 'timeOut'])->name('time-out');
     Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time');
+
+
     // search
     Route::get('/search-student', [SearchController::class, 'searchStudent'])->name('search.student');
+    Route::get('/search-student-records', [SearchController::class, 'searchStudentRecords'])->name('search.student.records');
+
     Route::get('/search-faculty', [SearchController::class, 'searchFaculty'])->name('search.faculty');
+    Route::get('/search-faculty-records', [SearchController::class, 'searchFacultyRecords'])->name('search.faculty.records');
+
     Route::get('/search-graduateschool', [SearchController::class, 'searchGradschool'])->name('search.gradschool');
+    Route::get('/search-graduateschool-records', [SearchController::class, 'searchGradschoolRecords'])->name('search.gradschool.records');
+
 
 
     // import data
@@ -121,6 +129,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // computer log book
     Route::get('/computer-page', [ComputerController::class, 'computerPage'])->name('computer.page');
     Route::post('/computer-time', [ComputerController::class, 'handleComputerTime'])->name('computer-time');
+    Route::get('/all-computer-records', [ComputerController::class, 'allComputerRecords'])->name('computer.records');
+
 
 
     // Super Admin
@@ -128,4 +138,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/userlist', [SuperAdminController::class, 'userlist'])->name('userlist');
 
 
+
+
+    // keyboard events
+    Route::get('/redirect', function () {
+        return redirect('/admin/session-page');
+    })->name('redirect.session');
+
+    Route::get('/redirect-computer', function () {
+        return redirect('/admin/computer-page');
+    })->name('redirect.computer');
 });

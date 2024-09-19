@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('faculty_and_staffs', function (Blueprint $table) {
             $table->id();
-            $table->integer('faculty_id')->unsigned()->unique();
+            $table->string('faculty_id')->unique();
             $table->string('name');
             $table->string('college')->nullable();
             $table->string('image', 300)->nullable();
