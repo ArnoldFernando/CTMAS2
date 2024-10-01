@@ -2,125 +2,153 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Faculty_and_staff;
-use App\Models\GraduateSchoolList;
-use App\Models\GraduateSchoolRecords;
+use App\Models\College;
+use App\Models\Course;
+use App\Models\FacultyList;
 use App\Models\StudentList;
+use App\Models\StudentRecords;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class GraduateSchoolController extends Controller
 {
-    //
-    public function gradschoollist()
+    public function create()
     {
-        $data = GraduateSchoolList::all()->groupBy(function ($item) {
-            return strtolower($item->course);
-        });
-        return view('admin.graduateschool.list', ['GradSchool_lists' => $data]);
+        $courses = Course::where('type', 'graduateschool')->get();
+        return view('admin.graduateschool.create', compact( 'courses'));
     }
 
-    public function addGraduateSchool(Request $request)
+    public function store(Request $request)
     {
-        $existingGradschool = GraduateSchoolList::where('graduateschool_id', $request->graduateschool_id)->first();
+        // Validate the request
+        $request->validate([
+            'student_id' => 'required|string|max:15',
+            'first_name' => 'required|string|max:50',
+            'middle_initial' => 'nullable|string|max:10',
+            'last_name' => 'required|string|max:50',
+            'course_id' => 'nullable|string|max:15',
+            'status' => 'enum:undergraduateschool,graduateschool',
+            'image' => 'nullable|max:50000', // Adjust validation as needed
+        ]);
 
-        $student = StudentList::where('student_id', $request->graduateschool_id)->first();
-        $faculty = Faculty_and_staff::where('faculty_id', $request->graduateschool_id)->first();
+        // Check if the student ID exists in either StudentList, Faculty_and_staff, or GraduateSchoolList
+        $existingStudentInList = StudentList::where('student_id', $request->student_id)->exists();
+        $existingFaculty = FacultyList::where('faculty_id', $request->student_id)->exists();
+        // $existingGraduateSchool = GraduateSchoolList::where('graduateschool_id', $request->student_id)->exists();
 
-        $existingStudentInAnotherTable = $student || $faculty;
-        if ($existingGradschool) {
-            session()->flash('error', 'Graduate School ID already exists!');
+        if ($existingStudentInList || $existingFaculty) {
+            // If student ID exists in any table, show an error message
+            session()->flash('error', 'Student ID already exists in the system!');
             return redirect()->back();
         }
 
         // Handle image upload
+        $imageName = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('gradschool-images'), $imageName);
-        } else {
-            $imageName = null; // If no image is uploaded, set imageName to null or specify a default image path
+            $image->move(public_path('student-images'), $imageName);
         }
 
-        // Create new student record
-        $gradschool = new GraduateSchoolList();
-        $gradschool->graduateschool_id = $request->graduateschool_id;
-        $gradschool->name = $request->name;
-        $gradschool->course = $request->course;
-        $gradschool->image = $imageName; // Save the image path or filename
-        $gradschool->created_at = now();
-        $gradschool->updated_at = now();
-        $gradschool->save();
+        // Create a new student record
+        StudentList::create([
+            'student_id' => $request->student_id,
+            'first_name' => $request->first_name,
+            'middle_initial' => $request->middle_initial,
+            'last_name' => $request->last_name,
+            'course_id' => $request->course_id,
+            'image' => $imageName,
+            'status' => 'graduateschool', // Or adjust based on your needs
+        ]);
 
+        // Flash success message
         session()->flash('success', 'Data saved successfully!');
         return redirect()->back();
     }
 
-    public function edit_gradschool($id)
+
+    public function index()
     {
-        $gradschool = GraduateSchoolList::findOrFail($id); // Assuming you're fetching a graduateschool from the database
-        return view('admin.graduateschool.update-graduateschool', ['GradSchool_list' => $gradschool]);
+        $data = StudentList::where('status', 'graduateschool')->get()->groupBy(function ($item) {
+            return strtolower($item->course_id);
+        });
+        return view('admin.graduateschool.index', ['GradSchool_lists' => $data]);
     }
 
 
-    public function update_gradschool(Request $req)
+    public function edit($id)
+    {
+        $courses = Course::where('type', 'graduateschool')->get();
+        $colors = [
+            '#FFDDDD', '#DDFFDD', '#DDDDFF', '#FFFFDD', '#DDFFFF',
+            '#FFDDFF', '#FFD700', '#ADD8E6', '#FFA07A', '#FFB6C1',
+        ];
+        foreach ($courses as $course) {
+            $course->bg_color = $colors[array_rand($colors)];
+        }
+        $student = Studentlist::with('course')->findOrFail($id); // Assuming you're fetching a student from the database
+        return view('admin.graduateschool.update', compact('student', 'colors',  'courses'));
+    }
+
+    public function update(Request $req, $student_id)
     {
         // Retrieve the student record
-        $data = GraduateSchoolList::find($req->id);
+        $data = StudentList::where('student_id', $student_id)->first();
+        $existingStudent = StudentList::where('student_id', $req->student_id)
+        ->where('student_id', '!=', $student_id)
+        ->first();
 
+        if ($existingStudent) {
+        session()->flash('error', 'ID already exists!');
+        return redirect()->back()->withInput();
+        }
         // Check if a new image is uploaded
         if ($req->hasFile('image')) {
             $image = $req->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('gradschool-images'), $imageName);
-
-            // Update the image field with the new image
+            $image->move(public_path('student-images'), $imageName);
             $data->image = $imageName;
         }
-
-        // Update other fields
-        $data->graduateschool_id = $req->graduateschool_id;
-        $data->name = $req->name;
-        $data->course = $req->course;
+        $data->student_id = $req->student_id;
+        $data->first_name = $req->first_name;
+        $data->middle_initial = $req->middle_initial;
+        $data->last_name = $req->last_name;
+        $data->course_id = $req->course_id;
         $data->updated_at = now();
         $data->save();
-
         session()->flash('success', 'Data saved successfully!');
-        return redirect()->route('gradSchool.list');
-    }
-
-    public function delete_gradschool(string $id)
-    {
-        $data = GraduateSchoolList::find($id);
-        $data->delete();
-
-        return redirect()->back();
+        return redirect()->route('gradschool.index');
     }
 
 
 
 
-
-    public function allgradschoolRecords(Request $request)
+    public function records(Request $request)
     {
         $todayDate = now()->timezone('Asia/Manila')->toDateString();
-
         // Get filter dates from the request
         $startDate = $request->input('start_date') ?? '07/01/2024';
         $endDate = $request->input('end_date');
-
         // Default to today if no dates are provided
         if (!$endDate) {
             $endDate = $todayDate;
         }
 
+        $colleges = College::all();
+
         // Adjust end date to include the entire day
         $endDate = Carbon::parse($endDate)->endOfDay();
 
         // Get all sessions that have a time_in within the specified date range with student data
-        $filteredSessions = GraduateSchoolRecords::whereBetween('created_at', [$startDate, $endDate])
-            ->with('graduateschool')
+        $filteredSessions = StudentRecords::whereBetween('created_at', [$startDate, $endDate])
+            ->whereHas('student', function ($query) {
+                $query->where('status', 'graduateschool');
+            })
+            ->with('student')
             ->get();
+
+            // $student = StudentList::where('status', 'undergraduateschool')
+            // ->get();
 
         foreach ($filteredSessions as $studentRecord) {
             if ($studentRecord->time_out) {
@@ -137,10 +165,12 @@ class GraduateSchoolController extends Controller
             return $session->created_at->format('F j, Y');
         });
 
-        return view('admin.graduateschool.all-graduateschool-records', [
+        return view('admin.graduateschool.records.records', [
             'sessionsByDay' => $sessionsByDay,
             'startDate' => $startDate,
             'endDate' => $endDate->format('Y-m-d'),
+            'colleges' => $colleges,
+
         ]);
     }
 

@@ -11,15 +11,21 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('student_lists', function (Blueprint $table) {
-            $table->id();
-            $table->string('student_id')->unique();
-            $table->string('name');
-            $table->string('course');
-            $table->string('college')->nullable();
-            $table->string('image', 300)->nullable();
+            $table->string('student_id', 15)->primary();
+            $table->string('first_name', 50);
+            $table->string('middle_initial', 10)->nullable();
+            $table->string('last_name', 50)->nullable();
+            $table->smallInteger('year')->nullable();
+
+            $table->string('image', 255)->nullable();
+            $table->string('college_id', 15)->nullable(); // Set college_id as string with a length of 10 characters
+            $table->string('course_id', 15)->nullable(); // Set course_id as string with a length of 10 characters
+            $table->enum('status', ['undergraduateschool', 'graduateschool'])->default('undergraduateschool');
             $table->timestamps();
 
-            $table->index('student_id');
+            // Foreign keys
+            $table->foreign('college_id')->references('college_id')->on('colleges')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('course_id')->references('course_id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

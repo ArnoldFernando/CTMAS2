@@ -12,6 +12,11 @@ class FacultyRecords extends Model
     protected $fillable = ['faculty_id', 'time_in', 'time_out'];
     public function faculty()
     {
-        return $this->belongsTo(Faculty_and_staff::class, 'faculty_id', 'faculty_id');
+        return $this->belongsTo(FacultyList::class, 'faculty_id', 'faculty_id');
+    }
+
+    public function college()
+    {
+        return $this->belongsTo(College::class);
     }
 }

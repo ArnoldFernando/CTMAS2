@@ -18,10 +18,7 @@ return new class extends Migration
             $table->time('time_out')->nullable();
             $table->timestamps();
 
-            $table->foreign('faculty_id')
-                ->references('faculty_id')
-                ->on('faculty_and_staffs')
-                ->onDelete('cascade');
+            $table->foreign('faculty_id')->references('faculty_id')->on('faculty_lists')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

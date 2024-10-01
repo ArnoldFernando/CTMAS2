@@ -1,4 +1,5 @@
 <x-app-layout>
+
     @section('content')
         <style>
             .card-body {
@@ -125,8 +126,6 @@
                     <!-- ./col -->
                 </div>
             </div>
-
-            {{--  <hr class="mb-1">  --}}
             <div class="container-fluid mt-0 font ">
 
                 <div class="row">
@@ -138,7 +137,7 @@
                                     @foreach ($dailyStudentCounts as $dailyCount)
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $dailyCount->course }}
+                                            • {{ $dailyCount->course_id }}
                                             <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
                                         </li>
                                     @endforeach
@@ -149,7 +148,7 @@
                                         @foreach ($dailyStudentCounts as $dailyCount)
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $dailyCount->course }}
+                                                • {{ $dailyCount->course_id }}
                                                 <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
                                             </li>
                                         @endforeach
@@ -167,7 +166,7 @@
                                     @foreach ($weeklyStudentCounts as $weeklyCount)
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $weeklyCount->course }}
+                                            • {{ $weeklyCount->course_id }}
                                             <span class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
                                         </li>
                                     @endforeach
@@ -177,7 +176,7 @@
                                         @foreach ($weeklyStudentCounts as $weeklyCount)
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $weeklyCount->course }}
+                                                • {{ $weeklyCount->course_id }}
                                                 <span
                                                     class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
                                             </li>
@@ -196,7 +195,7 @@
                                     @foreach ($monthlyStudentCounts as $monthlyCount)
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $monthlyCount->course }}
+                                            • {{ $monthlyCount->course_id }}
                                             <span class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
                                         </li>
                                     @endforeach
@@ -206,7 +205,7 @@
                                         @foreach ($monthlyStudentCounts as $monthlyCount)
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $monthlyCount->course }}
+                                                • {{ $monthlyCount->course_id }}
                                                 <span
                                                     class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
                                             </li>
@@ -225,7 +224,7 @@
                                     @foreach ($yearlyStudentCounts as $yearlyCount)
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $yearlyCount->course }}
+                                            • {{ $yearlyCount->course_id }}
                                             <span class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
                                         </li>
                                     @endforeach
@@ -235,7 +234,7 @@
                                         @foreach ($yearlyStudentCounts as $yearlyCount)
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $yearlyCount->course }}
+                                                • {{ $yearlyCount->course_id }}
                                                 <span
                                                     class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
                                             </li>
@@ -250,7 +249,7 @@
             </div>
 
             <div class="container-fluid mt-0 font">
-                {{-- MOST VISITED COURSE --}}
+
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-3">
@@ -259,7 +258,7 @@
                             </h5>
                             <div class="card-body">
                                 @if ($mostVisitedCourse)
-                                    <p><b>{{ $mostVisitedCourse->course }}: </b>{{ $mostVisitedCourse->count }} visits
+                                    <p><b>{{ $mostVisitedCourse->course_id }}: </b>{{ $mostVisitedCourse->count }} visits
                                     </p>
                                 @else
                                     <p>No visits recorded</p>
@@ -273,7 +272,7 @@
                             </h5>
                             <div class="card-body">
                                 @if ($leastVisitedCourse)
-                                    <p><b>{{ $leastVisitedCourse->course }}: </b>{{ $leastVisitedCourse->count }}
+                                    <p><b>{{ $leastVisitedCourse->course_id }}: </b>{{ $leastVisitedCourse->count }}
                                         Visits</p>
                                 @else
                                     <p>No visit recorded</p>
@@ -285,7 +284,7 @@
             </div>
         </section>
 
-        {{-- FACULTY RECORD --}}
+
         <section class="content font faculty p-4 border border-1 ">
             <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
             <div class="container-fluid">
@@ -353,7 +352,7 @@
                     <!-- ./col -->
                 </div>
             </div><!-- /.container-fluid -->
-            {{--  <hr class="mb-1">  --}}
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
@@ -473,7 +472,6 @@
                     </div>
 
                 </div>
-                {{--  <hr class="mt-0">  --}}
                 <div class="row font">
                     <div class="col-3"></div>
                     <div class="col-3">

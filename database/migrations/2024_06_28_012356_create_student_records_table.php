@@ -12,15 +12,24 @@ return new class extends Migration {
     {
         Schema::create('student_records', function (Blueprint $table) {
             $table->id();
-            $table->string('student_id');
+            $table->string('student_id', 15); // Student ID as a string
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->timestamps();
 
-            $table->foreign('student_id')
-                ->references('student_id')
-                ->on('student_lists')
-                ->onDelete('cascade');
+            // Foreign key to students table
+            $table->foreign('student_id')->references('student_id')->on('student_lists')->onDelete('cascade')->onUpdate('cascade');
+
+            // $table->id();
+            // $table->string('student_id');
+            // $table->time('time_in')->nullable();
+            // $table->time('time_out')->nullable();
+            // $table->timestamps();
+
+            // $table->foreign('student_id')
+            //     ->references('student_id')
+            //     ->on('student_lists')
+            //     ->onDelete('cascade');
         });
     }
 

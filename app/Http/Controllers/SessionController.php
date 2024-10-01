@@ -7,9 +7,7 @@ use App\Models\StudentList;
 use Illuminate\Http\Request;
 use App\Models\FacultyRecords;
 use App\Models\StudentRecords;
-use App\Models\Faculty_and_staff;
-use App\Models\GraduateSchoolList;
-use App\Models\GraduateSchoolRecords;
+use App\Models\FacultyList;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -20,8 +18,8 @@ class SessionController extends Controller
     {
         $rankedStudents = DB::table('student_records')
             ->join('student_lists', 'student_records.student_id', '=', 'student_lists.student_id')
-            ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(student_records.id) as total_records'))
-            ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
+            ->select('student_lists.student_id', 'student_lists.first_name', 'student_lists.course_id', DB::raw('COUNT(student_records.id) as total_records'))
+            ->groupBy('student_lists.student_id', 'student_lists.first_name', 'student_lists.course_id')
             ->orderByDesc('total_records')
             ->take(10)
             ->get();
@@ -37,15 +35,12 @@ class SessionController extends Controller
 
         // Check if the ID exists in the student or faculty table
         $student = StudentList::where('student_id', $id)->first();
-        $faculty = Faculty_and_staff::where('faculty_id', $id)->first();
-        $gradschool = GraduateSchoolList::where('graduateschool_id', $id)->first();
+        $faculty = FacultyList::where('faculty_id', $id)->first();
 
         if ($student) {
             return $this->handleStudentTime($id, $student);
         } elseif ($faculty) {
             return $this->handleFacultyTime($id, $faculty);
-        } elseif ($gradschool) {
-            return $this->handleGradschoolTime($id, $gradschool);
         } else {
             return redirect()->back()->with('idnotexist', 'ID does not exist.');
         }
@@ -190,73 +185,7 @@ class SessionController extends Controller
     }
 
 
-    protected function handleGradschoolTime($gradschoolId, $gradschool)
-    {
-        $latestRecord = GraduateSchoolRecords::where('graduateschool_id', $gradschoolId)->latest()->first();
 
-        if ($latestRecord) {
-            $recordDate = Carbon::parse($latestRecord->created_at)->toDateString();
-            $currentDate = Carbon::now()->toDateString();
-
-            if ($recordDate === $currentDate) {
-                // If the latest record is from today, check if time_out is null
-                if ($latestRecord->time_out === null) {
-                    return $this->GradschoolTimeOut($latestRecord, $gradschool);
-                } else {
-                    $timeOut = Carbon::parse($latestRecord->time_out);
-                    $currentTime = Carbon::now();
-                    $diffInSeconds = $currentTime->diffInSeconds($timeOut);
-
-                    if ($diffInSeconds < 20) {
-                        return redirect()->back()->with('20seconds-out-gradschool', 'Cannot time in within 20 seconds of time out.')
-                            ->with('gradschool', $gradschool)
-                            ->with('currentTime', Carbon::now()->format('h:i A'));
-                    }
-                }
-            } else {
-                // If the latest record is from a previous day, create a new time in record
-                return $this->GradschoolTimeIn($gradschoolId, $gradschool);
-            }
-        } else {
-            // If no record exists, create a new time in record
-            return $this->GradschoolTimeIn($gradschoolId, $gradschool);
-        }
-
-        // Default to creating a new time in record
-        return $this->GradschoolTimeIn($gradschoolId, $gradschool);
-    }
-
-    protected function GradschoolTimeIn($gradschoolId, $gradschool)
-    {
-        $record = new GraduateSchoolRecords();
-        $record->graduateschool_id = $gradschoolId;
-        $record->time_in = Carbon::now()->toTimeString();
-        $record->save();
-
-        return redirect()->back()->with('gradschoolTimein', 'Graduate School time in recorded successfully.')
-            ->with('gradschool', $gradschool)
-            ->with('currentTime', Carbon::now()->format('h:i A'));
-    }
-
-    protected function GradschoolTimeOut($latestRecord, $gradschool)
-    {
-        $timeIn = Carbon::parse($latestRecord->time_in);
-        $currentTime = Carbon::now();
-        $diffInSeconds = $currentTime->diffInSeconds($timeIn);
-
-        if ($diffInSeconds < 20) {
-            return redirect()->back()->with('20seconds-in-gradschool', 'Cannot time out within 20 seconds of time in.')
-                ->with('gradschool', $gradschool)
-                ->with('currentTime', Carbon::now()->format('h:i A'));
-        }
-
-        $latestRecord->time_out = $currentTime->toTimeString();
-        $latestRecord->save();
-
-        return redirect()->back()->with('gradschoolTimeout', 'Graduate School time out recorded successfully.')
-            ->with('gradschool', $gradschool)
-            ->with('currentTime', Carbon::now()->format('h:i A'));
-    }
 
 
 
