@@ -341,10 +341,30 @@ return [
                     'icon' => 'fas fa-fw fa-book',
                 ],
 
+                // [
+                //     'text' => 'Analysis',
+                //     'url' => 'admin/analysis',
+                //     'icon' => 'fas fa-fw fa-book',
+                // ],
+            ],
+        ],
+        [
+            'text' => 'Programs',
+            'icon' => 'fas fa-fw fa-clock',
+            'submenu' => [
                 [
-                    'text' => 'Analysis',
-                    'url' => 'admin/analysis',
-                    'icon' => 'fas fa-fw fa-book',
+                    'text' => 'add-College',
+                    'url' => 'admin/create-college',
+                    'icon' => 'fas fa-fw fa-play',
+                    'icon_color' => 'blue',
+
+                ],
+                [
+                    'text' => 'add-Course',
+                    'url' => 'admin/create-course',
+                    'icon' => 'fas fa-fw fa-play',
+                    'icon_color' => 'blue',
+
                 ],
             ],
         ],
@@ -354,12 +374,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Add Student',
-                    'url' => 'admin/add-student-form',
+                    'url' => 'admin/student/create',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Student List',
-                    'url' => 'admin/student-list',
+                    'url' => 'admin/student',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [
@@ -384,18 +404,18 @@ return [
             'icon' => 'fas fa-fw fa-user-tie',
             'submenu' => [
                 [
-                    'text' => 'Add Faculty & Staff',
-                    'url' => 'admin/add-faculty-form',
+                    'text' => 'Add Faculty',
+                    'url' => 'admin/faculty/create',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Faculty and Staff list',
-                    'url' => 'admin/faculty-list',
+                    'url' => 'admin/faculty',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [
                     'text' => 'Faculty & Staff Records',
-                    'url' => 'admin/all-faculty-records',
+                    'url' => 'admin/faculty-records',
                     'icon' => 'fas fa-fw fa-book',
                 ],
                 [
@@ -412,12 +432,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Add Graduate School',
-                    'url' => 'admin/add-graduateschool-form',
+                    'url' => 'admin/gradschool/create',
                     'icon' => 'fas fa-fw fa-plus',
                 ],
                 [
                     'text' => 'Graduate School list',
-                    'url' => 'admin/graduateSchool-list',
+                    'url' => 'admin/gradschool',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [

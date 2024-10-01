@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Faculty_and_staff;
+use App\Models\FacultyList;
 use App\Models\GraduateSchoolList;
 use App\Models\StudentList;
 use Illuminate\Support\Collection;
@@ -23,33 +24,35 @@ class ImportStudentData implements ToModel, WithHeadingRow
     {
         $studentId = $row['student_id'] ?? null;
         $facultyId = $row['faculty_id'] ?? null;
-        $graduateSchoolId = $row['graduateschool_id'] ?? null;
 
-        // Check if the IDs already exist in the respective tables
+        // Check if the ID already exists in both tables
         $existingStudent = $studentId ? StudentList::where('student_id', $studentId)->first() : null;
-        $existingFaculty = $facultyId ? Faculty_and_staff::where('faculty_id', $facultyId)->first() : null;
-        $existingGraduateSchool = $graduateSchoolId ? GraduateSchoolList::where('graduateschool_id', $graduateSchoolId)->first() : null;
+        $existingFaculty = $facultyId ? FacultyList::where('faculty_id', $facultyId)->first() : null;
 
-        if (!$existingStudent && !$existingFaculty && !$existingGraduateSchool) {
+        // Also ensure that a student_id cannot exist in FacultyList and a faculty_id cannot exist in StudentList
+        $conflictingFaculty = $studentId ? FacultyList::where('faculty_id', $studentId)->first() : null;
+        $conflictingStudent = $facultyId ? StudentList::where('student_id', $facultyId)->first() : null;
+
+        if (!$existingStudent && !$existingFaculty && !$conflictingFaculty && !$conflictingStudent) {
             return new StudentList([
                 'student_id' => $studentId,
+                'first_name' => $row['first_name'],
+                'middle_initial' => $row['middle_initial'],
+                'last_name' => $row['last_name'],
+                'year' => $row['year'],
+                'college_id' => $row['college_id'],
+                'course_id' => $row['course_id'],
+                'status' => 'undergraduateschool'
 
-                'name' => $row['name'],
-                'course' => $row['course'],
-                'college' => $row['college']
             ]);
         } else {
-            // Collect the IDs that already exist and specify the table
-            if ($existingStudent) {
-                $this->existingRecords->push(['id' => $studentId, 'type' => 'student', 'table' => 'StudentList']);
+            // Collect the conflicting IDs and specify the table they exist in
+            if ($existingStudent || $conflictingFaculty) {
+                $this->existingRecords->push(['id' => $studentId, 'type' => 'student', 'table' => $existingStudent ? 'StudentList' : 'FacultyList']);
             }
-            if ($existingFaculty) {
-                $this->existingRecords->push(['id' => $facultyId, 'type' => 'faculty', 'table' => 'FacultyList']);
+            if ($existingFaculty || $conflictingStudent) {
+                $this->existingRecords->push(['id' => $facultyId, 'type' => 'faculty', 'table' => $existingFaculty ? 'FacultyList' : 'StudentList']);
             }
-            if ($existingGraduateSchool) {
-                $this->existingRecords->push(['id' => $graduateSchoolId, 'type' => 'graduate school', 'table' => 'GraduateSchoolList']);
-            }
-
             return null;
         }
     }

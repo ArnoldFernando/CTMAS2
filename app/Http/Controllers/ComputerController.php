@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ComputerRecords;
 use App\Models\Faculty_and_staff;
+use App\Models\FacultyList;
 use App\Models\GraduateSchoolList;
 use App\Models\StudentList;
 use Carbon\Carbon;
@@ -34,15 +35,12 @@ class ComputerController extends Controller
 
         // Check if the ID exists in the student, faculty, or graduate school table
         $student = StudentList::where('student_id', $id)->first();
-        $faculty = Faculty_and_staff::where('faculty_id', $id)->first();
-        $graduateschool = GraduateSchoolList::where('graduateschool_id', $id)->first();
+        $faculty = FacultyList::where('faculty_id', $id)->first();
 
         if ($student) {
             return $this->handleComputerRecordTime($id, 'student', $student);
         } elseif ($faculty) {
             return $this->handleComputerRecordTime($id, 'faculty', $faculty);
-        } elseif ($graduateschool) {
-            return $this->handleComputerRecordTime($id, 'graduateschool', $graduateschool);
         } else {
             return redirect()->back()->with('idnotexist', 'ID does not exist.');
         }
