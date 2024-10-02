@@ -56,7 +56,7 @@ class StudentController extends Controller
             'last_name' => 'required|string|max:50',
             'college_id' => 'nullable|string|max:15',
             'course_id' => 'nullable|string|max:15',
-            'year' => 'nullable|smallint|max:10',
+            'year' => 'nullable',
             'status' => 'enum:undergraduateschool,graduateschool',
             'image' => 'nullable|max:50000', // Adjust validation as needed
         ]);
