@@ -96,6 +96,14 @@
             top: 13px;
             left: 203px;
         }
+
+        .span {
+            position: absolute;
+            right: -1px;
+            top: 60px;
+            border: solid 1px;
+            padding: 3px;
+        }
     </style>
 
 </head>
@@ -108,7 +116,7 @@
         <p>
             CAGAYAN STATE UNIVERSITY<br>
             APARRI CAMPUSES<br>
-            Maura, Aparri, Cagayan
+            Maura, Aparri, Cagayan <span class="span">F-LIB-AP-80509</span>
         </p>
         <p class="title">LIBRARY SERVICES</p>
         <p>ATTENDANCE FOR STUDENTS LOG SHEET</p>
