@@ -144,7 +144,8 @@
                                             @foreach ($rankedStudents as $key => $student)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td class="fw-bold">{{ $student->first_name }}</td>
+                                                    <td class="fw-bold">{{ $student->first_name }}
+                                                        {{ $student->middle_initial }} {{ $student->last_name }}</td>
                                                     <td class="text-muted">{{ $student->course_id }}</td>
                                                     <td class="text-muted">{{ $student->total_records }}</td>
                                                 </tr>
@@ -155,7 +156,8 @@
                                             @foreach ($rankedStudents as $key => $student)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td class="fw-bold">{{ $student->first_name }}</td>
+                                                    <td class="fw-bold">{{ $student->first_name }}
+                                                        {{ $student->middle_initial }} {{ $student->last_name }}</td>
                                                     <td class="text-muted">{{ $student->course_id }}</td>
                                                     <td class="text-muted">{{ $student->total_records }}</td>
                                                 </tr>
@@ -282,7 +284,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const text = "ICT Monitoring System Cagayan State University Aparri";
+            const text = "E-LIBRARY SERVICES Monitoring System Cagayan State University Aparri";
             const colors = ["#A50002"];
             const typingText = document.getElementById('typingText');
             let index = 0;
