@@ -13,17 +13,12 @@ class ComputerRecords extends Model
 
     public function faculty()
     {
-        return $this->belongsTo(Faculty_and_staff::class, 'faculty_id', 'faculty_id');
+        return $this->belongsTo(FacultyList::class, 'faculty_id', 'faculty_id');
     }
 
     public function student()
     {
         return $this->belongsTo(StudentList::class, 'student_id', 'student_id');
-    }
-
-    public function graduateSchool()
-    {
-        return $this->belongsTo(GraduateSchoolList::class, 'graduateschool_id', 'graduateschool_id');
     }
 
 

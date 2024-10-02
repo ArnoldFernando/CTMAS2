@@ -18,8 +18,8 @@ class ComputerController extends Controller
     {
         $rankedStudents = DB::table('computer_records')
             ->join('student_lists', 'computer_records.student_id', '=', 'student_lists.student_id')
-            ->select('student_lists.student_id', 'student_lists.name', 'student_lists.course', DB::raw('COUNT(computer_records.id) as total_records'))
-            ->groupBy('student_lists.student_id', 'student_lists.name', 'student_lists.course')
+            ->select('student_lists.student_id', 'student_lists.first_name', 'student_lists.middle_initial', 'student_lists.last_name',  'student_lists.course_id', DB::raw('COUNT(computer_records.id) as total_records'))
+            ->groupBy('student_lists.student_id', 'student_lists.first_name', 'student_lists.middle_initial', 'student_lists.last_name', 'student_lists.course_id')
             ->orderByDesc('total_records')
             ->take(10)
             ->get();
@@ -149,7 +149,7 @@ class ComputerController extends Controller
 
         // Get all sessions that have a time_in within the specified date range with student data
         $filteredSessions = ComputerRecords::whereBetween('created_at', [$startDate, $endDate])
-            ->with('student', 'faculty', 'graduateSchool')
+            ->with('student', 'faculty')
             ->get();
 
         foreach ($filteredSessions as $computerRecords) {

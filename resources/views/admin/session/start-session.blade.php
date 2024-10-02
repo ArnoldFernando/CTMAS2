@@ -202,7 +202,9 @@
                                 @php
                                     $sessionTypes = ['student', 'faculty'];
                                     $imagePath = 'IMG/default.jpg';
-                                    $name = 'N/A';
+                                    $fname = 'N/A';
+                                    $mname = 'N/A';
+                                    $lname = 'N/A';
                                     $course = 'N/A';
                                     $department = 'N/A';
                                     $typeLabel = 'Scan your Barcode';
@@ -220,7 +222,9 @@
                                                 $sessionData && $sessionData->image
                                                     ? "$type-images/{$sessionData->image}"
                                                     : $imagePath;
-                                            $name = $sessionData ? $sessionData->first_name : $name;
+                                            $fname = $sessionData ? $sessionData->first_name : $fname;
+                                            $mname = $sessionData ? $sessionData->middle_initial : $mname;
+                                            $lname = $sessionData ? $sessionData->last_name : $lname;
                                             $course =
                                                 in_array($type, ['student']) && $sessionData
                                                     ? $sessionData->course_id
@@ -244,7 +248,8 @@
                         <div class="row p-2">
                             <div class="col-9">
                                 <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:</h6>
-                                <h6 class="d-inline">{{ $name }}</h6><br>
+                                <h6 class="d-inline">{{ $fname }} {{ $mname }} {{ $lname }}</h6>
+                                <br>
                                 <hr class="mt-0">
                                 <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
                                 </h6>
@@ -271,7 +276,7 @@
         </div>
     </div>
     {{-- Script --}}
-    <script>
+    {{--  <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentIdInput = document.getElementById('student_id');
             const form = document.getElementById('timeForm');
@@ -282,7 +287,7 @@
                 }
             });
         });
-    </script>
+    </script>  --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

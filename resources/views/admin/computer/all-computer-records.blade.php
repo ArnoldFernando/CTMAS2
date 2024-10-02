@@ -143,11 +143,10 @@
                                                 </td>
                                                 <td>
                                                     @if ($session->faculty_id)
-                                                        {{ $session->faculty->name }}
+                                                        {{ $session->faculty->first_name }}{{ $session->faculty->middle_initial }}{{ $session->faculty->last_name }}
                                                     @elseif($session->student_id)
-                                                        {{ $session->student->name }}
-                                                    @elseif($session->graduateschool_id)
-                                                        {{ $session->graduateSchool->name }}
+                                                        {{ $session->student->first_name }}
+                                                        {{ $session->student->middle_initial }}{{ $session->student->last_name }}
                                                     @endif
                                                 </td>
                                                 <td>

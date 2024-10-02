@@ -64,7 +64,7 @@
                             <div class="mb-3 col-3">
                                 <label for="year" class="form-label">Year</label>
                                 <select required name="year" id="year" class="form-control">
-                                    <option value="{{ $student->year }}" disabled selected>Select Year</option>
+                                    <option value="{{ $student->year }}" selected>{{ $student->year }}</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>

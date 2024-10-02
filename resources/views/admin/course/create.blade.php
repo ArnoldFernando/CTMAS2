@@ -48,77 +48,89 @@
             </script>
         @endif
 
-        <div class="py-2 font">
+        <div class="py-4">
             <div class="container">
-                <div class="bg-secondary bg-opacity-25 shadow-sm rounded d-flex overflow-hidden">
-                    <div class="p-4 text-dark flex-fill">
-                        <form action="{{ route('store.course') }}" method="POST">
-                            @csrf
-
-                            <div class="mb-3">
-                                <label for="course_id" class="form-label">Course Accronym</label>
-                                <input type="text" required name="course_id" id="course_id"
-                                    placeholder="Input Course Accronym" class="form-control">
+                <div class="row">
+                    {{-- Form for adding new college --}}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Add Course</h5>
                             </div>
+                            <div class="card-body">
+                                <form action="{{ route('store.course') }}" method="POST">
+                                    @csrf
 
-                            <div class="mb-3">
-                                <label for="course_name" class="form-label">Course Name</label>
-                                <input type="text" required name="course_name" id="course_name"
-                                    placeholder="Input Course Name" class="form-control">
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="course_id" class="form-label">Course Accronym</label>
+                                        <input type="text" required name="course_id" id="course_id"
+                                            placeholder="Input Course Accronym" class="form-control">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label for="type" class="form-label">Course Type</label>
-                                <select name="type" id="type" class="form-select">
-                                    <option value="undergraduateschool">Undergraduate School</option>
-                                    <option value="graduateschool">Graduate School</option>
-                                </select>
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="course_name" class="form-label">Course Name</label>
+                                        <input type="text" required name="course_name" id="course_name"
+                                            placeholder="Input Course Name" class="form-control">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label for="college_id" class="form-label">College</label>
-                                <select name="college_id" id="college_id" class="form-select" required>
-                                    <option value="" disabled selected>Select College</option>
-                                    @foreach ($colleges as $college)
-                                        <option value="{{ $college->college_id }}">
-                                            {{ $college->college_id }} = {{ $college->college_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                    <div class="mb-3">
+                                        <label for="type" class="form-label">Course Type</label>
+                                        <select name="type" id="type" class="form-select">
+                                            <option value="undergraduateschool">Undergraduate School</option>
+                                            <option value="graduateschool">Graduate School</option>
+                                        </select>
+                                    </div>
 
-                            <div class="d-flex justify-content-start gap-2">
-                                <button type="submit" class="btn btn-primary px-5">Add</button>
+                                    <div class="mb-3">
+                                        <label for="college_id" class="form-label">College</label>
+                                        <select name="college_id" id="college_id" class="form-select" required>
+                                            <option value="" disabled selected>Select College</option>
+                                            @foreach ($colleges as $college)
+                                                <option value="{{ $college->college_id }}">
+                                                    {{ $college->college_id }} = {{ $college->college_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="d-flex justify-content-start gap-2">
+                                        <button type="submit" class="btn btn-primary px-5">Add</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
 
-                    <div class="flex-fill p-2 d-flex align-items-center justify-content-center">
-                        <div class="mt-4">
-                            <h5 class="fw-bold">Existing Courses</h5>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Course Code</th>
-                                        <th>Course Name</th>
-                                        <th>Type</th>
-                                        <th>College</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($courses as $course)
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0">Existing Courses</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $course->course_id }}</td>
-                                            <td>{{ $course->course_name }}</td>
-                                            <td>{{ ucfirst($course->type) }}</td>
-                                            <td>{{ $course->college ? $course->college->college_id : 'N/A' }}</td>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                            <th>Type</th>
+                                            <th>College</th>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="4" class="text-center">No courses available</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($courses as $course)
+                                            <tr>
+                                                <td>{{ $course->course_id }}</td>
+                                                <td>{{ $course->course_name }}</td>
+                                                <td>{{ ucfirst($course->type) }}</td>
+                                                <td>{{ $course->college ? $course->college->college_id : 'N/A' }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center">No courses available</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

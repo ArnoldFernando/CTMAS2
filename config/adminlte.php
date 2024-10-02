@@ -355,15 +355,15 @@ return [
                 [
                     'text' => 'add-College',
                     'url' => 'admin/create-college',
-                    'icon' => 'fas fa-fw fa-play',
-                    'icon_color' => 'blue',
+                    'icon' => 'fas fa-fw fa-plus',
+                    'icon_color' => 'green',
 
                 ],
                 [
                     'text' => 'add-Course',
                     'url' => 'admin/create-course',
-                    'icon' => 'fas fa-fw fa-play',
-                    'icon_color' => 'blue',
+                    'icon' => 'fas fa-fw fa-plus',
+                    'icon_color' => 'green',
 
                 ],
             ],

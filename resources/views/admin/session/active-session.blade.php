@@ -26,8 +26,11 @@
                                     <tr>
                                         <td>{{ $counter-- }}</td>
                                         <td>{{ $student->student_id }}</td>
-                                        <td>{{ $student->student->name }}</td>
-                                        <td>{{ $student->student->course }}</td>
+                                        <td>{{ $student->student->first_name }}
+                                            {{ $student->student->middle_initial }}
+                                            {{ $student->student->last_name }}
+                                        </td>
+                                        <td>{{ $student->student->course_id }}</td>
                                         <td>Active</td>
                                         <td>{{ \Carbon\Carbon::parse($student->time_in)->format('h:i A') }}</td>
                                         @if ($student->time_out === null)
