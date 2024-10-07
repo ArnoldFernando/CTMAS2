@@ -64,7 +64,7 @@ class ImportDataController extends Controller
         }
 
         // Redirect to the student list route with any existing records (if applicable)
-        return redirect()->route('faculty.list')->with('existingRecords', $existingRecords);
+        return redirect()->route('faculty.index')->with('existingRecords', $existingRecords);
     }
 
     public function importGradschoolData(Request $request)

@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
     {{-- Sweet Alert CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- jQuery CDN --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Google Fonts --}}
     <link
@@ -25,7 +26,6 @@
 
         .container-fluid {
             background-color: #F9DBBA;
-
         }
 
         .body .row-1 {
@@ -115,7 +115,6 @@
 
         .h1 {
             height: 60vh;
-
         }
 
         /* Ensure the card-body has a fixed height */
@@ -128,15 +127,13 @@
 
 <body>
     {{-- Sweet Alert --}}
-    @extends('admin.session.swal')
+    @extends('admin.session.notification')
 
-
-    <div class="container-fluid  d-flex flex-column min-vh-100 p-3 body">
+    <div class="container-fluid d-flex flex-column min-vh-100 p-3 body">
         <div class="row row-1">
             <div class="container p-2 text-dark col-7">
-                <h1 id="typingText" class="fw-bold display-1 ms-5  font h1"></h1>
+                <h1 id="typingText" class="fw-bold display-1 ms-5 font h1"></h1>
                 <div class="d-flex flex-column justify-content-between align-items-start mt-auto mb-5 rank">
-                    <!-- This div will align content at the bottom -->
                     <div class="col-md-12">
                         <div class="card">
                             <h5 class="card-header bg-danger fw-bold font text-white">Top Students of Library</h5>
@@ -161,7 +158,6 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-
                                         <tbody>
                                             @foreach ($rankedStudents as $key => $student)
                                                 <tr>
@@ -190,74 +186,70 @@
                             <label for="student_id" class="fw-semibold">Scan ID:</label>
                             <input type="password" class="form-control" id="student_id" name="id" required
                                 autofocus>
-                            <input type="submit" style="display: none;">
+                            <button type="submit" style="display: none;">Submit</button>
                         </form>
                     </div>
                 </div>
 
                 {{-- Student Displayed Data --}}
+
                 <div class="px-5">
                     <div class="container rounded-3 mt-3 bg-light bg-opacity-70 p-3" style="width: 500px;">
                         <div class="row p-1">
                             <div class="text-center">
-                                <!-- Student image with fixed dimensions -->
-                                <img src="{{ asset('IMG/default.jpg') }}"
-                                    class="student-image border border-1 border-secondary rounded-1"
-                                    style="height: 180px; width: 180px;" alt="ID Picture">
-                            </div>
-                        </div>
+                                @php
+                                    $sessionTypes = ['student', 'faculty'];
+                                    $imagePath = 'IMG/default.jpg';
+                                    $fname = 'N/A';
+                                    $mname = 'N/A';
+                                    $lname = 'N/A';
+                                    $course = 'N/A';
+                                    $department = 'N/A';
+                                    $typeLabel = 'Scan your Barcode';
 
-                        <h5 id="type" class="fw-bold mb-3 text-center">Student</h5>
-
-                        <!-- Fixed layout for student details -->
-                        <div class="row p-2">
-                            <div class="col-9">
-                                <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:</h6>
-                                <h6 class="d-inline" id="studentName"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
-
-                                <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
-                                </h6>
-                                <h6 class="d-inline" id="studentCourse"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
-
-                                <h6 class="d-inline fw-bolder mt-1"><i
-                                        class="fa-solid fa-caret-right me-1"></i>Department:</h6>
-                                <h6 class="d-inline" id="studentDepartment"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
-                            </div>
-                            <div class="col-3 text-center">
-                                <h6 class="font mt-1">Time</h6>
-                                <h2 class="mt-2 fw-bolder" style="color: #A50002;" id="currentTime"></h2>
-                                <!-- Placeholder text or dynamic content -->
+                                    foreach ($sessionTypes as $type) {
+                                        if (
+                                            session($type) ||
+                                            session($type . 'Timein') ||
+                                            session('20seconds-in-' . $type) ||
+                                            session($type . 'Timeout') ||
+                                            session('20seconds-out-' . $type)
+                                        ) {
+                                            $sessionData = session($type);
+                                            $imagePath =
+                                                $sessionData && $sessionData->image
+                                                    ? "$type-images/{$sessionData->image}"
+                                                    : $imagePath;
+                                            $fname = $sessionData ? $sessionData->first_name : $fname;
+                                            $mname = $sessionData ? $sessionData->middle_initial : $mname;
+                                            $lname = $sessionData ? $sessionData->last_name : $lname;
+                                            $course =
+                                                in_array($type, ['student']) && $sessionData
+                                                    ? $sessionData->course_id
+                                                    : $course;
+                                            $department =
+                                                in_array($type, ['student', 'faculty']) && $sessionData
+                                                    ? $sessionData->college_id
+                                                    : $department;
+                                            $typeLabel = ucfirst($type) . ' Details';
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <img src="{{ asset($imagePath) }}" class="img-fluid mb-3" style="width: 150px;"
+                                    alt="User">
+                                <h5 class="fw-bold">{{ $fname }} {{ $mname }} {{ $lname }}</h5>
+                                <h6 class="text-muted">{{ $course }}</h6>
+                                <h6 class="text-muted">{{ $department }}</h6>
+                                <h6 class="text-danger">{{ session('message') }}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
-    {{-- Script --}}
-    {{--  <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const studentIdInput = document.getElementById('student_id');
-            const form = document.getElementById('timeForm');
 
-            studentIdInput.addEventListener('input', function() {
-                if (studentIdInput.value) {
-                    form.submit();
-                }
-            });
-        });
-    </script>  --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -300,100 +292,39 @@
         });
     </script>
 
-    {{-- Bootstrap CDN --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-
-
-
+    {{-- JQuery for AJAX submission --}}
     <script>
         $(document).ready(function() {
             $('#timeForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
                 $.ajax({
-                    url: $(this).attr('action'), // The form action URL
-                    type: $(this).attr('method'), // The form method (POST)
-                    data: $(this).serialize(), // Serialize the form data
+                    type: 'POST',
+                    url: $(this).attr('action'), // Get form action URL
+                    data: $(this).serialize(), // Serialize form data
                     success: function(response) {
-                        // Handle student success
-                        if (response.studentTimein) {
-                            studentTimein(response.studentTimein);
-                            displayStudentInfo(response.studentData);
-                        }
-                        if (response.studentTimeout) {
-                            studentTimeout(response.studentTimeout);
-                            displayStudentInfo(response.studentData);
-                        }
-
-                        // Handle faculty success
-                        if (response.facultyTimein) {
-                            facultyTimein(response.facultyTimein);
-                            displayFacultyInfo(response.facultyData);
-                        }
-                        if (response.facultyTimeout) {
-                            facultyTimeout(response.facultyTimeout);
-                            displayFacultyInfo(response.facultyData);
-                        }
-
-                        // Optionally reset the form
+                        // Handle success (response is what your controller returns)
+                        // You can display success message or do whatever you want
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Form submitted successfully!',
+                        });
+                        // Optionally, you can reset the form
                         $('#timeForm')[0].reset();
                     },
                     error: function(xhr) {
                         // Handle error
-                        if (xhr.responseJSON) {
-                            if (xhr.responseJSON.idnotexist) {
-                                error(xhr.responseJSON.idnotexist);
-                            }
-
-                            //handle student error
-                            if (xhr.responseJSON.inStudent) {
-                                inStudent(xhr.responseJSON.inStudent);
-                            }
-                            if (xhr.responseJSON.outStudent) {
-                                outStudent(xhr.responseJSON.outStudent);
-                            }
-                            // handle faculty error
-                            if (xhr.responseJSON.inFaculty) {
-                                inFaculty(xhr.responseJSON.inFaculty);
-                            }
-                            if (xhr.responseJSON.outFaculty) {
-                                outFaculty(xhr.responseJSON.outFaculty);
-                            }
-                        } else {
-                            alert('An unexpected error occurred: ' + xhr.responseText);
-                        }
-
-                        $('#timeForm')[0].reset();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                        });
                     }
                 });
             });
         });
-
-
-
-        function displayStudentInfo(studentData) {
-            $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
-            $('#studentCourse').text(studentData.course_id);
-            $('#studentDepartment').text(studentData.college_id);
-            $('#currentTime').text(studentData.currentTime);
-            $('.student-image').attr('src', studentData.image);
-            $('#type').text('Student');
-
-        }
-
-        function displayFacultyInfo(facultyData) {
-            $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
-            $('#studentCourse').text(facultyData.course_id);
-            $('#studentDepartment').text(facultyData.college_id);
-            $('#currentTime').text(facultyData.currentTime);
-            $('.student-image').attr('src', facultyData.image);
-            $('#type').text('Faculty');
-        }
     </script>
-
-
 
 
 </body>

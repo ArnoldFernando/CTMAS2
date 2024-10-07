@@ -84,7 +84,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::view('/import-student-data-form', 'admin.student.records.import-excel-data');
         Route::POST('/import-student-data', [ImportDataController::class, 'importStudentData'])->name('import.student.data');
         // faculty
-        Route::view('/import-faculty-data-form', 'admin.faculty.import-excel-data');
+        Route::view('/import-faculty-data-form', 'admin.faculty.records.import-excel-data');
         Route::POST('/import-faculty-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
         // graduateschool
         Route::view('/import-gradschool-data-form', 'admin.graduateschool.import-excel-data');
@@ -110,6 +110,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::post('/session-store', [SessionController::class, 'createSession'])->name('session.store');
         Route::get('/active-session', [SessionController::class, 'showTodayTimeIns'])->name('active.session.view');
         Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time');
+        Route::get('/session-data', [SessionController::class, 'getSessionData'])->name('session.data');
+
 
         // keyboard events f1 and f2 shortcut for session
         Route::get('/redirect', function () {

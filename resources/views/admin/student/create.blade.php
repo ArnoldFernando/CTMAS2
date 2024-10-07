@@ -93,7 +93,7 @@
 
                                 <div class="mb-3 col-4">
                                     <label for="middle_initial" class="form-label">Middle Initial</label>
-                                    <input type="text" required name="middle_initial" id="middle_initial"
+                                    <input type="text" name="middle_initial" id="middle_initial"
                                         placeholder="Input Middle Initial" class="form-control">
                                     @error('middle_initial')
                                         <div class="text-danger">{{ $message }}</div>

@@ -128,8 +128,7 @@
 
 <body>
     {{-- Sweet Alert --}}
-    @extends('admin.session.swal')
-
+    {{--  @extends('admin.session.swal')  --}}
 
     <div class="container-fluid  d-flex flex-column min-vh-100 p-3 body">
         <div class="row row-1">
@@ -190,63 +189,95 @@
                             <label for="student_id" class="fw-semibold">Scan ID:</label>
                             <input type="password" class="form-control" id="student_id" name="id" required
                                 autofocus>
-                            <input type="submit" style="display: none;">
+                            <button type="submit" style="display: none;">Submit</button>
                         </form>
                     </div>
                 </div>
 
                 {{-- Student Displayed Data --}}
+
                 <div class="px-5">
                     <div class="container rounded-3 mt-3 bg-light bg-opacity-70 p-3" style="width: 500px;">
                         <div class="row p-1">
                             <div class="text-center">
-                                <!-- Student image with fixed dimensions -->
-                                <img src="{{ asset('IMG/default.jpg') }}"
-                                    class="student-image border border-1 border-secondary rounded-1"
+                                @php
+                                    $sessionTypes = ['student', 'faculty'];
+                                    $imagePath = 'IMG/default.jpg';
+                                    $fname = 'N/A';
+                                    $mname = 'N/A';
+                                    $lname = 'N/A';
+                                    $course = 'N/A';
+                                    $department = 'N/A';
+                                    $typeLabel = 'Scan your Barcode';
+
+                                    foreach ($sessionTypes as $type) {
+                                        if (
+                                            session($type) ||
+                                            session($type . 'Timein') ||
+                                            session('20seconds-in-' . $type) ||
+                                            session($type . 'Timeout') ||
+                                            session('20seconds-out-' . $type)
+                                        ) {
+                                            $sessionData = session($type);
+                                            $imagePath =
+                                                $sessionData && $sessionData->image
+                                                    ? "$type-images/{$sessionData->image}"
+                                                    : $imagePath;
+                                            $fname = $sessionData ? $sessionData->first_name : $fname;
+                                            $mname = $sessionData ? $sessionData->middle_initial : $mname;
+                                            $lname = $sessionData ? $sessionData->last_name : $lname;
+                                            $course =
+                                                in_array($type, ['student']) && $sessionData
+                                                    ? $sessionData->course_id
+                                                    : $course;
+                                            $department =
+                                                in_array($type, ['student', 'faculty']) && $sessionData
+                                                    ? $sessionData->college_id
+                                                    : $department;
+                                            $typeLabel = ucfirst($type) . ' Details';
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <img src="{{ asset($imagePath) }}" class="border border-1 border-secondary rounded-1"
                                     style="height: 180px; width: 180px;" alt="ID Picture">
                             </div>
                         </div>
 
-                        <h5 id="type" class="fw-bold mb-3 text-center">Student</h5>
+                        <h5 class="fw-bold mb-3 text-center">{{ $typeLabel }}</h5>
 
-                        <!-- Fixed layout for student details -->
                         <div class="row p-2">
                             <div class="col-9">
                                 <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:</h6>
-                                <h6 class="d-inline" id="studentName"></h6>
-                                <!-- Placeholder text or dynamic content -->
+                                <h6 class="d-inline">{{ $fname }} {{ $mname }} {{ $lname }}</h6>
                                 <br>
                                 <hr class="mt-0">
-
                                 <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
                                 </h6>
-                                <h6 class="d-inline" id="studentCourse"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
+                                <h6 class="d-inline">{{ $course }}</h6><br>
                                 <hr class="mt-0">
-
                                 <h6 class="d-inline fw-bolder mt-1"><i
                                         class="fa-solid fa-caret-right me-1"></i>Department:</h6>
-                                <h6 class="d-inline" id="studentDepartment"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
+                                <h6 class="d-inline">{{ $department }}</h6><br>
                                 <hr class="mt-0">
                             </div>
                             <div class="col-3 text-center">
                                 <h6 class="font mt-1">Time</h6>
-                                <h2 class="mt-2 fw-bolder" style="color: #A50002;" id="currentTime"></h2>
-                                <!-- Placeholder text or dynamic content -->
+                                <h2 class="mt-2 fw-bolder" style="color: #A50002;">
+                                    @if (session('currentTime'))
+                                        {{ session('currentTime') }}
+                                    @endif
+                                </h2>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
             </div>
         </div>
     </div>
     {{-- Script --}}
-    {{--  <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentIdInput = document.getElementById('student_id');
             const form = document.getElementById('timeForm');
@@ -257,7 +288,7 @@
                 }
             });
         });
-    </script>  --}}
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -305,95 +336,73 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
+    <script>
+        function error() {
+            let timerInterval;
+            Swal.fire({
+                title: "Error!",
+                text: "This is a success message.",
+                icon: "error",
+                html: "ID does not existttttt",
+                timer: 1000, // Set the timer duration (in milliseconds)
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                    // Focus on the input field after the alert closes
+                    setTimeout(() => {
+                        document.getElementById('student_id').focus();
+                    }, 50); // Adjust the timeout if necessary
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {}
+            });
+        }
 
+        function success() {
+            let timerInterval;
+            Swal.fire({
+                title: "Success!",
+                text: "This is a success message.",
+                icon: "success",
+                html: "Student Timed In",
+                timer: 1000, // Set the timer duration (in milliseconds)
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                    // Focus on the input field after the alert closes
+                    setTimeout(() => {
+                        document.getElementById('student_id').focus();
+                    }, 50); // Adjust the timeout if necessary
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {}
+            });
+        }
+    </script>
 
     <script>
         $(document).ready(function() {
             $('#timeForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
-                $.ajax({
-                    url: $(this).attr('action'), // The form action URL
-                    type: $(this).attr('method'), // The form method (POST)
-                    data: $(this).serialize(), // Serialize the form data
-                    success: function(response) {
-                        // Handle student success
-                        if (response.studentTimein) {
-                            studentTimein(response.studentTimein);
-                            displayStudentInfo(response.studentData);
-                        }
-                        if (response.studentTimeout) {
-                            studentTimeout(response.studentTimeout);
-                            displayStudentInfo(response.studentData);
-                        }
-
-                        // Handle faculty success
-                        if (response.facultyTimein) {
-                            facultyTimein(response.facultyTimein);
-                            displayFacultyInfo(response.facultyData);
-                        }
-                        if (response.facultyTimeout) {
-                            facultyTimeout(response.facultyTimeout);
-                            displayFacultyInfo(response.facultyData);
-                        }
-
-                        // Optionally reset the form
-                        $('#timeForm')[0].reset();
-                    },
-                    error: function(xhr) {
-                        // Handle error
-                        if (xhr.responseJSON) {
-                            if (xhr.responseJSON.idnotexist) {
-                                error(xhr.responseJSON.idnotexist);
-                            }
-
-                            //handle student error
-                            if (xhr.responseJSON.inStudent) {
-                                inStudent(xhr.responseJSON.inStudent);
-                            }
-                            if (xhr.responseJSON.outStudent) {
-                                outStudent(xhr.responseJSON.outStudent);
-                            }
-                            // handle faculty error
-                            if (xhr.responseJSON.inFaculty) {
-                                inFaculty(xhr.responseJSON.inFaculty);
-                            }
-                            if (xhr.responseJSON.outFaculty) {
-                                outFaculty(xhr.responseJSON.outFaculty);
-                            }
-                        } else {
-                            alert('An unexpected error occurred: ' + xhr.responseText);
-                        }
-
-                        $('#timeForm')[0].reset();
-                    }
-                });
+                alert('hello');
             });
         });
-
-
-
-        function displayStudentInfo(studentData) {
-            $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
-            $('#studentCourse').text(studentData.course_id);
-            $('#studentDepartment').text(studentData.college_id);
-            $('#currentTime').text(studentData.currentTime);
-            $('.student-image').attr('src', studentData.image);
-            $('#type').text('Student');
-
-        }
-
-        function displayFacultyInfo(facultyData) {
-            $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
-            $('#studentCourse').text(facultyData.course_id);
-            $('#studentDepartment').text(facultyData.college_id);
-            $('#currentTime').text(facultyData.currentTime);
-            $('.student-image').attr('src', facultyData.image);
-            $('#type').text('Faculty');
-        }
     </script>
-
-
 
 
 </body>
