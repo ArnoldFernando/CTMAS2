@@ -19,7 +19,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            /* margin-top: 20px; */
         }
 
         th,
@@ -28,25 +27,15 @@
             padding: 8px;
             text-align: center;
             font-size: 15px;
-            /* font-weight: 600; */
         }
 
         thead {
             background-color: #f2f2f2;
-
-
         }
 
         .title {
             background-color: #9DDE8B;
             width: 100%;
-            /* padding: 4px 0; */
-        }
-
-        .div1,
-        .div2 {
-            border-top: 1px solid black;
-            padding: 0;
         }
 
         @page {
@@ -66,7 +55,7 @@
 
         footer {
             position: fixed;
-            bottom: -100px;
+            bottom: -60px;
             left: 0px;
             right: 0px;
             height: 50px;
@@ -90,7 +79,7 @@
             position: absolute;
         }
 
-        img {
+        .img img {
             position: absolute;
             width: 100%;
             top: 13px;
@@ -104,6 +93,29 @@
             border: solid 1px;
             padding: 3px;
         }
+
+        .f-img {
+            height: auto;
+        }
+
+        .f-1 {
+            width: 100%;
+        }
+
+        .f-2 {
+            width: 90%;
+        }
+
+        .footer-table {
+            width: 100%;
+            text-align: center;
+            border: none;
+        }
+
+        .footer-table td {
+            width: 50%;
+            border: none;
+        }
     </style>
 
 </head>
@@ -113,7 +125,7 @@
         <div class="img">
             <img src="IMG/library.png" alt="Absolute URL Image">
         </div>
-        <p>
+        <p class="text-bg-primary">
             CAGAYAN STATE UNIVERSITY<br>
             APARRI CAMPUSES<br>
             Maura, Aparri, Cagayan <span class="span">F-LIB-AP-80509</span>
@@ -122,8 +134,13 @@
         <p>ATTENDANCE FOR STUDENTS LOG SHEET</p>
     </header>
     <footer>
-        <div class="div2">Footer Content Here</div>
-        <div>Page <span class="pagenum"></span></div>
+        <table class="footer-table">
+            <tr>
+                <td><img class="f-img f-1" src="IMG/footer-2.png" alt="footer-2"></td>
+                <td><img class="f-img f-2" src="IMG/footer-1.jpg" alt="footer-1"></td>
+
+            </tr>
+        </table>
     </footer>
     <main>
         <table class="small-table">
@@ -142,8 +159,7 @@
                     <tr>
                         <td>{{ $record->created_at->format('F j, Y') }}</td>
                         <td>{{ $record->student->first_name }} {{ $record->student->middle_inital }}
-                            {{ $record->student->last_name }}
-                        </td>
+                            {{ $record->student->last_name }}</td>
                         <td>{{ $record->student->course_id }}</td>
                         <td>{{ $record->student->college_id }}</td>
                         <td>{{ \Carbon\Carbon::parse($record->time_in)->format('g:i A') }}</td>
