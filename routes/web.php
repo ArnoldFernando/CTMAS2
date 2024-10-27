@@ -87,7 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::view('/import-faculty-data-form', 'admin.faculty.records.import-excel-data');
         Route::POST('/import-faculty-data', [ImportDataController::class, 'importFacultyData'])->name('import.faculty.data');
         // graduateschool
-        Route::view('/import-gradschool-data-form', 'admin.graduateschool.import-excel-data');
+        Route::view('/import-gradschool-data-form', 'admin.graduateschool.records.import-excel-data');
         Route::POST('/import-gradschool-data', [ImportDataController::class, 'importGradschoolData'])->name('import.gradschool.data');
     });
 
@@ -107,6 +107,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // session
     Route::middleware('auth')->group(function () {
         Route::get('/session-page', [SessionController::class, 'startSessionPage'])->name('session.page');
+        Route::get('/ranked-students', [SessionController::class, 'fetchRankedStudents'])->name('ranked.students');
         Route::post('/session-store', [SessionController::class, 'createSession'])->name('session.store');
         Route::get('/active-session', [SessionController::class, 'showTodayTimeIns'])->name('active.session.view');
         Route::post('/student-time', [SessionController::class, 'handleTime'])->name('student-time');

@@ -25,7 +25,6 @@
 
         .container-fluid {
             background-color: #F9DBBA;
-
         }
 
         .body .row-1 {
@@ -33,7 +32,7 @@
         }
 
         .scan {
-            background-color: #f0f0f0
+            background-color: #f0f0f0;
         }
 
         .font {
@@ -56,7 +55,7 @@
         .table-responsive {
             position: relative;
             height: 200px;
-            /* Fixed height */
+            /* Allow height to adjust */
             overflow: hidden;
             /* Hide the scrollbar */
         }
@@ -104,26 +103,84 @@
 
             100% {
                 transform: translateY(calc(-100% - 10px * {{ count($rankedStudents) }}));
-                /* Adjust based on row height and margin */
             }
         }
 
         .rank {
             height: 200px;
-            /* Fixed height */
+            /* Allow rank section to expand */
         }
 
         .h1 {
             height: 60vh;
-
+            /* Adjust header height */
         }
 
-        /* Ensure the card-body has a fixed height */
         .card-body {
             height: 200px;
-            /* Ensure the card body is exactly 200px */
+            /* Allow card body to expand */
+        }
+
+        .swal2-image {
+            border: 3px solid rgba(7, 227, 7, 0.8);
+            border-radius: 50% !important;
+            width: 200px;
+            /* Make image responsive */
+            height: 200px;
+            /* Adjust height proportionally */
+            object-fit: cover !important;
+            overflow: hidden !important;
+        }
+
+        @media (max-width: 768px) {
+            .h1 {
+                font-size: 1.5rem;
+                /* Adjust font size for smaller screens */
+            }
+
+            .bg-light {
+                width: 100%;
+                /* Make light background full width */
+                padding: 1rem;
+                /* Adjust padding */
+            }
+
+            .container {
+                padding-left: 0;
+                /* Remove padding */
+                padding-right: 0;
+                /* Remove padding */
+            }
+
+            .card {
+                width: 100%;
+                /* Make card full width */
+            }
+
+            .rank {
+                height: ;
+            }
+
+            .table {
+                font-size: 0.9rem;
+                /* Adjust table font size */
+            }
+
+            .student-image {
+                width: 100%;
+                /* Make student image responsive */
+                height: auto;
+                /* Maintain aspect ratio */
+            }
+
+            #typingText {
+                display: none;
+            }
+
+
         }
     </style>
+
 </head>
 
 <body>
@@ -131,12 +188,11 @@
     @extends('admin.session.swal')
 
 
-    <div class="container-fluid  d-flex flex-column min-vh-100 p-3 body">
+    <div class="container-fluid d-flex flex-column min-vh-100 p-3 body">
         <div class="row row-1">
-            <div class="container p-2 text-dark col-7">
-                <h1 id="typingText" class="fw-bold display-1 ms-5  font h1"></h1>
+            <div class="container p-2 text-dark col-md-7 col-sm-12">
+                <h1 id="typingText" class="fw-bold display-1 ms-5 font h1"></h1>
                 <div class="d-flex flex-column justify-content-between align-items-start mt-auto mb-5 rank">
-                    <!-- This div will align content at the bottom -->
                     <div class="col-md-12">
                         <div class="card">
                             <h5 class="card-header bg-danger fw-bold font text-white">Top Students of Library</h5>
@@ -161,7 +217,6 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-
                                         <tbody>
                                             @foreach ($rankedStudents as $key => $student)
                                                 <tr>
@@ -180,71 +235,61 @@
                 </div>
             </div>
 
-            <div class="container p-2 col-5">
-                <div class="d-flex justify-content-center align-items-center px-5">
-                    <div class="bg-light bg-opacity-70 p-3 rounded-3" style="width: 500px;">
-                        <h2 class="h4 fw-bold mb-3">Start Session</h2>
+            <div class="container-fluid p-4 col-md-5 col-sm-12 ">
+                <div class="container bg-light bg-opacity-70 p-3 rounded-3" style="width: 100%;">
+                    <h2 class="h4 fw-bold mb-3">Start Session</h2>
 
-                        <form id="timeForm" action="{{ route('student-time') }}" method="POST">
-                            @csrf
-                            <label for="student_id" class="fw-semibold">Scan ID:</label>
-                            <input type="password" class="form-control" id="student_id" name="id" required
-                                autofocus>
-                            <input type="submit" style="display: none;">
-                        </form>
-                    </div>
+                    <form id="timeForm" action="{{ route('student-time') }}" method="POST">
+                        @csrf
+                        <label for="student_id" class="fw-semibold">Scan ID:</label>
+                        <input type="password" class="form-control" id="student_id" name="id" required autofocus>
+                        <input type="submit" style="display: none;">
+                    </form>
                 </div>
 
-                {{-- Student Displayed Data --}}
-                <div class="px-5">
-                    <div class="container rounded-3 mt-3 bg-light bg-opacity-70 p-3" style="width: 500px;">
-                        <div class="row p-1">
-                            <div class="text-center">
-                                <!-- Student image with fixed dimensions -->
-                                <img src="{{ asset('IMG/default.jpg') }}"
-                                    class="student-image border border-1 border-secondary rounded-1"
-                                    style="height: 180px; width: 180px;" alt="ID Picture">
-                            </div>
+                <div class="container rounded-3 mt-3 bg-light bg-opacity-70 p-3 " style="width: 100%;">
+                    <div class="row p-1">
+                        <div class="text-center">
+                            <img src="{{ asset('IMG/default.jpg') }}"
+                                class="student-image border border-1 border-secondary rounded-1"
+                                style="height: 180px; width: 180px;" alt="ID Picture">
                         </div>
+                    </div>
 
-                        <h5 id="type" class="fw-bold mb-3 text-center">Student</h5>
+                    <h5 id="type" class="fw-bold mb-3 text-center">Student</h5>
 
-                        <!-- Fixed layout for student details -->
-                        <div class="row p-2">
-                            <div class="col-9">
-                                <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:</h6>
-                                <h6 class="d-inline" id="studentName"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
+                    <div class="row p-1">
+                        <div class="col-9">
+                            <h6 class="d-inline fw-bolder"><i class="fa-solid fa-caret-right me-1"></i>Name:</h6>
+                            <h6 class="d-inline" id="studentName"></h6>
+                            <br>
+                            <hr class="mt-0">
 
-                                <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
-                                </h6>
-                                <h6 class="d-inline" id="studentCourse"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
+                            <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Course:
+                            </h6>
+                            <h6 class="d-inline" id="studentCourse"></h6>
+                            <br>
+                            <hr class="mt-0">
 
-                                <h6 class="d-inline fw-bolder mt-1"><i
-                                        class="fa-solid fa-caret-right me-1"></i>Department:</h6>
-                                <h6 class="d-inline" id="studentDepartment"></h6>
-                                <!-- Placeholder text or dynamic content -->
-                                <br>
-                                <hr class="mt-0">
-                            </div>
-                            <div class="col-3 text-center">
-                                <h6 class="font mt-1">Time</h6>
-                                <h2 class="mt-2 fw-bolder" style="color: #A50002;" id="currentTime"></h2>
-                                <!-- Placeholder text or dynamic content -->
-                            </div>
+                            <h6 class="d-inline fw-bolder mt-1"><i class="fa-solid fa-caret-right me-1"></i>Department:
+                            </h6>
+                            <h6 class="d-inline" id="studentDepartment"></h6>
+                            <br>
+                            <hr class="mt-0">
+                        </div>
+                        <div class="col-3 text-center">
+                            <h6 class="font mt-1">Time</h6>
+                            <h2 class="mt-2 fw-bolder" style="color: #A50002;" id="currentTime"></h2>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
+
+
+
+
     {{-- Script --}}
     {{--  <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -305,13 +350,10 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
-
-
     <script>
         $(document).ready(function() {
             $('#timeForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
-
                 $.ajax({
                     url: $(this).attr('action'), // The form action URL
                     type: $(this).attr('method'), // The form method (POST)
@@ -320,21 +362,21 @@
                         // Handle student success
                         if (response.studentTimein) {
                             studentTimein(response.studentTimein);
-                            displayStudentInfo(response.studentData);
+                            displayStudentInfo_in(response.studentData);
                         }
                         if (response.studentTimeout) {
                             studentTimeout(response.studentTimeout);
-                            displayStudentInfo(response.studentData);
+                            displayStudentInfo_out(response.studentData);
                         }
 
                         // Handle faculty success
                         if (response.facultyTimein) {
                             facultyTimein(response.facultyTimein);
-                            displayFacultyInfo(response.facultyData);
+                            displayFacultyInfo_in(response.facultyData);
                         }
                         if (response.facultyTimeout) {
                             facultyTimeout(response.facultyTimeout);
-                            displayFacultyInfo(response.facultyData);
+                            displayFacultyInfo_out(response.facultyData);
                         }
 
                         // Optionally reset the form
@@ -373,26 +415,47 @@
 
 
 
-        function displayStudentInfo(studentData) {
+
+        function displayStudentInfo_in(studentData) {
             $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
             $('#studentCourse').text(studentData.course_id);
             $('#studentDepartment').text(studentData.college_id);
             $('#currentTime').text(studentData.currentTime);
             $('.student-image').attr('src', studentData.image);
             $('#type').text('Student');
-
+            studentTimein(studentData);
         }
 
-        function displayFacultyInfo(facultyData) {
+        function displayStudentInfo_out(studentData) {
+            $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
+            $('#studentCourse').text(studentData.course_id);
+            $('#studentDepartment').text(studentData.college_id);
+            $('#currentTime').text(studentData.currentTime);
+            $('.student-image').attr('src', studentData.image);
+            $('#type').text('Student');
+            studentTimeout(studentData);
+        }
+
+        function displayFacultyInfo_in(facultyData) {
             $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
             $('#studentCourse').text(facultyData.course_id);
             $('#studentDepartment').text(facultyData.college_id);
             $('#currentTime').text(facultyData.currentTime);
             $('.student-image').attr('src', facultyData.image);
             $('#type').text('Faculty');
+            facultyTimein(facultyData);
+        }
+
+        function displayFacultyInfo_out(facultyData) {
+            $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
+            $('#studentCourse').text(facultyData.course_id);
+            $('#studentDepartment').text(facultyData.college_id);
+            $('#currentTime').text(facultyData.currentTime);
+            $('.student-image').attr('src', facultyData.image);
+            $('#type').text('Faculty');
+            facultyTimeout(facultyData);
         }
     </script>
-
 
 
 

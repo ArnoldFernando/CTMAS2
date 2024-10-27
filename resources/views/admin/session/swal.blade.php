@@ -7,7 +7,7 @@
                 title: "Error!",
                 text: "This is a success message.",
                 icon: "error",
-                html: "ID does not exist",
+                html: "Please Register your LIBRARY CARD FIRST",
                 timer: 2000, // Set the timer duration (in milliseconds)
                 timerProgressBar: true,
                 didOpen: () => {
@@ -57,21 +57,37 @@
             });
         }
 
-        function studentTimein() {
+        function studentTimein(data) {
             let timerInterval;
+            let imageUrl = data.image ? data.image : 'IMG/default.jpg'; // Replace with actual default image path
+
             Swal.fire({
-                title: "Success!",
+                title: "Time in Successfully",
                 text: "Student time in recorded successfully.",
-                icon: "success",
-                html: "Student time in recorded successfully.",
+                imageUrl: imageUrl,
+                imageHeight: 200, // Adjust the image height to 300px
+                imageAlt: "Student image",
                 timer: 2000, // Set the timer duration (in milliseconds)
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
+                    const timerElement = Swal.getHtmlContainer().querySelector('b');
+                    if (timerElement) {
+                        timerInterval = setInterval(() => {
+                            timerElement.textContent = Swal.getTimerLeft();
+                        }, 100);
+                    }
+
+                    // Force the image to be round
+                    const swalImage = Swal.getHtmlContainer().querySelector('.swal2-image');
+                    if (swalImage) {
+                        swalImage.style.borderRadius = '50% !important';
+                        swalImage.style.width = '200px !important';
+                        swalImage.style.height = '200px !important';
+                        swalImage.style.objectFit = 'cover !important';
+                        swalImage.style.overflow = 'hidden !important';
+
+                    }
                 },
                 willClose: () => {
                     clearInterval(timerInterval);
@@ -79,11 +95,19 @@
                     setTimeout(() => {
                         document.getElementById('student_id').focus();
                     }, 50); // Adjust the timeout if necessary
-                }
+                },
+                html: '<b></b>' // Adding a timer display element
             }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {}
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    // Handle what happens when the timer ends, if needed
+                }
             });
         }
+
+
+
+
+
 
         function inStudent() {
             let timerInterval;
@@ -113,21 +137,35 @@
             });
         }
 
-        function studentTimeout() {
+        function studentTimeout(data) {
             let timerInterval;
+            let imageUrl = data.image ? data.image : 'IMG/default.jpg';
+
             Swal.fire({
-                title: "Timeout",
-                text: "Student time out recorded successfully.",
-                icon: "info",
-                html: "Student time out recorded successfully.",
-                timer: 2000, // Set the timer duration (in milliseconds)
+                title: "Time Out successfully.",
+                text: "Student time Out recorded successfully.",
+                imageUrl: imageUrl,
+                imageHeight: 200,
+                imageAlt: "Student image",
+                timer: 2000,
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
+                    const timerElement = Swal.getHtmlContainer().querySelector('b');
+                    if (timerElement) {
+                        timerInterval = setInterval(() => {
+                            timerElement.textContent = Swal.getTimerLeft();
+                        }, 100);
+                    }
+                    const swalImage = Swal.getHtmlContainer().querySelector('.swal2-image');
+                    if (swalImage) {
+                        swalImage.style.borderRadius = '50% !important';
+                        swalImage.style.width = '200px !important';
+                        swalImage.style.height = '200px !important';
+                        swalImage.style.objectFit = 'cover !important';
+                        swalImage.style.overflow = 'hidden !important';
+
+                    }
                 },
                 willClose: () => {
                     clearInterval(timerInterval);
@@ -135,9 +173,12 @@
                     setTimeout(() => {
                         document.getElementById('student_id').focus();
                     }, 50); // Adjust the timeout if necessary
-                }
+                },
+                html: '<b></b>' // Adding a timer display element
             }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {}
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    // Handle what happens when the timer ends, if needed
+                }
             });
         }
     </script>

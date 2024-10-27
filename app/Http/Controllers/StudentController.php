@@ -32,18 +32,40 @@ class StudentController extends Controller
     public function index(Request $req)
     {
         $query = StudentList::where('status', 'undergraduateschool');
-        // Check if a specific course is selected for filtering
-        if ($req->has('course_id') && $req->course_id != '') {
+
+        // Apply course filter if set
+        if ($req->filled('course_id')) {
             $query->where('course_id', $req->course_id);
         }
-        // Group the results by course
-        $data = $query->get()->groupBy(function ($item) {
-            return strtolower($item->course_id);
-        });
-        // Pass all available courses to the view for filtering options
+
+        // Search functionality
+        if ($req->filled('query')) {
+            $search = $req->input('query');
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('student_id', 'like', '%' . $search . '%')
+                ->orWhere('year', 'like', '%' . $search . '%')
+                ->orWhere('course_id', 'like', '%' . $search . '%')
+                ->orWhere('college_id', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Paginate and return
+        $students = $query->paginate(100);
+
+        // Group and pass data to view
+        $groupedData = $students->getCollection()->groupBy('course_id');
         $courses = StudentList::where('status', 'undergraduateschool')->pluck('course_id')->unique();
-        return view('admin.student.index', ['Student_lists' => $data, 'courses' => $courses, 'selectedCourse' => $req->course_id]);
+
+        return view('admin.student.index', [
+            'data' => $groupedData,
+            'courses' => $courses,
+            'students' => $students,
+            'selectedCourse' => $req->course_id,
+        ]);
     }
+
 
 
     public function store(Request $request)

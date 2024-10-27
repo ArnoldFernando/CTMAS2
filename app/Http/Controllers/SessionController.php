@@ -25,6 +25,11 @@ class SessionController extends Controller
             ->get();
         return view('admin..session.start-session', compact('rankedStudents'));
     }
+    public function fetchRankedStudents() {
+        $datas = StudentList::select('student_id', 'first_name', 'image') // Add 'image' or other necessary fields
+                        ->get();
+        return response()->json($datas);
+    }
 
     public function handleTime(Request $request)
     {
@@ -89,18 +94,18 @@ class SessionController extends Controller
         $record->time_in = Carbon::now()->toTimeString();
         $record->save();
 
+
         $studentData = [
             'first_name' => $student->first_name ? $student->first_name : "",
             'middle_initial' => $student->middle_initial ? $student->middle_initial : "",
             'last_name' => $student->last_name ? $student->last_name : "",
             'course_id' => $student->course_id, // Assuming 'course' is a field in StudentList
             'college_id' => $student->college_id ? $student->college_id : "", // Assuming 'department' is a field
-           'image' => $student->image
+            'image' => $student->image
             ? asset('student-images/' . $student->image)
             : asset('IMG/default.jpg'), // Path to default image
             'currentTime' => Carbon::now()->format('h:i A') // Current time formatted
         ];
-
         return response()->json(['studentTimein' => 'Student time in recorded successfully.', 'studentData' => $studentData]);
     }
 
@@ -245,27 +250,27 @@ class SessionController extends Controller
 
 
 
-    protected function getSessionData()
-{
-    $sessionTypes = ['student', 'faculty'];
-    $sessionData = [];
+//     protected function getSessionData()
+// {
+//     $sessionTypes = ['student', 'faculty'];
+//     $sessionData = [];
 
-    foreach ($sessionTypes as $type) {
-        if (session($type)) {
-            $data = session($type);
-            $sessionData[] = [
-                'image' => $data->image ? asset("$type-images/{$data->image}") : asset('IMG/default.jpg'),
-                'first_name' => $data->first_name,
-                'middle_initial' => $data->middle_initial,
-                'last_name' => $data->last_name,
-                'course_id' => in_array($type, ['student']) ? $data->course_id : 'N/A',
-                'college_id' => in_array($type, ['student', 'faculty']) ? $data->college_id : 'N/A',
-                'currentTime' => session('currentTime')
-            ];
-        }
-    }
+//     foreach ($sessionTypes as $type) {
+//         if (session($type)) {
+//             $data = session($type);
+//             $sessionData[] = [
+//                 'image' => $data->image ? asset("$type-images/{$data->image}") : asset('IMG/default.jpg'),
+//                 'first_name' => $data->first_name,
+//                 'middle_initial' => $data->middle_initial,
+//                 'last_name' => $data->last_name,
+//                 'course_id' => in_array($type, ['student']) ? $data->course_id : 'N/A',
+//                 'college_id' => in_array($type, ['student', 'faculty']) ? $data->college_id : 'N/A',
+//                 'currentTime' => session('currentTime')
+//             ];
+//         }
+//     }
 
-    return response()->json($sessionData);
-}
+//     return response()->json($sessionData);
+// }
 
 }

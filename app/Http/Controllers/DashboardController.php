@@ -27,8 +27,6 @@ class DashboardController extends Controller
         $yearlyCount = StudentRecords::whereBetween('created_at', [$startOfYear, Carbon::now()])->count();
 
 
-
-
         // Daily records count
         $dailyStudentCounts = DB::table('student_records')
             ->join('student_lists', 'student_records.student_id', '=', 'student_lists.student_id')
@@ -176,7 +174,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', array_merge($studentData, $facultyData));
 
-         return view('admin.dashboard'  );
+        return view('admin.dashboard'  );
     }
 
 

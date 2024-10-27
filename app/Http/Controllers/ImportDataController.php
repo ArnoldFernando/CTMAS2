@@ -35,7 +35,7 @@ class ImportDataController extends Controller
         }
 
         // Redirect to the student list route with any existing records (if applicable)
-        return redirect()->route('student.list')->with('existingRecords', $existingRecords);
+        return redirect()->route('student.index')->with('existingRecords', $existingRecords);
     }
 
 
@@ -92,7 +92,7 @@ class ImportDataController extends Controller
         }
 
         // Redirect to the student list route with any existing records (if applicable)
-        return redirect()->route('gradschool.list')->with('existingRecords', $existingRecords);
+        return redirect()->route('gradschool.index')->with('existingRecords', $existingRecords);
 
     }
 }

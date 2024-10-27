@@ -39,14 +39,7 @@
                 height: 45px;
             }
 
-            .student {
-                height: 100vh;
-            }
 
-            .faculty {
-                height: 100vh;
-                padding-top: 1em;
-            }
 
             .faculty h4 {
                 padding-top: 2em;
@@ -62,442 +55,302 @@
                 color: #fff;
             }
         </style>
-        <section class="content font p-4 border border-1 student">
+
+
+        <section class="content font pt-4 student">
             <h4 class="text-center fw-semibold font pb-4">Student Records</h4>
 
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
-                <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3> {{ $dailyCount }}</h3 <p>Total Daily Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
+                <div class="row text-center">
+                    @php
+                        $records = [
+                            [
+                                'count' => $dailyCount,
+                                'label' => 'Total Daily Record',
+                                'bg' => 'bg-info',
+                                'icon' => 'ion-bag',
+                            ],
+                            [
+                                'count' => $weeklyCount,
+                                'label' => 'Total Weekly Record',
+                                'bg' => 'bg-success',
+                                'icon' => 'ion-stats-bars',
+                            ],
+                            [
+                                'count' => $monthlyCount,
+                                'label' => 'Total Monthly Record',
+                                'bg' => 'bg-warning',
+                                'icon' => 'ion-person-add',
+                            ],
+                            [
+                                'count' => $yearlyCount,
+                                'label' => 'Total Yearly Record',
+                                'bg' => 'bg-danger',
+                                'icon' => 'ion-pie-graph',
+                            ],
+                        ];
+                    @endphp
+
+                    @foreach ($records as $record)
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <div class="small-box {{ $record['bg'] }}">
+                                <div class="inner">
+                                    <h3>{{ $record['count'] }}</h3>
+                                    <p>{{ $record['label'] }}</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion {{ $record['icon'] }}"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3> {{ $weeklyCount }}</h3>
-                                <p>Total Weekly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3> {{ $monthlyCount }}</h3>
-
-                                <p>Total Monthly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3> {{ $yearlyCount }}</h3>
-
-                                <p>Total Yearly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                </div>
-            </div>
-            <div class="container-fluid mt-0 font ">
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-info fw-bold font">Daily Records</h5>
-                            <div class="card-body {{ count($dailyStudentCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="daily-records-list">
-                                    @foreach ($dailyStudentCounts as $dailyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $dailyCount->course_id }}
-                                            <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <!-- Clone the list for infinite scrolling -->
-                                @if (count($dailyStudentCounts) > 2)
-                                    <ul class="list-group scroll-list" id="daily-records-list-clone">
-                                        @foreach ($dailyStudentCounts as $dailyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $dailyCount->course_id }}
-                                                <span class="badge badge-danger badge-pill">{{ $dailyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-success fw-bold font">Weekly Records</h5>
-                            <div class="card-body {{ count($weeklyStudentCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="weekly-records-list">
-                                    @foreach ($weeklyStudentCounts as $weeklyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $weeklyCount->course_id }}
-                                            <span class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($weeklyStudentCounts) > 2)
-                                    <ul class="list-group scroll-list" id="weekly-records-list-clone">
-                                        @foreach ($weeklyStudentCounts as $weeklyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $weeklyCount->course_id }}
-                                                <span
-                                                    class="badge badge-danger badge-pill">{{ $weeklyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-warning fw-bold font">Monthly Records</h5>
-                            <div class="card-body {{ count($monthlyStudentCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="monthly-records-list">
-                                    @foreach ($monthlyStudentCounts as $monthlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $monthlyCount->course_id }}
-                                            <span class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($monthlyStudentCounts) > 2)
-                                    <ul class="list-group scroll-list" id="monthly-records-list-clone">
-                                        @foreach ($monthlyStudentCounts as $monthlyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $monthlyCount->course_id }}
-                                                <span
-                                                    class="badge badge-danger badge-pill">{{ $monthlyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-danger fw-bold font">Yearly Records</h5>
-                            <div class="card-body {{ count($yearlyStudentCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="yearly-records-list">
-                                    @foreach ($yearlyStudentCounts as $yearlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $yearlyCount->course_id }}
-                                            <span class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($yearlyStudentCounts) > 2)
-                                    <ul class="list-group scroll-list" id="yearly-records-list-clone">
-                                        @foreach ($yearlyStudentCounts as $yearlyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $yearlyCount->course_id }}
-                                                <span
-                                                    class="badge badge-danger badge-pill">{{ $yearlyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
 
-            <div class="container-fluid mt-0 font">
-
+            <div class="container-fluid font">
                 <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-3">
-                        <div class="card">
-                            <h5 class="card-header fw-bold  most">Most Visited Course
-                            </h5>
-                            <div class="card-body">
-                                @if ($mostVisitedCourse)
-                                    <p><b>{{ $mostVisitedCourse->course_id }}: </b>{{ $mostVisitedCourse->count }} visits
-                                    </p>
-                                @else
-                                    <p>No visits recorded</p>
-                                @endif
+                    @php
+                        $timeframes = [
+                            'Daily' => $dailyStudentCounts,
+                            'Weekly' => $weeklyStudentCounts,
+                            'Monthly' => $monthlyStudentCounts,
+                            'Yearly' => $yearlyStudentCounts,
+                        ];
+                        $colors = ['info', 'success', 'warning', 'danger'];
+                    @endphp
+
+                    @foreach ($timeframes as $key => $counts)
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <div class="card">
+                                <h5 class="card-header bg-{{ array_shift($colors) }} fw-bold font">{{ $key }}
+                                    Records</h5>
+                                <div class="card-body {{ count($counts) > 2 ? '' : 'no-scroll' }}">
+                                    <ul class="list-group scroll-list" id="{{ strtolower($key) }}-records-list">
+                                        @foreach ($counts as $count)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $count->course_id }}
+                                                <span class="badge badge-danger badge-pill">{{ $count->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <h5 class="card-header fw-bold least">Least Visited Course
-                            </h5>
-                            <div class="card-body">
-                                @if ($leastVisitedCourse)
-                                    <p><b>{{ $leastVisitedCourse->course_id }}: </b>{{ $leastVisitedCourse->count }}
-                                        Visits</p>
-                                @else
-                                    <p>No visit recorded</p>
-                                @endif
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="container-fluid font">
+                <div class="row">
+                    @foreach (['Most Visited Course' => $mostVisitedCourse, 'Least Visited Course' => $leastVisitedCourse] as $title => $course)
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <div class="card">
+                                <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
+                                    {{ $title }}</h5>
+                                <div class="card-body">
+                                    @if ($course)
+                                        <p><b>{{ $course->course_id }}: </b>{{ $course->count }} visits</p>
+                                    @else
+                                        <p>No visits recorded</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
 
 
-        <section class="content font faculty p-4 border border-1 ">
+
+        <section class="content font pt-4 faculty">
+            <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
+
+            <div class="container-fluid">
+                <div class="row text-center">
+                    @php
+                        $faculty_records = [
+                            [
+                                'count' => $facultydailyCount,
+                                'label' => 'Total Daily Record',
+                                'bg' => 'bg-info',
+                                'icon' => 'ion-bag',
+                            ],
+                            [
+                                'count' => $facultyweeklyCount,
+                                'label' => 'Total Weekly Record',
+                                'bg' => 'bg-success',
+                                'icon' => 'ion-stats-bars',
+                            ],
+                            [
+                                'count' => $facultymonthlyCount,
+                                'label' => 'Total Monthly Record',
+                                'bg' => 'bg-warning',
+                                'icon' => 'ion-person-add',
+                            ],
+                            [
+                                'count' => $facultyyearlyCount,
+                                'label' => 'Total Yearly Record',
+                                'bg' => 'bg-danger',
+                                'icon' => 'ion-pie-graph',
+                            ],
+                        ];
+                    @endphp
+
+                    @foreach ($faculty_records as $record)
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <div class="small-box {{ $record['bg'] }}">
+                                <div class="inner">
+                                    <h3>{{ $record['count'] }}</h3>
+                                    <p>{{ $record['label'] }}</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion {{ $record['icon'] }}"></i>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="container-fluid font">
+                <div class="row">
+                    @php
+                        $faculty_timeframes = [
+                            'Daily' => $dailyFacultyCounts,
+                            'Weekly' => $weeklyFacultyCounts,
+                            'Monthly' => $monthlyFacultyCounts,
+                            'Yearly' => $yearlyFacultyCounts,
+                        ];
+                        $colors = ['info', 'success', 'warning', 'danger'];
+                    @endphp
+
+                    @foreach ($faculty_timeframes as $key => $counts)
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <div class="card">
+                                <h5 class="card-header bg-{{ array_shift($colors) }} fw-bold font">{{ $key }}
+                                    Records</h5>
+                                <div class="card-body {{ count($counts) > 2 ? '' : 'no-scroll' }}">
+                                    <ul class="list-group scroll-list" id="{{ strtolower($key) }}-records-list">
+                                        @foreach ($counts as $count)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                • {{ $count->college_id }}
+                                                <span class="badge badge-danger badge-pill">{{ $count->count }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="container-fluid font">
+                <div class="row">
+                    @foreach (['Most Visited Course' => $mostVisitedCollege, 'Least Visited Course' => $leastVisitedCollege] as $title => $college)
+                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                            <div class="card">
+                                <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
+                                    {{ $title }}</h5>
+                                <div class="card-body">
+                                    @if ($college)
+                                        <p><b>{{ $college->college_id }}: </b>{{ $college->count }} visits</p>
+                                    @else
+                                        <p>No visits recorded</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+
+        {{--  <section class="content font faculty p-4 border border-1">
             <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
+                <!-- Stat Boxes Row -->
                 <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>{{ $facultydailyCount }}</h3>
-
-                                <p>Total Daily Record</p>
+                    @foreach ([['info', $facultydailyCount, 'Total Daily Record', 'ion-bag'], ['success', $facultyweeklyCount, 'Total Weekly Record', 'ion-stats-bars'], ['warning', $facultymonthlyCount, 'Total Monthly Record', 'ion-person-add'], ['danger', $facultyyearlyCount, 'Total Yearly Record', 'ion-pie-graph']] as $box)
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-{{ $box[0] }}">
+                                <div class="inner">
+                                    <h3>{{ $box[1] }}</h3>
+                                    <p>{{ $box[2] }}</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion {{ $box[3] }}"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-
                         </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>{{ $facultyweeklyCount }}</h3>
-
-                                <p>Total Weekly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3>{{ $facultymonthlyCount }}</h3>
-
-                                <p>Total Monthly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3>{{ $facultyyearlyCount }}</h3>
-
-                                <p>Total Yearly Record</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
+                    @endforeach
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
 
+            <!-- Detailed Records Section -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-info fw-bold font">Daily Records</h5>
-                            <div class="card-body {{ count($dailyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="daily-record-list">
-                                    @foreach ($dailyFacultyCounts as $dailyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $dailyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $dailyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($dailyFacultyCounts) > 2)
-                                    <ul class="list-group scroll-list" id="daily-record-list-clone">
-                                        @foreach ($dailyFacultyCounts as $dailyCount)
+                    @foreach ([['Daily', 'info', $dailyFacultyCounts], ['Weekly', 'success', $weeklyFacultyCounts], ['Monthly', 'warning', $monthlyFacultyCounts], ['Yearly', 'danger', $yearlyFacultyCounts]] as $record)
+                        <div class="col-md-3">
+                            <div class="card">
+                                <h5 class="card-header bg-{{ $record[1] }} fw-bold font">{{ $record[0] }} Records
+                                </h5>
+                                <div class="card-body {{ count($record[2]) > 2 ? '' : 'no-scroll' }}">
+                                    <ul class="list-group scroll-list">
+                                        @foreach ($record[2] as $count)
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $dailyCount->college ?? 'No College' }}
-                                                <span
-                                                    class="badge badge-primary badge-pill">{{ $dailyCount->count }}</span>
+                                                • {{ $count->college ?? 'No College' }}
+                                                <span class="badge badge-primary badge-pill">{{ $count->count }}</span>
                                             </li>
                                         @endforeach
                                     </ul>
-                                @endif
+                                    @if (count($record[2]) > 2)
+                                        <!-- Clone for scrolling (if applicable) -->
+                                        <ul class="list-group scroll-list">
+                                            @foreach ($record[2] as $count)
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
+                                                    • {{ $count->college ?? 'No College' }}
+                                                    <span class="badge badge-primary badge-pill">{{ $count->count }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-success fw-bold font">Weekly Records</h5>
-                            <div class="card-body {{ count($weeklyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="weekly-record-list">
-                                    @foreach ($weeklyFacultyCounts as $weeklyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $weeklyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $weeklyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($weeklyFacultyCounts) > 2)
-                                    <ul class="list-group scroll-list" id="weekly-record-list-clone">
-                                        @foreach ($weeklyFacultyCounts as $weeklyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $weeklyCount->college ?? 'No College' }}
-                                                <span
-                                                    class="badge badge-primary badge-pill">{{ $weeklyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-warning fw-bold font">Monthly Records</h5>
-                            <div class="card-body {{ count($monthlyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="monthly-record-list">
-                                    @foreach ($monthlyFacultyCounts as $monthlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $monthlyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $monthlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($monthlyFacultyCounts) > 2)
-                                    <ul class="list-group scroll-list" id="monthly-record-list-clone">
-                                        @foreach ($monthlyFacultyCounts as $monthlyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $monthlyCount->college ?? 'No College' }}
-                                                <span
-                                                    class="badge badge-primary badge-pill">{{ $monthlyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <h5 class="card-header bg-danger fw-bold font">Yearly Records</h5>
-                            <div class="card-body {{ count($yearlyFacultyCounts) > 2 ? '' : 'no-scroll' }}">
-                                <ul class="list-group scroll-list" id="yearly-record-list">
-                                    @foreach ($yearlyFacultyCounts as $yearlyCount)
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                            • {{ $yearlyCount->college ?? 'No College' }}
-                                            <span class="badge badge-primary badge-pill">{{ $yearlyCount->count }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @if (count($yearlyFacultyCounts) > 2)
-                                    <ul class="list-group scroll-list" id="yearly-record-list-clone">
-                                        @foreach ($yearlyFacultyCounts as $yearlyCount)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $yearlyCount->college ?? 'No College' }}
-                                                <span
-                                                    class="badge badge-primary badge-pill">{{ $yearlyCount->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
+            </div>
+
+            <div class="container">
                 <div class="row font">
                     <div class="col-3"></div>
-                    <div class="col-3">
+                    <div class="col-lg-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold most">Most Visited
-                                Course</h5>
+                            <h5 class="card-header fw-bold most">Most Visited Course</h5>
                             <div class="card-body">
                                 @if ($mostVisitedCollege)
                                     <p><b>{{ $mostVisitedCollege->college ?? 'No College' }}:</b>
-                                        {{ $mostVisitedCollege->count }}
-                                        visits</p>
+                                        {{ $mostVisitedCollege->count }} visits</p>
                                 @else
                                     <p>No visits recorded</p>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3">
                         <div class="card">
-                            <h5 class="card-header fw-bold least">Least Visited
-                                Course</h5>
+                            <h5 class="card-header fw-bold least">Least Visited Course</h5>
                             <div class="card-body">
                                 @if ($leastVisitedCollege)
                                     <p><b>{{ $leastVisitedCollege->college ?? 'No College' }}:</b>
-                                        {{ $leastVisitedCollege->count }}
-                                        visits</p>
+                                        {{ $leastVisitedCollege->count }} visits</p>
                                 @else
                                     <p>No visits recorded</p>
                                 @endif
@@ -507,6 +360,9 @@
                     <div class="col-3"></div>
                 </div>
             </div>
-        </section>
+        </section>  --}}
+
+
+
     @stop
 </x-app-layout>

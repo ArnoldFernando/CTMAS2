@@ -42,7 +42,6 @@ class ImportStudentData implements ToModel, WithHeadingRow
                 'year' => $row['year'],
                 'college_id' => $row['college_id'],
                 'course_id' => $row['course_id'],
-                'status' => 'undergraduateschool'
 
             ]);
         } else {

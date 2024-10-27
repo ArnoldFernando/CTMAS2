@@ -10,41 +10,7 @@
         </div>
     @endif
 
-    @if (session('existingRecords') && session('existingRecords')->isNotEmpty())
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                let existingRecords = @json(session('existingRecords'));
-                let message = "The following records already exist:<br><br>";
-
-                existingRecords.forEach(record => {
-                    message +=
-                        `<strong>${record.type.charAt(0).toUpperCase() + record.type.slice(1)} ID:</strong> ${record.id} exists in <strong>${record.table}</strong><br>`;
-                });
-
-                document.getElementById('modal-body-content').innerHTML = message;
-                new bootstrap.Modal(document.getElementById('existingRecordsModal')).show();
-            });
-        </script>
-    @endif
-
-    <!-- Modal HTML -->
-    <div class="modal fade" id="existingRecordsModal" tabindex="-1" aria-labelledby="existingRecordsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="existingRecordsModalLabel">Existing Records</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modal-body-content">
-                    <!-- Existing records content will be inserted here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-existing-records-modal :records="session('existingRecords')" />
 
     <div class="container-fluid font bg-secondary bg-opacity-50 rounded-1 p-2">
         <div class="d-flex justify-content-end mb-2">

@@ -50,14 +50,14 @@
 
         <div class="py-2 font">
             <div class="container">
-                <div class="bg-secondary bg-opacity-25 shadow-sm rounded d-flex overflow-hidden">
+                <div class=" bg-opacity-25 shadow-sm rounded d-flex overflow-hidden">
                     <div class="p-4 text-dark flex-fill">
                         <form action="{{ route('student.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div class="row">
 
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-lg-6 col-sm-12">
                                     <label for="student_id" class="form-label">Student I.D</label>
                                     <input type="text" required name="student_id" id="student_id"
                                         placeholder="Input Student I.D" class="form-control">
@@ -66,7 +66,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-lg-6 col-sm-12">
                                     <label for="year" class="form-label">Year</label>
                                     <select required name="year" id="year" class="form-control">
                                         <option value="" disabled selected>Select Year</option>
@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="mb-3 col-4">
+                                <div class="mb-3 col-lg-4 col-sm-12">
                                     <label for="first_name" class="form-label">First Name</label>
                                     <input type="text" required name="first_name" id="first_name"
                                         placeholder="Input First Name" class="form-control">
@@ -91,7 +91,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-4">
+                                <div class="mb-3 col-lg-4 col-sm-12">
                                     <label for="middle_initial" class="form-label">Middle Initial</label>
                                     <input type="text" name="middle_initial" id="middle_initial"
                                         placeholder="Input Middle Initial" class="form-control">
@@ -100,7 +100,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-4">
+                                <div class="mb-3 col-lg-4 col-sm-12">
                                     <label for="last_name" class="form-label">Last Name</label>
                                     <input type="text" required name="last_name" id="last_name"
                                         placeholder="Input Last Name" class="form-control">
@@ -171,9 +171,17 @@
 
                         </form>
                     </div>
-                    <div class="flex-fill p-2 d-flex align-items-center justify-content-center">
+                    <div class="flex-fill p-2 d-flex align-items-center justify-content-center img-con">
                         <img class="img-fluid w-50" src="{{ asset('IMG/csulogo.png') }}" alt="CSU LOGO">
                     </div>
+
+                    <style>
+                        @media (max-width: 768px) {
+                            .img-con img {
+                                display: none
+                            }
+                        }
+                    </style>
                 </div>
             </div>
         </div>
@@ -189,79 +197,3 @@
 
     @stop
 </x-app-layout>
-
-
-{{--  <style>
-    /* Define custom background colors for colleges */
-    .college-cbea {
-        background-color: #F4CE14;
-        color: #fff;
-    }
-
-
-    .college-ccje {
-        background-color: #d9534f;
-        color: #fff;
-    }
-
-    .college-chm {
-        background-color: #FF4E88;
-        color: #fff;
-    }
-
-    .college-cfas {
-        background-color: #3795BD;
-        color: #fff;
-    }
-
-    .college-cit {
-        background-color: #1F316F;
-        color: #fff;
-    }
-
-    .college-cics {
-        background-color: #FF8343;
-        color: #fff;
-    }
-
-    .college-cted {
-        background-color: #5bc0de;
-        color: #fff;
-    }
-
-    /* Define custom background colors for courses */
-    .course-bsais {
-        background-color: #F4CE14;
-        color: #fff;
-    }
-
-    .course-bscrim {
-        background-color: #d9534f;
-        color: #fff;
-    }
-
-    .course-bshm {
-        background-color: #FF4E88;
-        color: #fff;
-    }
-
-    .course-bsfas {
-        background-color: #3795BD;
-        color: #fff;
-    }
-
-    .course-bsindtech {
-        background-color: #1F316F;
-        color: #fff;
-    }
-
-    .course-bsit {
-        background-color: #FF8343;
-        color: #fff;
-    }
-
-    .course-cted {
-        background-color: #5bc0de;
-        color: #fff;
-    }
-</style>  --}}

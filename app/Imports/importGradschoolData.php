@@ -39,7 +39,6 @@ class importGradschoolData implements ToModel, WithHeadingRow
                 'middle_initial' => $row['middle_initial'],
                 'last_name' => $row['last_name'],
                 'course_id' => $row['course_id'],
-                'status' => 'graduateschool'
             ]);
         } else {
             // Collect the conflicting IDs and specify the table they exist in
