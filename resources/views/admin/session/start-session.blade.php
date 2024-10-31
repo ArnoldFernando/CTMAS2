@@ -3,9 +3,10 @@
 
 <head>
     <title>Student Time In/Out</title>
+
     {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap-v5/css/bootstrap.min.css') }}">
+
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
     {{--  FAVICON  --}}
     <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
@@ -289,8 +290,7 @@
 
 
 
-
-    {{-- Script --}}
+    {{--  for manual typing  --}}
     {{--  <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentIdInput = document.getElementById('student_id');
@@ -304,161 +304,12 @@
         });
     </script>  --}}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const text = "Library Attendance Monitoring System Cagayan State University Aparri";
-            const colors = ["#A50002"];
-            const typingText = document.getElementById('typingText');
-            let index = 0;
-            let forward = true;
-
-            function type() {
-                if (forward) {
-                    if (index < text.length) {
-                        const span = document.createElement('span');
-                        span.textContent = text.charAt(index);
-                        span.style.color = colors[index % colors.length]; // Cycle through colors
-                        typingText.appendChild(span);
-                        index++;
-                        setTimeout(type, 100); // Adjust typing speed here
-                    } else {
-                        setTimeout(() => {
-                            forward = false;
-                            type();
-                        }, 2000); // Delay before starting to erase
-                    }
-                } else {
-                    if (index > 0) {
-                        typingText.removeChild(typingText.lastChild);
-                        index--;
-                        setTimeout(type, 100); // Adjust erasing speed here
-                    } else {
-                        setTimeout(() => {
-                            forward = true;
-                            type();
-                        }, 1000); // Delay before restarting the typing effect
-                    }
-                }
-            }
-
-            type(); // Start the typing effect
-        });
-    </script>
-
-    {{-- Bootstrap CDN --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#timeForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
-                $.ajax({
-                    url: $(this).attr('action'), // The form action URL
-                    type: $(this).attr('method'), // The form method (POST)
-                    data: $(this).serialize(), // Serialize the form data
-                    success: function(response) {
-                        // Handle student success
-                        if (response.studentTimein) {
-                            studentTimein(response.studentTimein);
-                            displayStudentInfo_in(response.studentData);
-                        }
-                        if (response.studentTimeout) {
-                            studentTimeout(response.studentTimeout);
-                            displayStudentInfo_out(response.studentData);
-                        }
-
-                        // Handle faculty success
-                        if (response.facultyTimein) {
-                            facultyTimein(response.facultyTimein);
-                            displayFacultyInfo_in(response.facultyData);
-                        }
-                        if (response.facultyTimeout) {
-                            facultyTimeout(response.facultyTimeout);
-                            displayFacultyInfo_out(response.facultyData);
-                        }
-
-                        // Optionally reset the form
-                        $('#timeForm')[0].reset();
-                    },
-                    error: function(xhr) {
-                        // Handle error
-                        if (xhr.responseJSON) {
-                            if (xhr.responseJSON.idnotexist) {
-                                error(xhr.responseJSON.idnotexist);
-                            }
-
-                            //handle student error
-                            if (xhr.responseJSON.inStudent) {
-                                inStudent(xhr.responseJSON.inStudent);
-                            }
-                            if (xhr.responseJSON.outStudent) {
-                                outStudent(xhr.responseJSON.outStudent);
-                            }
-                            // handle faculty error
-                            if (xhr.responseJSON.inFaculty) {
-                                inFaculty(xhr.responseJSON.inFaculty);
-                            }
-                            if (xhr.responseJSON.outFaculty) {
-                                outFaculty(xhr.responseJSON.outFaculty);
-                            }
-                        } else {
-                            alert('An unexpected error occurred: ' + xhr.responseText);
-                        }
-
-                        $('#timeForm')[0].reset();
-                    }
-                });
-            });
-        });
 
 
-
-
-        function displayStudentInfo_in(studentData) {
-            $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
-            $('#studentCourse').text(studentData.course_id);
-            $('#studentDepartment').text(studentData.college_id);
-            $('#currentTime').text(studentData.currentTime);
-            $('.student-image').attr('src', studentData.image);
-            $('#type').text('Student');
-            studentTimein(studentData);
-        }
-
-        function displayStudentInfo_out(studentData) {
-            $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
-            $('#studentCourse').text(studentData.course_id);
-            $('#studentDepartment').text(studentData.college_id);
-            $('#currentTime').text(studentData.currentTime);
-            $('.student-image').attr('src', studentData.image);
-            $('#type').text('Student');
-            studentTimeout(studentData);
-        }
-
-        function displayFacultyInfo_in(facultyData) {
-            $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
-            $('#studentCourse').text(facultyData.course_id);
-            $('#studentDepartment').text(facultyData.college_id);
-            $('#currentTime').text(facultyData.currentTime);
-            $('.student-image').attr('src', facultyData.image);
-            $('#type').text('Faculty');
-            facultyTimein(facultyData);
-        }
-
-        function displayFacultyInfo_out(facultyData) {
-            $('#studentName').text(facultyData.first_name + ' ' + facultyData.middle_initial + ' ' + facultyData.last_name);
-            $('#studentCourse').text(facultyData.course_id);
-            $('#studentDepartment').text(facultyData.college_id);
-            $('#currentTime').text(facultyData.currentTime);
-            $('.student-image').attr('src', facultyData.image);
-            $('#type').text('Faculty');
-            facultyTimeout(facultyData);
-        }
-    </script>
-
-
-
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/session/session.js') }}"></script>
+    <script src="{{ asset('js/session/post-ajax.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap-v5/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
