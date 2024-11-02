@@ -3,15 +3,21 @@
 
 <head>
     <title>Student Time In/Out</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Bootstrap --}}
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-v5/css/bootstrap.min.css') }}">
-
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
     {{--  FAVICON  --}}
     <link rel="shortcut icon" href="{{ asset('IMG/csulogo.png') }}" type="image/x-icon">
-    {{-- Sweet Alert CDN --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{--  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  --}}
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.css') }}">
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Google Fonts --}}
     <link
@@ -19,7 +25,7 @@
         rel="stylesheet">
     {{-- Font Awesome --}}
     <script src="https://kit.fontawesome.com/5c14b0052b.js" crossorigin="anonymous"></script>
-    <style>
+    {{--  <style>
         body {
             font-family: 'Nunito';
         }
@@ -180,6 +186,19 @@
 
 
         }
+    </style>  --}}
+    <link rel="stylesheet" href="{{ asset('css/session.css') }}">
+
+    <style>
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(calc(-100% - 10px * {{ count($rankedStudents) }}));
+            }
+        }
     </style>
 
 </head>
@@ -187,7 +206,6 @@
 <body>
     {{-- Sweet Alert --}}
     @extends('admin.session.swal')
-
 
     <div class="container-fluid d-flex flex-column min-vh-100 p-3 body">
         <div class="row row-1">
@@ -303,8 +321,6 @@
             });
         });
     </script>  --}}
-
-
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/session/session.js') }}"></script>

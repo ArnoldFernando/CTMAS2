@@ -49,7 +49,6 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
-            /* Adjust the opacity as needed */
             z-index: 1;
         }
 
@@ -79,102 +78,129 @@
         /* Apply the animation to the card */
         .popping-card {
             animation: pop 0.5s ease-out;
+            width: 850px;
+            padding: 2rem;
+        }
+
+        /* Logo image styling */
+        .csu-logo {
+            height: 200px;
+            width: auto;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .font {
+                font-size: 2.5rem;
+            }
+
+            .popping-card {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .csu-logo {
+                height: 160px;
+            }
+
+            img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .font {
+                font-size: 2rem;
+            }
+
+            .popping-card {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .csu-logo {
+                height: 140px;
+            }
         }
     </style>
-    @yield('css')
-@stop
-
-@section('classes_body', 'register-page')
 
 @section('body')
     <div class="background">
         <div class="d-flex align-items-center justify-content-center" style="min-height: 95vh;">
-            <div class="card rounded-4 shadow-lg p-3 popping-card" style="width: 850px;">
+            <div class="card rounded-4 shadow-lg p-3 popping-card">
                 <div class="row py-3">
                     <div class="col-md-6 pt-0">
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src="{{ asset('IMG/csulogo.png') }}" class="mt-5" alt="CSU Logo" height="200rem">
+                            <img src="{{ asset('IMG/csulogo.png') }}" alt="CSU Logo" class="mt-5 csu-logo">
                         </div>
                         <h3 class="d-flex justify-content-center font text-shadow mt-3">CSU-APARRI</h3>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <div class="">
-                            <div class="">
-                                <div class="rounded-1 py-0">
-                                    <p class="text-center font-text fs-5" style="font-weight: 500;">Welcome to <b
-                                            style="color: #FFC219;  text-shadow: 1px 1px 1px rgba(121, 24, 0, 0.6);">LIBRARY</b>
-                                    </p>
+                        <div class="rounded-1 py-0">
+                            <p class="text-center font-text fs-5" style="font-weight: 500;">Welcome to <b
+                                    style="color: #FFC219; text-shadow: 1px 1px 1px rgba(121, 24, 0, 0.6);">LIBRARY</b></p>
+                            <hr class="mt-0">
+                            <form action="{{ route('register') }}" method="post">
+                                @csrf
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="name"
+                                        class="form-control border border-1 border-secondary @error('name') is-invalid @enderror"
+                                        placeholder="Full name" value="{{ old('name') }}" required autofocus>
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <hr class="mt-0">
-                                <form action="{{ route('register') }}" method="post">
-                                    @csrf
 
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="name"
-                                            class="form-control border border-1 border-secondary @error('name') is-invalid @enderror"
-                                            placeholder="Full name" value="{{ old('name') }}" required autofocus>
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                <div class="input-group mb-3">
+                                    <input type="email" name="email"
+                                        class="form-control border border-1 border-secondary @error('email') is-invalid @enderror"
+                                        placeholder="Email" value="{{ old('email') }}" required>
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="password" name="password"
+                                        class="form-control border border-1 border-secondary @error('password') is-invalid @enderror"
+                                        placeholder="Password" required>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="password" name="password_confirmation"
+                                        class="form-control border border-1 border-secondary" placeholder="Retype password"
+                                        required>
+                                    @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <button type="submit"
+                                            class="btn btn-block text-light btn-primary fw-bold">Register</button>
                                     </div>
-
-                                    <div class="input-group mb-3">
-                                        <input type="email" name="email"
-                                            class="form-control border border-1 border-secondary @error('email') is-invalid @enderror"
-                                            placeholder="Email" value="{{ old('email') }}" required>
-
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="input-group mb-3">
-                                        <input type="password" name="password"
-                                            class="form-control border border-1 border-secondary @error('password') is-invalid @enderror"
-                                            placeholder="Password" required>
-
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="input-group mb-3">
-                                        <input type="password" name="password_confirmation"
-                                            class="form-control border border-1 border-secondary"
-                                            placeholder="Retype password" required>
-
-                                        @error('password_confirmation')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-12">
-                                            <button type="submit"
-                                                class="btn btn-block text-light btn-primary fw-bold">Register</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <p class="mt-3 mb-1">
-                                            <a href="{{ route('login') }}" class="text-decoration-none"
-                                                style="font-weight: 500;">I
-                                                already have an Account</a>
-                                        </p>
-                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <p class="mt-3 mb-1">
+                                        <a href="{{ route('login') }}" class="text-decoration-none"
+                                            style="font-weight: 500;">I already have an Account</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -182,9 +208,9 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
+
 
 @section('adminlte_js')
     @yield('js')

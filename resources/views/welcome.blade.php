@@ -17,6 +17,7 @@
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ url('css/landing.css') }}" rel="stylesheet" />
+
 </head>
 
 <body id="page-top">

@@ -10,17 +10,6 @@
             .dropdown-menu {
                 z-index: 1050;
             }
-
-            .table-responsive::-webkit-scrollbar {
-                display: none;
-            }
-
-            .table-responsive {
-                -ms-overflow-style: none;
-                /* IE and Edge */
-                scrollbar-width: none;
-                /* Firefox */
-            }
         </style>
     @stop
 
@@ -135,13 +124,15 @@
 
                 <hr class="mt-0">
 
-                @if (session('results'))
-                    <div class="row mt-1 px-1">
-                        <div class="col">
-                            <h6 class="fw-bold">Search Results:</h6>
+                <div class="row mt-1 px-1">
+                    <div class="col">
+                        @if (session('results') || isset($sessionsByDay))
+                            <h6 class="fw-bold">{{ session('results') ? 'Search Results:' : '' }}</h6>
                             <div class="table-responsive"
                                 style="max-height: 600px; overflow-y: auto; position: relative;">
-                                <table class="table table-bordered text-center" style="margin-right: -17px;">
+                                <table class="table table-striped table-bordered text-center"
+                                    style="margin-right: -17px;">
+                                    <!-- Table Header -->
                                     <thead class="table-dark sticky-top">
                                         <tr>
                                             <th>No.</th>
@@ -156,58 +147,11 @@
                                             <th>Date</th>
                                         </tr>
                                     </thead>
+                                    <!-- Table Body -->
                                     <tbody>
-                                        @php $counter = 1 @endphp
-                                        @foreach (session('results') as $session)
-                                            <tr>
-                                                <td>{{ $counter++ }}</td>
-                                                <td>{{ $session->student_id }}</td>
-                                                <td>{{ $session->student->first_name }}
-                                                    {{ $session->student->middle_initial }}
-                                                    {{ $session->student->last_name }}</td>
-                                                <td>{{ $session->student->course_id }}</td>
-                                                <td>{{ $session->student->college_id }}</td>
-                                                <td>{{ $session->student->year }}</td>
-
-                                                <td>{{ $session->time_in }}</td>
-                                                <td>{{ $session->time_out ?: 'N/A' }}</td>
-                                                <td>{{ $session->duration ?: 'N/A' }}</td>
-                                                <td>{{ $session->created_at->format('F j, Y') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @elseif (isset($sessionsByDay))
-                    <div class="row mt-1 px-1">
-                        <div class="col">
-                            <div class="table-responsive"
-                                style="max-height: 600px; overflow-y: auto; position: relative;">
-                                <table class="table table-bordered text-center" style="margin-right: -17px;">
-                                    <thead class="table-dark sticky-top">
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Student ID</th>
-                                            <th>Name</th>
-                                            <th>Course</th>
-                                            <th>College</th>
-                                            <th>Year</th>
-                                            <th>Time In</th>
-                                            <th>Time Out</th>
-                                            <th>Duration</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $counter = 1 @endphp
-                                        @foreach ($sessionsByDay as $day => $sessions)
-                                            <tr>
-                                                <td colspan="10" class="table-warning px-3 py-2">{{ $day }}
-                                                </td>
-                                            </tr>
-                                            @foreach ($sessions as $session)
+                                        @php $counter = 1; @endphp
+                                        @if (session('results'))
+                                            @foreach (session('results') as $session)
                                                 <tr>
                                                     <td>{{ $counter++ }}</td>
                                                     <td>{{ $session->student_id }}</td>
@@ -217,26 +161,45 @@
                                                     <td>{{ $session->student->course_id }}</td>
                                                     <td>{{ $session->student->college_id }}</td>
                                                     <td>{{ $session->student->year }}</td>
-
                                                     <td>{{ $session->time_in }}</td>
                                                     <td>{{ $session->time_out ?: 'N/A' }}</td>
                                                     <td>{{ $session->duration ?: 'N/A' }}</td>
                                                     <td>{{ $session->created_at->format('F j, Y') }}</td>
                                                 </tr>
                                             @endforeach
-                                        @endforeach
+                                        @else
+                                            @foreach ($sessionsByDay as $day => $sessions)
+                                                <tr>
+                                                    <td colspan="10" class="table-warning px-3 py-2">
+                                                        {{ $day }}</td>
+                                                </tr>
+                                                @foreach ($sessions as $session)
+                                                    <tr>
+                                                        <td>{{ $counter++ }}</td>
+                                                        <td>{{ $session->student_id }}</td>
+                                                        <td>{{ $session->student->first_name }}
+                                                            {{ $session->student->middle_initial }}
+                                                            {{ $session->student->last_name }}</td>
+                                                        <td>{{ $session->student->course_id }}</td>
+                                                        <td>{{ $session->student->college_id }}</td>
+                                                        <td>{{ $session->student->year }}</td>
+                                                        <td>{{ $session->time_in }}</td>
+                                                        <td>{{ $session->time_out ?: 'N/A' }}</td>
+                                                        <td>{{ $session->duration ?: 'N/A' }}</td>
+                                                        <td>{{ $session->created_at->format('F j, Y') }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="row mt-1 px-1">
-                        <div class="col">
+                        @else
                             <p>No records found.</p>
-                        </div>
+                        @endif
                     </div>
-                @endif
+                </div>
+
             </div>
         </div>
     @stop

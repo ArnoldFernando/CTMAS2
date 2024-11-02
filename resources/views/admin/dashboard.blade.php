@@ -54,13 +54,26 @@
                 background-color: #921A40;
                 color: #fff;
             }
+
+            @media (max-width: 768px) {
+
+                p,
+                h1,
+                h2,
+                h3,
+                h5,
+                h6,
+                li {
+                    font-size: 11px
+                }
+            }
         </style>
 
 
         <section class="content font pt-4 student">
             <h4 class="text-center fw-semibold font pb-4">Student Records</h4>
 
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row text-center">
                     @php
                         $records = [
@@ -92,10 +105,10 @@
                     @endphp
 
                     @foreach ($records as $record)
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                        <div class="col-lg-3 col-6  mb-3">
                             <div class="small-box {{ $record['bg'] }}">
                                 <div class="inner">
-                                    <h3>{{ $record['count'] }}</h3>
+                                    <h3 class="h3">{{ $record['count'] }}</h3>
                                     <p>{{ $record['label'] }}</p>
                                 </div>
                                 <div class="icon">
@@ -120,7 +133,7 @@
                     @endphp
 
                     @foreach ($timeframes as $key => $counts)
-                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                        <div class="col-lg-3  col-6 mb-3">
                             <div class="card">
                                 <h5 class="card-header bg-{{ array_shift($colors) }} fw-bold font">{{ $key }}
                                     Records</h5>
@@ -144,7 +157,7 @@
             <div class="container-fluid font">
                 <div class="row">
                     @foreach (['Most Visited Course' => $mostVisitedCourse, 'Least Visited Course' => $leastVisitedCourse] as $title => $course)
-                        <div class="col-lg-3 col-md-6 col-12 mb-3">
+                        <div class=" col-lg-3 col-md-6 col-sm-6 mb-3">
                             <div class="card">
                                 <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
                                     {{ $title }}</h5>
@@ -163,7 +176,7 @@
         </section>
 
 
-
+        {{--  faculty  --}}
         <section class="content font pt-4 faculty">
             <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
 
@@ -268,100 +281,6 @@
                 </div>
             </div>
         </section>
-
-
-        {{--  <section class="content font faculty p-4 border border-1">
-            <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
-            <div class="container-fluid">
-                <!-- Stat Boxes Row -->
-                <div class="row">
-                    @foreach ([['info', $facultydailyCount, 'Total Daily Record', 'ion-bag'], ['success', $facultyweeklyCount, 'Total Weekly Record', 'ion-stats-bars'], ['warning', $facultymonthlyCount, 'Total Monthly Record', 'ion-person-add'], ['danger', $facultyyearlyCount, 'Total Yearly Record', 'ion-pie-graph']] as $box)
-                        <div class="col-lg-3 col-6">
-                            <div class="small-box bg-{{ $box[0] }}">
-                                <div class="inner">
-                                    <h3>{{ $box[1] }}</h3>
-                                    <p>{{ $box[2] }}</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion {{ $box[3] }}"></i>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Detailed Records Section -->
-            <div class="container-fluid">
-                <div class="row">
-                    @foreach ([['Daily', 'info', $dailyFacultyCounts], ['Weekly', 'success', $weeklyFacultyCounts], ['Monthly', 'warning', $monthlyFacultyCounts], ['Yearly', 'danger', $yearlyFacultyCounts]] as $record)
-                        <div class="col-md-3">
-                            <div class="card">
-                                <h5 class="card-header bg-{{ $record[1] }} fw-bold font">{{ $record[0] }} Records
-                                </h5>
-                                <div class="card-body {{ count($record[2]) > 2 ? '' : 'no-scroll' }}">
-                                    <ul class="list-group scroll-list">
-                                        @foreach ($record[2] as $count)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $count->college ?? 'No College' }}
-                                                <span class="badge badge-primary badge-pill">{{ $count->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                    @if (count($record[2]) > 2)
-                                        <!-- Clone for scrolling (if applicable) -->
-                                        <ul class="list-group scroll-list">
-                                            @foreach ($record[2] as $count)
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                    • {{ $count->college ?? 'No College' }}
-                                                    <span class="badge badge-primary badge-pill">{{ $count->count }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row font">
-                    <div class="col-3"></div>
-                    <div class="col-lg-3">
-                        <div class="card">
-                            <h5 class="card-header fw-bold most">Most Visited Course</h5>
-                            <div class="card-body">
-                                @if ($mostVisitedCollege)
-                                    <p><b>{{ $mostVisitedCollege->college ?? 'No College' }}:</b>
-                                        {{ $mostVisitedCollege->count }} visits</p>
-                                @else
-                                    <p>No visits recorded</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card">
-                            <h5 class="card-header fw-bold least">Least Visited Course</h5>
-                            <div class="card-body">
-                                @if ($leastVisitedCollege)
-                                    <p><b>{{ $leastVisitedCollege->college ?? 'No College' }}:</b>
-                                        {{ $leastVisitedCollege->count }} visits</p>
-                                @else
-                                    <p>No visits recorded</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3"></div>
-                </div>
-            </div>
-        </section>  --}}
-
 
 
     @stop

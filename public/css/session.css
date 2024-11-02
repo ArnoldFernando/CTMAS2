@@ -1,0 +1,148 @@
+body {
+    font-family: "Nunito";
+}
+
+.container-fluid {
+    background-color: #f9dbba;
+}
+
+.body .row-1 {
+    background-color: #f9dbba;
+}
+
+.scan {
+    background-color: #f0f0f0;
+}
+
+.font {
+    font-family: "Poppins";
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #f0f0f0;
+}
+
+.infinite-scroll {
+    overflow: hidden;
+    position: relative;
+}
+
+.table-responsive {
+    position: relative;
+    height: 200px;
+    /* Allow height to adjust */
+    overflow: hidden;
+    /* Hide the scrollbar */
+}
+
+.table-responsive.no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.table-responsive.no-scrollbar {
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.thead-fixed th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.table thead,
+.table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table tbody {
+    display: block;
+    animation: scroll 50s linear infinite;
+}
+
+.rank {
+    height: 200px;
+    /* Allow rank section to expand */
+}
+
+.h1 {
+    height: 60vh;
+    /* Adjust header height */
+}
+
+.card-body {
+    height: 200px;
+    /* Allow card body to expand */
+}
+
+.swal2-image {
+    border: 3px solid rgba(7, 227, 7, 0.8);
+    border-radius: 50% !important;
+    width: 200px;
+    /* Make image responsive */
+    height: 200px;
+    /* Adjust height proportionally */
+    object-fit: cover !important;
+    overflow: hidden !important;
+}
+
+@media (max-width: 768px) {
+    .h1 {
+        font-size: 1.5rem;
+        /* Adjust font size for smaller screens */
+    }
+
+    .bg-light {
+        width: 100%;
+        /* Make light background full width */
+        padding: 1rem;
+        /* Adjust padding */
+    }
+
+    .container {
+        padding-left: 0;
+        /* Remove padding */
+        padding-right: 0;
+        /* Remove padding */
+    }
+
+    .card {
+        width: 100%;
+        /* Make card full width */
+    }
+
+    /* .rank {
+        height: 200px;
+    } */
+
+    .table {
+        font-size: 0.9rem;
+        /* Adjust table font size */
+    }
+
+    .student-image {
+        width: 100%;
+        /* Make student image responsive */
+        height: auto;
+        /* Maintain aspect ratio */
+    }
+
+    #typingText {
+        display: none;
+    }
+}

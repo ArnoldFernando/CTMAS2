@@ -185,34 +185,6 @@
 
     {{--  faculty  --}}
     <script>
-        function error() {
-            let timerInterval;
-            Swal.fire({
-                title: "Error!",
-                text: "This is a success message.",
-                icon: "error",
-                html: "ID does not exist",
-                timer: 2000, // Set the timer duration (in milliseconds)
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
-                },
-                willClose: () => {
-                    clearInterval(timerInterval);
-                    // Focus on the input field after the alert closes
-                    setTimeout(() => {
-                        document.getElementById('faculty_id').focus();
-                    }, 50); // Adjust the timeout if necessary
-                }
-            }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {}
-            });
-        }
-
         function outFaculty() {
             let timerInterval;
             Swal.fire({

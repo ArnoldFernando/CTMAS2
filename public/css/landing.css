@@ -11445,7 +11445,7 @@ body {
 .masthead {
     position: relative;
     width: 100%;
-    height: auto;
+    height: 100vh;
     min-height: 35rem;
     padding: 15rem 0;
     background: linear-gradient(
@@ -11512,6 +11512,7 @@ body {
     .masthead {
         height: 100vh;
         padding: 0;
+        overflow: hidden;
     }
     .masthead h1,
     .masthead .h1 {

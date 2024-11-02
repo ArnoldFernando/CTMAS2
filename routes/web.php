@@ -38,13 +38,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'auth'])
-    ->middleware(['auth'])->name('home');
+    ->middleware(['auth', 'verified'])->name('home');
 
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // dashboard routes
-    Route::get('/student-records', [DashboardController::class, 'combinedDashboard'])->name('student.records.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'combinedDashboard'])->name('dashboard');
 
     // student routes
     Route::middleware('auth')->group(function () {
