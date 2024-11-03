@@ -323,11 +323,23 @@ return [
             'icon' => 'fa-solid fa-house',
             'icon_color' => 'blue',
         ],
+
         [
             'text' => 'Chart',
-            'url' => 'admin/student-chart',
-            'icon' => 'fa-solid fa-house',
-            'icon_color' => 'blue',
+            'icon' => 'fa-solid fa-chart-simple',
+            'icon_color' => 'green',
+            'submenu' => [
+                [
+                    'text' => 'Weekly',
+                    'url' => '/admin/student-weekly-chart',
+                    'icon' => 'fas fa-fw fa-calendar-week',
+                ],
+                [
+                    'text' => 'Monthly',
+                    'url' => '/admin/student-monthly-chart',
+                    'icon' => 'fas fa-fw fa-calendar-days',
+                ],
+            ],
         ],
         [
             'text' => 'Session',

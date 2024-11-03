@@ -136,9 +136,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 // chart
     Route::middleware('auth')->group(function () {
-        Route::view('/student-chart', 'chart-test');
-        Route::get('/chart-data', [ChartController::class, 'course']);
-        Route::get('/chart-data-2', [ChartController::class, 'college']);
+        Route::view('/student-monthly-chart', 'admin.chart.monthly-chart');
+        Route::get('/chart-data-course', [ChartController::class, 'monthlycourse']);
+        Route::get('/chart-data-college', [ChartController::class, 'monthlycollege']);
+
+        Route::view('/student-weekly-chart', 'admin.chart.weekly-chart');
+        Route::get('/chart-data-course-week', [ChartController::class, 'weeklycourse']);
+        Route::get('/chart-data-college-week', [ChartController::class, 'weeklycollege']);
 
     });
 
