@@ -29,7 +29,7 @@ class StudentList extends Model
     // A student can have many records
     public function records()
     {
-        return $this->hasMany(StudentRecords::class);
+        return $this->hasMany(StudentRecords::class, 'student_id', 'student_id');
     }
 
 

@@ -319,7 +319,13 @@ return [
         ['header' => 'NAVIGATION'],
         [
             'text' => 'Dashboard',
-            'url' => 'admin/student-records',
+            'url' => 'admin/dashboard',
+            'icon' => 'fa-solid fa-house',
+            'icon_color' => 'blue',
+        ],
+        [
+            'text' => 'Chart',
+            'url' => 'admin/student-chart',
             'icon' => 'fa-solid fa-house',
             'icon_color' => 'blue',
         ],

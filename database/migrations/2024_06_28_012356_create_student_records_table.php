@@ -20,16 +20,6 @@ return new class extends Migration {
             // Foreign key to students table
             $table->foreign('student_id')->references('student_id')->on('student_lists')->onDelete('cascade')->onUpdate('cascade');
 
-            // $table->id();
-            // $table->string('student_id');
-            // $table->time('time_in')->nullable();
-            // $table->time('time_out')->nullable();
-            // $table->timestamps();
-
-            // $table->foreign('student_id')
-            //     ->references('student_id')
-            //     ->on('student_lists')
-            //     ->onDelete('cascade');
         });
     }
 

@@ -56,35 +56,30 @@
             </main>
         @stop
 
-        @section('js')
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-            {{-- Bootstrap Script --}}
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-            </script>
-            {{-- ION ICONS --}}
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-            <script>
-                document.addEventListener('keydown', function(event) {
-                    if (event.keyCode === 112) { // F1 key
-                        event.preventDefault(); // Prevent the default F1 behavior
-                        window.open("/admin/redirect", "_blank"); // Open the URL in a new tab
-                    }
 
-                    if (event.keyCode === 113) { // F2 key
-                        event.preventDefault(); // Prevent the default F1 behavior
-                        window.open("/admin/redirect-computer", "_blank"); // Open the URL in a new tab
-                    }
-                });
-            </script>
-        @stop
+
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('vendor/bootstrap-v5/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 112) { // F1 key
+                event.preventDefault(); // Prevent the default F1 behavior
+                window.open("/admin/redirect", "_blank"); // Open the URL in a new tab
+            }
+
+            if (event.keyCode === 113) { // F2 key
+                event.preventDefault(); // Prevent the default F1 behavior
+                window.open("/admin/redirect-computer", "_blank"); // Open the URL in a new tab
+            }
+        });
+    </script>
 
 </body>
 

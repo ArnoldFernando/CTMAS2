@@ -19,7 +19,7 @@ class StudentRecords extends Model
 
     public function student()
     {
-        return $this->belongsTo(StudentList::class, 'student_id');
+        return $this->belongsTo(StudentList::class, 'student_id', 'student_id');
     }
 
     public function faculty()

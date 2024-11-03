@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ComputerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +46,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'combinedDashboard'])->name('dashboard');
-
     // student routes
     Route::middleware('auth')->group(function () {
         Route::resource('student', StudentController::class);
@@ -134,6 +134,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     });
 
 
+// chart
+    Route::middleware('auth')->group(function () {
+        Route::view('/student-chart', 'chart-test');
+        Route::get('/chart-data', [ChartController::class, 'course']);
+        Route::get('/chart-data-2', [ChartController::class, 'college']);
+
+    });
 
 
 
