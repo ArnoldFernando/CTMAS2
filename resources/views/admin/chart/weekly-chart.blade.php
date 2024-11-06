@@ -23,10 +23,13 @@
         </div>
 
         <div class="d-flex justify-content-center mb-4">
-            <button id="prevMonth" class="btn btn-outline-primary me-2">⬅️</button>
-            <span id="currentMonthLabel" class="fs-4 fw-bold">Current Month</span>
-            <button id="nextMonth" class="btn btn-outline-primary ms-2">➡️</button>
+            <button id="prevYear" class="btn btn-outline-primary me-2">⬅️ Year</button>
+            <button id="prevMonth" class="btn btn-outline-primary me-2">⬅️ Month</button>
+            <span id="currentMonthLabel" class="fs-4 fw-bold">Current Month Year</span>
+            <button id="nextMonth" class="btn btn-outline-primary ms-2">➡️ Month</button>
+            <button id="nextYear" class="btn btn-outline-primary ms-2">➡️ Year</button>
         </div>
+
 
 
 

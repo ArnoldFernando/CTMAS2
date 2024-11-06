@@ -18,6 +18,12 @@
             </div>
         </div>
 
+        <div class="container text-center mt-3">
+            <button id="previousYearBtn" class="btn btn-secondary">Previous Year</button>
+            <span id="currentYear" class="mx-3 font-weight-bold">{{ now()->year }}</span>
+            <button id="nextYearBtn" class="btn btn-secondary">Next Year</button>
+        </div>
+
         <div class="container mt-1 text-center">
             <div class="btn-group" role="group" aria-label="Visits toggle">
                 <button id="courseVisitsBtn" class="btn btn-primary">Show Course Visits</button>
@@ -61,6 +67,10 @@
             background-color: #6c757d;
         }
     </style>
+
+    <!-- Include jQuery and Chart.js libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="{{ asset('js/chart/monthly-chart.js') }}"></script>
 </x-app-layout>
