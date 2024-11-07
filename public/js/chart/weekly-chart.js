@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: true,
+                        maintainAspectRatio: false,
                         aspectRatio: 2,
                         plugins: {
                             legend: {
@@ -112,18 +112,42 @@ document.addEventListener("DOMContentLoaded", function () {
                                 labels: {
                                     generateLabels: (chart) => {
                                         const datasets = chart.data.datasets;
-                                        return datasets.map((dataset, i) => ({
-                                            text: `${dataset.label}: ${dataset.data.reduce((a, b) => a + b, 0)}`, // Sum of data or customize
-                                            fillStyle: dataset.backgroundColor,
-                                            hidden: !chart.isDatasetVisible(i),
-                                            lineCap: dataset.borderCapStyle,
-                                            lineDash: dataset.borderDash,
-                                            lineDashOffset: dataset.borderDashOffset,
-                                            lineJoin: dataset.borderJoinStyle,
-                                            strokeStyle: dataset.borderColor,
-                                            pointStyle: dataset.pointStyle,
-                                            datasetIndex: i
-                                        }));
+
+                                        // Map through datasets to create individual labels
+                                        const labels = datasets.map((dataset, i) => {
+                                            const totalVisits = dataset.data.reduce((a, b) => a + b, 0);
+                                            const formattedTotal = totalVisits.toLocaleString();
+                                            return {
+                                                text: `${dataset.label}: ${formattedTotal}`,
+                                                fillStyle: dataset.backgroundColor,
+                                                hidden: !chart.isDatasetVisible(i),
+                                                lineCap: dataset.borderCapStyle,
+                                                lineDash: dataset.borderDash,
+                                                lineDashOffset: dataset.borderDashOffset,
+                                                lineJoin: dataset.borderJoinStyle,
+                                                strokeStyle: dataset.borderColor,
+                                                pointStyle: dataset.pointStyle,
+                                                datasetIndex: i
+                                            };
+                                        });
+
+                                        // Calculate the grand total for visible datasets only
+                                        const grandTotal = datasets.reduce((sum, dataset, i) => {
+                                            if (chart.isDatasetVisible(i)) {
+                                                return sum + dataset.data.reduce((a, b) => a + b, 0);
+                                            }
+                                            return sum;
+                                        }, 0);
+                                        const formattedGrandTotal = grandTotal.toLocaleString();
+
+                                        // Append the grand total as the last label
+                                        labels.push({
+                                            text: `Total: ${formattedGrandTotal}`,
+                                            fillStyle: 'transparent',
+                                            hidden: false,
+                                        });
+
+                                        return labels;
                                     }
                                 }
                             },

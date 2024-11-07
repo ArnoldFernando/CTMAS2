@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const formattedTotal = totalVisits.toLocaleString(); // Format the total visits with commas
 
             return {
-                label: `${label}: ${formattedTotal}`, // Add formatted total visits to the label
+                label: `${label}`, // Add formatted total visits to the label
                 data: visitsPerMonth, // Ensure data is an array of numbers
                 backgroundColor: colors[i % colors.length],
                 borderColor: colors[i % colors.length].replace(/0.5/, '1'),
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'right',
@@ -103,11 +103,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         labels: {
                             generateLabels: function (chart) {
                                 const datasets = chart.data.datasets;
-                                return datasets.map((dataset, i) => {
-                                    const totalVisits = dataset.data.reduce((a, b) => a + b, 0); // Calculate total visits
-                                    const formattedTotal = totalVisits.toLocaleString(); // Format the total visits with commas
+
+                                // Map through the datasets to create individual labels
+                                const labels = datasets.map((dataset, i) => {
+                                    const totalVisits = dataset.data.reduce((a, b) => a + b, 0);
+                                    const formattedTotal = totalVisits.toLocaleString();
                                     return {
-                                        text: `${dataset.label}`, // Append formatted total visits
+                                        text: `${dataset.label}: ${formattedTotal}`,
                                         fillStyle: dataset.backgroundColor,
                                         hidden: !chart.isDatasetVisible(i),
                                         lineCap: dataset.borderCapStyle,
@@ -119,7 +121,27 @@ document.addEventListener("DOMContentLoaded", function () {
                                         datasetIndex: i
                                     };
                                 });
+
+                                // Calculate the grand total only from visible datasets
+                                const grandTotal = datasets.reduce((sum, dataset, i) => {
+                                    if (chart.isDatasetVisible(i)) { // Only include visible datasets
+                                        return sum + dataset.data.reduce((a, b) => a + b, 0);
+                                    }
+                                    return sum;
+                                }, 0);
+                                const formattedGrandTotal = grandTotal.toLocaleString();
+
+                                // Append the dynamic grand total label to the legend
+                                labels.push({
+                                    text: `Total: ${formattedGrandTotal}`, // Display updated grand total
+                                    fillStyle: 'transparent', // No color block for the total label
+                                    hidden: false, // Static label for display
+                                });
+
+                                return labels;
                             }
+
+
                         }
                     },
                     tooltip: {
