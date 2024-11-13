@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Session;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Models\StudentList;
 use Illuminate\Http\Request;

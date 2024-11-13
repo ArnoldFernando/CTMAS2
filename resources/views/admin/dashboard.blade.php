@@ -1,287 +1,172 @@
 <x-app-layout>
 
-    @section('content')
-        <style>
-            .card-body {
-                position: relative;
-                height: 120px;
-                overflow: hidden;
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Small Boxes (Summary Statistics) -->
+            <div class="col-md-3 col-sm-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ $dailyCount }}</h3>
+                        <p>Daily Time-In Count</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ $weeklyAverage }}</h3>
+                        <p>Weekly Average Time-In</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ $monthlyTotal }}</h3>
+                        <p>October Total Time-In</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ $courseCount }}</h3>
+                        <p>Courses Tracked</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Large Box (Chart) -->
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Average Time-In by Course</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="timeInChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartData = @json($chartData);
+
+            const labels = [];
+            const datasets = [];
+
+            // Fixed color palette for 12 courses
+            const fixedColors = [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+                '#E74C3C', '#2ECC71', '#3498DB', '#F39C12', '#8E44AD', '#27AE60'
+            ];
+
+            let colorIndex = 0;
+
+            for (const [course, data] of Object.entries(chartData)) {
+                labels.push(...data.map(item => item.date));
+
+                datasets.push({
+                    label: course,
+                    data: data.map(item => {
+                        const [hours, minutes] = item.average_time.split(':');
+                        return parseInt(hours) + parseInt(minutes) / 60; // Convert to hours
+                    }),
+                    backgroundColor: fixedColors[colorIndex % fixedColors.length], // Use fixed color
+                    borderColor: fixedColors[colorIndex % fixedColors.length],
+                    borderWidth: 1
+                });
+
+                colorIndex++;
             }
 
-            .scroll-list {
-                display: flex;
-                flex-direction: column;
-                margin: 0;
-                padding: 0;
-                list-style: none;
-                animation: scroll 20s linear infinite;
-            }
-
-            .card-body.no-scroll .scroll-list {
-                animation: none;
-            }
-
-            .card-body:hover .scroll-list {
-                animation-play-state: paused;
-            }
-
-            @keyframes scroll {
-                0% {
-                    transform: translateY(0);
+            const ctx = document.getElementById('timeInChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [...new Set(labels)].sort(),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Average Time-In (Hours)'
+                            },
+                            beginAtZero: true
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
                 }
-
-                100% {
-                    transform: translateY(-100%);
-                }
-            }
-
-            .list-group-item {
-                height: 45px;
-            }
+            });
+        });
+    </script>
 
 
+    <style>
+        /* Ensures no scroll on page */
+        .container-fluid {
+            padding: 0 15px;
+        }
 
-            .faculty h4 {
-                padding-top: 2em;
-            }
+        .small-box {
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 120px;
+        }
 
-            .space {
-                height: 10vh;
-            }
+        .small-box .icon {
+            font-size: 60px;
+            opacity: 0.4;
+        }
 
-            .most,
-            .least {
-                background-color: #921A40;
-                color: #fff;
-            }
+        .card {
+            height: 400px;
+        }
 
-            @media (max-width: 768px) {
-
-                p,
-                h1,
-                h2,
-                h3,
-                h5,
-                h6,
-                li {
-                    font-size: 11px
-                }
-            }
-        </style>
-
-
-        <section class="content font pt-4 student">
-            <h4 class="text-center fw-semibold font pb-4">Student Records</h4>
-
-            <div class="container">
-                <div class="row text-center">
-                    @php
-                        $records = [
-                            [
-                                'count' => $dailyCount,
-                                'label' => 'Total Daily Record',
-                                'bg' => 'bg-info',
-                                'icon' => 'ion-bag',
-                            ],
-                            [
-                                'count' => $weeklyCount,
-                                'label' => 'Total Weekly Record',
-                                'bg' => 'bg-success',
-                                'icon' => 'ion-stats-bars',
-                            ],
-                            [
-                                'count' => $monthlyCount,
-                                'label' => 'Total Monthly Record',
-                                'bg' => 'bg-warning',
-                                'icon' => 'ion-person-add',
-                            ],
-                            [
-                                'count' => $yearlyCount,
-                                'label' => 'Total Yearly Record',
-                                'bg' => 'bg-danger',
-                                'icon' => 'ion-pie-graph',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($records as $record)
-                        <div class="col-lg-3 col-6  mb-3">
-                            <div class="small-box {{ $record['bg'] }}">
-                                <div class="inner">
-                                    <h3 class="h3">{{ $record['count'] }}</h3>
-                                    <p>{{ $record['label'] }}</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion {{ $record['icon'] }}"></i>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="container-fluid font">
-                <div class="row">
-                    @php
-                        $timeframes = [
-                            'Daily' => $dailyStudentCounts,
-                            'Weekly' => $weeklyStudentCounts,
-                            'Monthly' => $monthlyStudentCounts,
-                            'Yearly' => $yearlyStudentCounts,
-                        ];
-                        $colors = ['info', 'success', 'warning', 'danger'];
-                    @endphp
-
-                    @foreach ($timeframes as $key => $counts)
-                        <div class="col-lg-3  col-6 mb-3">
-                            <div class="card">
-                                <h5 class="card-header bg-{{ array_shift($colors) }} fw-bold font">{{ $key }}
-                                    Records</h5>
-                                <div class="card-body {{ count($counts) > 2 ? '' : 'no-scroll' }}">
-                                    <ul class="list-group scroll-list" id="{{ strtolower($key) }}-records-list">
-                                        @foreach ($counts as $count)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $count->course_id }}
-                                                <span class="badge badge-danger badge-pill">{{ $count->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="container-fluid font">
-                <div class="row">
-                    @foreach (['Most Visited Course' => $mostVisitedCourse, 'Least Visited Course' => $leastVisitedCourse] as $title => $course)
-                        <div class=" col-lg-3 col-md-6 col-sm-6 mb-3">
-                            <div class="card">
-                                <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
-                                    {{ $title }}</h5>
-                                <div class="card-body">
-                                    @if ($course)
-                                        <p><b>{{ $course->course_id }}: </b>{{ $course->count }} visits</p>
-                                    @else
-                                        <p>No visits recorded</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
+        .card-body {
+            position: relative;
+            height: 100%;
+        }
+    </style>
 
 
-        {{--  faculty  --}}
-        <section class="content font pt-4 faculty">
-            <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
-
-            <div class="container-fluid">
-                <div class="row text-center">
-                    @php
-                        $faculty_records = [
-                            [
-                                'count' => $facultydailyCount,
-                                'label' => 'Total Daily Record',
-                                'bg' => 'bg-info',
-                                'icon' => 'ion-bag',
-                            ],
-                            [
-                                'count' => $facultyweeklyCount,
-                                'label' => 'Total Weekly Record',
-                                'bg' => 'bg-success',
-                                'icon' => 'ion-stats-bars',
-                            ],
-                            [
-                                'count' => $facultymonthlyCount,
-                                'label' => 'Total Monthly Record',
-                                'bg' => 'bg-warning',
-                                'icon' => 'ion-person-add',
-                            ],
-                            [
-                                'count' => $facultyyearlyCount,
-                                'label' => 'Total Yearly Record',
-                                'bg' => 'bg-danger',
-                                'icon' => 'ion-pie-graph',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($faculty_records as $record)
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
-                            <div class="small-box {{ $record['bg'] }}">
-                                <div class="inner">
-                                    <h3>{{ $record['count'] }}</h3>
-                                    <p>{{ $record['label'] }}</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion {{ $record['icon'] }}"></i>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="container-fluid font">
-                <div class="row">
-                    @php
-                        $faculty_timeframes = [
-                            'Daily' => $dailyFacultyCounts,
-                            'Weekly' => $weeklyFacultyCounts,
-                            'Monthly' => $monthlyFacultyCounts,
-                            'Yearly' => $yearlyFacultyCounts,
-                        ];
-                        $colors = ['info', 'success', 'warning', 'danger'];
-                    @endphp
-
-                    @foreach ($faculty_timeframes as $key => $counts)
-                        <div class="col-lg-3 col-md-6 col-12 mb-3">
-                            <div class="card">
-                                <h5 class="card-header bg-{{ array_shift($colors) }} fw-bold font">{{ $key }}
-                                    Records</h5>
-                                <div class="card-body {{ count($counts) > 2 ? '' : 'no-scroll' }}">
-                                    <ul class="list-group scroll-list" id="{{ strtolower($key) }}-records-list">
-                                        @foreach ($counts as $count)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center bg-secondary bg-opacity-50 text-black mb-1">
-                                                • {{ $count->college_id }}
-                                                <span class="badge badge-danger badge-pill">{{ $count->count }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="container-fluid font">
-                <div class="row">
-                    @foreach (['Most Visited Course' => $mostVisitedCollege, 'Least Visited Course' => $leastVisitedCollege] as $title => $college)
-                        <div class="col-lg-3 col-md-6 col-12 mb-3">
-                            <div class="card">
-                                <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
-                                    {{ $title }}</h5>
-                                <div class="card-body">
-                                    @if ($college)
-                                        <p><b>{{ $college->college_id }}: </b>{{ $college->count }} visits</p>
-                                    @else
-                                        <p>No visits recorded</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-
-
-    @stop
 </x-app-layout>

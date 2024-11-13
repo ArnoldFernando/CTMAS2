@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Computer;
 
+use App\Http\Controllers\Controller;
 use App\Models\ComputerRecords;
 use App\Models\Faculty_and_staff;
 use App\Models\FacultyList;

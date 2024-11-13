@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Session;
 
+use App\Http\Controllers\Controller;
 use App\Models\FacultyList;
 use App\Models\FacultyRecords;
 use App\Models\GraduateSchoolList;

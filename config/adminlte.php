@@ -323,6 +323,12 @@ return [
             'icon' => 'fa-solid fa-house',
             'icon_color' => 'blue',
         ],
+        [
+            'text' => 'Visits',
+            'url' => 'admin/dashboard-visits',
+            'icon' => 'fa-solid fa-eye',
+            'icon_color' => 'red',
+        ],
 
         [
             'text' => 'Chart',

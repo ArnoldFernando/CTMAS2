@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Data;
+
+use App\Http\Controllers\Controller;
 
 use App\Imports\importFacultyData;
 use App\Imports\importGradschoolData;
