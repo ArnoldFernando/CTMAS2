@@ -345,6 +345,11 @@ return [
                     'url' => '/admin/student-monthly-chart',
                     'icon' => 'fas fa-fw fa-calendar-days',
                 ],
+                [
+                    'text' => 'Calculator',
+                    'url' => '/admin/chart',
+                    'icon' => '',
+                ],
             ],
         ],
         [

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Computer\ComputerController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Dashboard\VisitsController;
+use App\Http\Controllers\Admin\Data\ChartCalculatorController;
 use App\Http\Controllers\Admin\Data\ChartController;
 use App\Http\Controllers\Admin\Data\ImportDataController;
 use App\Http\Controllers\Admin\Data\PDFController;
@@ -115,6 +116,16 @@ Route::get('/home', [HomeController::class, 'auth'])
         Route::view('/student-weekly-chart', 'admin.chart.weekly-chart');
         Route::get('/chart-data-course-week', [ChartController::class, 'weeklycourse']);
         Route::get('/chart-data-college-week', [ChartController::class, 'weeklycollege']);
+
+        // chartcalculator routes
+        Route::get('/chart', [ChartCalculatorController::class, 'index']);
+        Route::post('/chart', [ChartCalculatorController::class, 'store']);
+
+
+// Route::get('/chart', [ChartCalculatorController::class, 'index']);
+// Route::post('/chart/add', [ChartCalculatorController::class, 'add']);
+// Route::post('/chart/clear', [ChartCalculatorController::class, 'clear']);
+
 
 
 
