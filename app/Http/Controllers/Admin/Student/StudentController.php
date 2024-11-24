@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Student;
 use App\Http\Controllers\Controller;
 
 use App\Models\College;
+
 use App\Models\Course;
 use App\Models\Faculty_and_staff;
 use App\Models\FacultyList;
@@ -32,41 +33,43 @@ class StudentController extends Controller
     }
 
     public function index(Request $req)
-    {
-        $query = StudentList::where('status', 'undergraduateschool');
+{
+    $query = StudentList::where('status', 'undergraduateschool');
 
-        // Apply course filter if set
-        if ($req->filled('course_id')) {
-            $query->where('course_id', $req->course_id);
-        }
+    // Apply course filter if set
+    if ($req->filled('course_id')) {
+        $query->where('course_id', $req->course_id);
+    }
 
-        // Search functionality
-        if ($req->filled('query')) {
-            $search = $req->input('query');
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', '%' . $search . '%')
+    // Apply search filter if set
+    if ($req->filled('query')) {
+        $search = $req->input('query');
+        $query->where(function ($q) use ($search) {
+            $q->where('first_name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
                 ->orWhere('student_id', 'like', '%' . $search . '%')
                 ->orWhere('year', 'like', '%' . $search . '%')
                 ->orWhere('course_id', 'like', '%' . $search . '%')
                 ->orWhere('college_id', 'like', '%' . $search . '%');
-            });
-        }
-
-        // Paginate and return
-        $students = $query->paginate(100);
-
-        // Group and pass data to view
-        $groupedData = $students->getCollection()->groupBy('course_id');
-        $courses = StudentList::where('status', 'undergraduateschool')->pluck('course_id')->unique();
-
-        return view('admin.student.index', [
-            'data' => $groupedData,
-            'courses' => $courses,
-            'students' => $students,
-            'selectedCourse' => $req->course_id,
-        ]);
+        });
     }
+
+    // Paginate without the need for withQueryString()
+    $students = $query->paginate(10);
+
+    // Group students by course_id
+    $groupedData = $students->getCollection()->groupBy('course_id');
+
+    // Get all unique courses
+    $courses = StudentList::where('status', 'undergraduateschool')->pluck('course_id')->unique();
+
+    return view('admin.student.index', [
+        'data' => $students,
+        'groupedData' => $groupedData,
+        'courses' => $courses,
+        'selectedCourse' => $req->course_id,
+    ]);
+}
 
 
 
@@ -182,45 +185,65 @@ class StudentController extends Controller
 
 
     public function records(Request $request)
-    {
-        $todayDate = now()->timezone('Asia/Manila')->toDateString();
-        // Get filter dates from the request
-        $startDate = $request->input('start_date') ?? '07/01/2024';
-        $endDate = $request->input('end_date');
-        // Default to today if no dates are provided
-        if (!$endDate) {
-            $endDate = $todayDate;
-        }
-        $colleges = College::all();
-        // Adjust end date to include the entire day
-        $endDate = Carbon::parse($endDate)->endOfDay();
-        // Get all sessions that have a time_in within the specified date range with student data
-        $filteredSessions = StudentRecords::whereBetween('created_at', [$startDate, $endDate])
-            ->whereHas('student', function ($query) {
-                $query->where('status', 'undergraduateschool');
-            })
-            ->with('student')
-            ->get();
+{
+    $todayDate = now()->timezone('Asia/Manila')->toDateString();
 
-        foreach ($filteredSessions as $studentRecord) {
-            if ($studentRecord->time_out) {
-                $timeIn = Carbon::parse($studentRecord->time_in);
-                $timeOut = Carbon::parse($studentRecord->time_out);
-                $duration = $timeIn->diff($timeOut)->format('%H:%I:%S');
-                $studentRecord->duration = $duration;
-            } else {
-                $studentRecord->duration = null;
-            }
-        }
+    // Get filter dates from the request
+    $startDate = $request->input('start_date') ?? '07/01/2024';  // Default to a specific start date if not provided
+    $endDate = $request->input('end_date') ?? $todayDate;  // Default to today's date if no end date is provided
 
-        $sessionsByDay = $filteredSessions->groupBy(function ($session) {
-            return $session->created_at->format('F j, Y');
-        });
-        return view('admin.student.records.all-records', [
-            'sessionsByDay' => $sessionsByDay,
-            'startDate' => $startDate,
-            'endDate' => $endDate->format('Y-m-d'),
-            'colleges' => $colleges,
-        ]);
+    // Ensure the dates are in 'Y-m-d' format
+    $startDate = Carbon::parse($startDate)->startOfDay();
+    $endDate = Carbon::parse($endDate)->endOfDay();
+
+    // Get all colleges
+    $colleges = College::all();
+
+    // Get the search query from the request
+    $query = $request->input('query');
+
+    // Filter records based on date range and search query (if any)
+    $filteredSessions = StudentRecords::whereBetween('created_at', [$startDate, $endDate])
+        ->whereHas('student', function ($queryBuilder) {
+            $queryBuilder->where('status', 'undergraduateschool');
+        })
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('student_id', 'like', "%$query%")
+                             ->orWhereHas('student', function ($queryBuilder) use ($query) {
+                                 $queryBuilder->where('first_name', 'like', "%$query%")
+                                              ->orWhere('last_name', 'like', "%$query%");
+                             });
+            });
+        })
+        ->with('student')
+        ->paginate(10); // Paginate the results with 10 records per page
+
+    // Calculate duration for each session
+    foreach ($filteredSessions as $studentRecord) {
+        if ($studentRecord->time_out) {
+            $timeIn = Carbon::parse($studentRecord->time_in);
+            $timeOut = Carbon::parse($studentRecord->time_out);
+            $duration = $timeIn->diff($timeOut)->format('%H:%I:%S');
+            $studentRecord->duration = $duration;
+        } else {
+            $studentRecord->duration = null;
+        }
     }
+
+    // Group sessions by day
+    $sessionsByDay = $filteredSessions->groupBy(function ($session) {
+        return $session->created_at->format('F j, Y');
+    });
+
+    // Return the view with the filtered data
+    return view('admin.student.records.all-records', [
+        'sessionsByDay' => $sessionsByDay,
+        'startDate' => $startDate->format('Y-m-d'),
+        'endDate' => $endDate->format('Y-m-d'),
+        'colleges' => $colleges,
+        'filteredSessions' => $filteredSessions,  // Pass paginated sessions
+    ]);
+}
+
 }

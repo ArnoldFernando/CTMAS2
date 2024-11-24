@@ -1,9 +1,9 @@
 <x-app-layout>
-    <div class="container py-5 font">
+    <div class="container font">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-sm border-0">
-                    <div class="card-body p-5">
+                    <div class="card-body p-4">
                         <h1 class="mb-4">Insert Student List <small class="text-muted">(Excel file)</small></h1>
 
                         <!-- Success Message -->
@@ -19,6 +19,19 @@
                                 {{ session('error') }}
                             </div>
                         @endif
+
+                        <div class="text-center p-2">
+                            <img src="{{ asset('IMG/import-student.png') }}" alt="Import Student Format"
+                                class="img-fluid mb-4 p-2 bg-success" style="height: 350px; width: 450px;">
+                            <p class="text-muted mt-2">
+                                PS. Ensure your Excel file matches the format shown above, with columns such as
+                                <strong>student_id</strong>, <strong>first_name, middle_initial,
+                                    last_name</strong>, and <strong>etc.</strong>.
+                                Incorrect formatting may result in errors during the import process.
+                            </p>
+                        </div>
+
+
 
                         <form action="{{ route('import.student.data') }}" method="post" enctype="multipart/form-data">
                             @csrf

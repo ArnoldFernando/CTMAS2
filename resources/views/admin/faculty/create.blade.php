@@ -95,12 +95,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="college_id" class="form-label">Student College</label>
+                                <label for="college_id" class="form-label">Faculty College</label>
                                 <select required name="college_id" id="college_id" class="form-control">
                                     <option value="" disabled selected>Select College</option>
                                     @foreach ($colleges as $college)
-                                        <option value="{{ $college->college_id }}"
-                                            style="background-color: {{ $college->bg_color }};">
+                                        <option value="{{ $college->college_id }}" {{--  style="background-color: {{ $college->bg_color }};">  --}}
+                                            style="color: black;">
                                             {{ $college->college_id }} = {{ $college->college_name }}
                                         </option>
                                     @endforeach
@@ -129,7 +129,7 @@
                         </form>
                     </div>
                     <div class="flex-fill p-2 d-flex align-items-center justify-content-center">
-                        <img class="img-fluid w-50" src="{{ asset('IMG/csulogo.png') }}" alt="CSU LOGO">
+                        <img class="img-fluid w-50" src="{{ asset('IMG/teacher-2.png') }}" alt="CSU LOGO">
                     </div>
                 </div>
             </div>

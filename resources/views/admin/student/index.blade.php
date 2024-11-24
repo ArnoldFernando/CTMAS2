@@ -14,7 +14,8 @@
 
         <div class="container-fluid font">
             <div class="d-flex justify-content-between mb-2">
-                <form action="{{ route('student.index') }}" method="GET" class="d-flex gap-2">
+                <form action="{{ route('student.index') }}" method="GET" class="d-flex gap-2 align-items-center">
+                    <!-- Filter by Course -->
                     <select name="course_id" id="course_id" class="form-control">
                         <option value="">All Courses</option>
                         @foreach ($courses as $course)
@@ -23,17 +24,15 @@
                             </option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-primary">Filter</button>
-                </form>
 
-                <form action="{{ route('student.index') }}" method="GET" class="d-flex">
-                    <input type="text" name="query" placeholder="🔍 Search" class="form-control mr-2"
+                    <!-- Search -->
+                    <input type="text" name="query" placeholder="🔍 Search" class="form-control"
                         value="{{ request()->input('query') }}">
 
-                    {{--  <button type="hidden" class="btn btn-primary d-flex align-items-center">
-                        <i class="fa-solid fa-magnifying-glass me-2"></i>Search
-                    </button>  --}}
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Filter/Search</button>
                 </form>
+
             </div>
 
             <style>
@@ -62,21 +61,23 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        @if (isset($data) && count($data) > 0)
-                            @foreach ($data as $course => $students)
+                        @if ($groupedData->isEmpty())
+                            <tr>
+                                <td colspan="8" class="py-1">No results found</td>
+                            </tr>
+                        @else
+                            @foreach ($groupedData as $course => $students)
                                 <tr class="bg-light">
-                                    <td colspan="10" class="py-1 table-warning text-uppercase">
+                                    <td colspan="8" class="py-1 table-warning text-uppercase">
                                         {{ strtoupper($course) }}
                                     </td>
                                 </tr>
-                                @php
-                                    $counter = 1;
-                                @endphp
+                                @php $counter = 1; @endphp
                                 @foreach ($students as $student)
                                     <tr>
                                         <td>{{ $counter++ }}</td>
                                         <td>{{ $student->student_id }}</td>
-                                        <td>{{ $student->first_name }} {{ $student->middle_initial }}
+                                        <td>{{ $student->first_name }} {{ $student->middle_initial ?? '' }}
                                             {{ $student->last_name }}</td>
                                         <td>{{ $student->course_id }}</td>
                                         <td>{{ $student->college_id }}</td>
@@ -87,27 +88,29 @@
                                                     alt="Student Photo" class="img-fluid"
                                                     style="border-radius: 50%; height:25px; width:25px;">
                                             @else
-                                                <img src="{{ asset('IMG/default.jpg') }}" class="img-fluid" alt=""
-                                                    style="border-radius: 50%; height:25px; width:25px;">
+                                                <img src="{{ asset('IMG/default.jpg') }}" alt="Default Image"
+                                                    class="img-fluid" style="border-radius: 50%; height:25px; width:25px;">
                                             @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('student.edit', $student->student_id) }}"
-                                                class="d-inline btn btn-success"><i
-                                                    class="fa-regular fa-pen-to-square"></i></a>
+                                                class="d-inline btn btn-success">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="7" class="py-1">No results found</td>
-                            </tr>
                         @endif
                     </tbody>
-
                 </table>
+                <!-- Pagination Links -->
+                <div class="d-flex justify-content-center">
+                    {{ $data->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
+
             </div>
+
         </div>
     @endsection
 </x-app-layout>

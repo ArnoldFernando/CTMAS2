@@ -172,7 +172,7 @@
                         </form>
                     </div>
                     <div class="flex-fill p-2 d-flex align-items-center justify-content-center img-con">
-                        <img class="img-fluid w-50" src="{{ asset('IMG/csulogo.png') }}" alt="CSU LOGO">
+                        <img class="img-fluid " src="{{ asset('IMG/college-student-2.png') }}" alt="CSU LOGO">
                     </div>
 
                     <style>

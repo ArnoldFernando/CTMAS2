@@ -18,16 +18,16 @@ class FacultyController extends Controller
     public function create()
     {
         $colleges = College::all();
-        $colors = [
-            '#FFDDDD', '#DDFFDD', '#DDDDFF', '#FFFFDD', '#DDFFFF',
-            '#FFDDFF', '#FFD700', '#ADD8E6', '#FFA07A', '#FFB6C1',
-        ];
+        // $colors = [
+        //     '#FFDDDD', '#DDFFDD', '#DDDDFF', '#FFFFDD', '#DDFFFF',
+        //     '#FFDDFF', '#FFD700', '#ADD8E6', '#FFA07A', '#FFB6C1',
+        // ];
 
-        foreach ($colleges as $college) {
-            $college->bg_color = $colors[array_rand($colors)];
-        }
+        // foreach ($colleges as $college) {
+        //     $college->bg_color = $colors[array_rand($colors)];
+        // }
 
-        return view('admin.faculty.create', compact('colleges', 'colors'));
+        return view('admin.faculty.create', compact('colleges'));
     }
 
     public function store(Request $request)

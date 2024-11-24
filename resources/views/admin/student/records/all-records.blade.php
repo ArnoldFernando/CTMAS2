@@ -4,7 +4,6 @@
     @stop
 
     @section('css')
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
         <style>
             /* Ensure dropdown menu is on top */
             .dropdown-menu {
@@ -19,6 +18,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-end align-items-center py-1 px-1">
+                            <!-- Export PDF Button Dropdown -->
                             <div class="dropdown me-2">
                                 <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="true">
@@ -54,6 +54,8 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            <!-- Make Reports Button Dropdown -->
                             <div class="dropdown">
                                 <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="true">
@@ -97,6 +99,7 @@
 
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between">
+                        <!-- Filter Form -->
                         <form method="GET" action="{{ route('student.records') }}"
                             class="form-inline d-flex align-items-center">
                             <div class="form-group mb-2 text-dark">
@@ -110,28 +113,28 @@
                             </div>
                         </form>
 
-                        <form action="{{ route('search.student.records') }}" method="GET"
-                            class="d-flex align-items-center">
-                            <input type="text" name="query" placeholder="Search..." class="form-control me-2"
-                                value="{{ request()->input('query') }}">
+                        <!-- Search Form -->
+                        <form action="{{ route('student.records') }}" method="GET" class="d-flex align-items-center">
+                            <input type="text" name="query" placeholder="Search by student ID or name..."
+                                class="form-control me-2" value="{{ request()->input('query') }}">
                             <button type="submit" class="btn btn-primary d-flex align-items-center">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                             </button>
                         </form>
-                    </div>
 
+                    </div>
                 </div>
 
                 <hr class="mt-0">
 
+                <!-- Records Table -->
                 <div class="row mt-1 px-1">
                     <div class="col">
                         @if (session('results') || isset($sessionsByDay))
                             <h6 class="fw-bold">{{ session('results') ? 'Search Results:' : '' }}</h6>
                             <div class="table-responsive"
                                 style="max-height: 600px; overflow-y: auto; position: relative;">
-                                <table class="table table-striped table-bordered text-center"
-                                    style="margin-right: -17px;">
+                                <table class="table table-striped table-bordered text-center">
                                     <!-- Table Header -->
                                     <thead class="table-dark sticky-top">
                                         <tr>
@@ -149,50 +152,30 @@
                                     </thead>
                                     <!-- Table Body -->
                                     <tbody>
-                                        @php $counter = 1; @endphp
-                                        @if (session('results'))
-                                            @foreach (session('results') as $session)
-                                                <tr>
-                                                    <td>{{ $counter++ }}</td>
-                                                    <td>{{ $session->student_id }}</td>
-                                                    <td>{{ $session->student->first_name }}
-                                                        {{ $session->student->middle_initial }}
-                                                        {{ $session->student->last_name }}</td>
-                                                    <td>{{ $session->student->course_id }}</td>
-                                                    <td>{{ $session->student->college_id }}</td>
-                                                    <td>{{ $session->student->year }}</td>
-                                                    <td>{{ $session->time_in }}</td>
-                                                    <td>{{ $session->time_out ?: 'N/A' }}</td>
-                                                    <td>{{ $session->duration ?: 'N/A' }}</td>
-                                                    <td>{{ $session->created_at->format('F j, Y') }}</td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            @foreach ($sessionsByDay as $day => $sessions)
-                                                <tr>
-                                                    <td colspan="10" class="table-warning px-3 py-2">
-                                                        {{ $day }}</td>
-                                                </tr>
-                                                @foreach ($sessions as $session)
-                                                    <tr>
-                                                        <td>{{ $counter++ }}</td>
-                                                        <td>{{ $session->student_id }}</td>
-                                                        <td>{{ $session->student->first_name }}
-                                                            {{ $session->student->middle_initial }}
-                                                            {{ $session->student->last_name }}</td>
-                                                        <td>{{ $session->student->course_id }}</td>
-                                                        <td>{{ $session->student->college_id }}</td>
-                                                        <td>{{ $session->student->year }}</td>
-                                                        <td>{{ $session->time_in }}</td>
-                                                        <td>{{ $session->time_out ?: 'N/A' }}</td>
-                                                        <td>{{ $session->duration ?: 'N/A' }}</td>
-                                                        <td>{{ $session->created_at->format('F j, Y') }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach
-                                        @endif
+                                        @php $counter = $filteredSessions->firstItem(); @endphp
+                                        @foreach ($filteredSessions as $session)
+                                            <tr>
+                                                <td>{{ $counter++ }}</td>
+                                                <td>{{ $session->student_id }}</td>
+                                                <td>{{ $session->student->first_name }}
+                                                    {{ $session->student->middle_initial }}
+                                                    {{ $session->student->last_name }}</td>
+                                                <td>{{ $session->student->course_id }}</td>
+                                                <td>{{ $session->student->college_id }}</td>
+                                                <td>{{ $session->student->year }}</td>
+                                                <td>{{ $session->time_in }}</td>
+                                                <td>{{ $session->time_out ?: 'N/A' }}</td>
+                                                <td>{{ $session->duration ?: 'N/A' }}</td>
+                                                <td>{{ $session->created_at->format('F j, Y') }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+
+                                <!-- Pagination Links -->
+                                <div class="d-flex justify-content-center">
+                                    {{ $filteredSessions->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         @else
                             <p>No records found.</p>
@@ -222,15 +205,12 @@
                     const startYear = startDate.getFullYear();
 
                     if (startMonth == 7) {
-                        // Vacation period in July
                         schoolYear = `${startYear}-${startYear + 1}`;
                         semester = 'Vacation';
                     } else if (startMonth >= 8 && startMonth <= 12) {
-                        // First semester
                         schoolYear = `${startYear}-${startYear + 1}`;
                         semester = 'First Semester';
                     } else if (startMonth >= 1 && startMonth <= 6) {
-                        // Second semester
                         schoolYear = `${startYear - 1}-${startYear}`;
                         semester = 'Second Semester';
                     }

@@ -117,9 +117,13 @@ Route::get('/home', [HomeController::class, 'auth'])
         Route::get('/chart-data-course-week', [ChartController::class, 'weeklycourse']);
         Route::get('/chart-data-college-week', [ChartController::class, 'weeklycollege']);
 
+
+
         // chartcalculator routes
         Route::get('/chart', [ChartCalculatorController::class, 'index']);
         Route::post('/chart', [ChartCalculatorController::class, 'store']);
+
+        Route::view('/test-chart', 'admin.chart.calculator.test');
 
 
 // Route::get('/chart', [ChartCalculatorController::class, 'index']);

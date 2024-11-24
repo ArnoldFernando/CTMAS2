@@ -1,34 +1,69 @@
 <x-app-layout>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <h1 class="text-center my-4">Chart Calculator</h1>
 
-    <div class="container">
+    <div class="container px-4">
         <form id="chart-form">
             @csrf
             <div id="inputs-container">
-                <div class="input-group mb-3">
-                    <label class="form-label">Legend:</label>
+                <div class="input-group mb-3 align-items-center px-4">
+                    <!-- Name Label and Input -->
+                    <label class="form-label mb-0 me-2">Name:</label>
                     <input type="text" class="form-control" name="legend[]" required>
-                    <label class="form-label ms-3">Value:</label>
+
+                    <!-- Value Label and Input -->
+                    <label class="form-label mb-0 me-2 ms-3">Value:</label>
                     <input type="number" class="form-control" name="value[]" required>
-                    <label class="form-label ms-3">Color:</label>
-                    <input type="color" class="form-control" name="color[]" required>
+
+                    <!-- Color Label and Input -->
+
+                    <label class="form-label mb-0 me-2 ms-3 ">Color:</label>
+                    <div class="rounder-circle">
+                        <input type="color" class="form-control " name="color[]" required>
+
+                    </div>
+
+
+
+                    <!-- Remove Button -->
                     <button type="button" class="btn btn-danger ms-3 remove-input"
                         onclick="removeInput(this)">Remove</button>
                 </div>
             </div>
-
+            <style>
+                .rounder-circle {
+                    border-radius: 50%;
+                    padding: 0;
+                    width: 40px;
+                    /* Adjust the size as needed */
+                    height: 40px;
+                    /* Adjust the size as needed */
+                    border: none;
+                    cursor: pointer;
+                }
+            </style>
             <div class="d-flex justify-content-between" id="chart-btn">
                 <button type="text" class="btn btn-primary" onclick="addInput()">Add Another</button>
                 <button type="submit" class="btn btn-success">Generate Chart</button>
             </div>
         </form>
+    </div>
 
-        <div id="chart-container" class="my-4" style="display: none; width:500px; height:300px;">
-            <canvas id="myChart" width="200" height="100"></canvas>
-            <button type="button" id="go-back-button" class="btn btn-secondary mt-3" onclick="goBack()">Go Back to
-                Input</button>
+    <!-- Modal for displaying the chart -->
+    <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chartModalLabel">Generated Chart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="myChart" width="200" height="100"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back to Input</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -39,14 +74,25 @@
         function addInput() {
             const container = document.getElementById('inputs-container');
             const newInput = `
-                <div class="input-group mb-3">
-                    <label class="form-label">Legend:</label>
+                <div class="input-group mb-3 align-items-center px-4">
+                    <!-- Name Label and Input -->
+                    <label class="form-label mb-0 me-2">Name:</label>
                     <input type="text" class="form-control" name="legend[]" required>
-                    <label class="form-label ms-3">Value:</label>
+
+                    <!-- Value Label and Input -->
+                    <label class="form-label mb-0 me-2 ms-3">Value:</label>
                     <input type="number" class="form-control" name="value[]" required>
-                    <label class="form-label ms-3">Color:</label>
-                    <input type="color" class="form-control" name="color[]" required>
-                    <button type="button" class="btn btn-danger ms-3 remove-input" onclick="removeInput(this)">Remove</button>
+
+                    <!-- Color Label and Input -->
+
+                    <label class="form-label mb-0 me-2 ms-3 ">Color:</label>
+                    <div class="rounder-circle">
+                        <input type="color" class="form-control " name="color[]" required>
+                    </div>
+
+                    <!-- Remove Button -->
+                    <button type="button" class="btn btn-danger ms-3 remove-input"
+                        onclick="removeInput(this)">Remove</button>
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', newInput);
@@ -73,14 +119,9 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('inputs-container').style.display = 'none';
-                    document.getElementById('chart-btn').style.display = 'none';
-
-                    document.querySelector('button[type="text"]').style.display = 'none';
-                    document.querySelector('button[type="submit"]').style.display = 'none';
-
-                    document.getElementById('chart-container').style.display = 'block';
-                    document.getElementById('go-back-button').style.display = 'inline-block';
+                    // Show the modal with the chart
+                    const myChartModal = new bootstrap.Modal(document.getElementById('chartModal'));
+                    myChartModal.show();
 
                     const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -166,23 +207,8 @@
                 })
                 .catch(error => console.error('Error:', error));
         });
-
-
-
-
-
-
-
-
-        function goBack() {
-            document.getElementById('inputs-container').style.display = 'block';
-            document.querySelector('button[type="text"]').style.display = 'inline-block';
-            document.querySelector('button[type="submit"]').style.display = 'inline-block';
-
-            document.getElementById('chart-container').style.display = 'none';
-            document.getElementById('go-back-button').style.display = 'none';
-        }
     </script>
 
-
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </x-app-layout>
