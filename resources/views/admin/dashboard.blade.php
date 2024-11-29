@@ -1,6 +1,4 @@
 <x-app-layout>
-
-
     <div class="container-fluid">
         <div class="row">
             <!-- Small Boxes (Summary Statistics) -->
@@ -32,13 +30,14 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>{{ $monthlyTotal }}</h3>
-                        <p>October Total Time-In</p>
+                        <p>{{ now()->format('F') }} Total Time-In</p> <!-- Displays the current month -->
                     </div>
                     <div class="icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                 </div>
             </div>
+
 
             <div class="col-md-3 col-sm-6">
                 <div class="small-box bg-danger">
@@ -52,90 +51,42 @@
                 </div>
             </div>
         </div>
-
-        <!-- Large Box (Chart) -->
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Average Time-In by Course</h3>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="timeInChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="container">
+        <canvas id="avgTimeChart" height="100"></canvas>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const chartData = @json($chartData);
-
-            const labels = [];
-            const datasets = [];
-
-            // Fixed color palette for 12 courses
-            const fixedColors = [
-                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
-                '#E74C3C', '#2ECC71', '#3498DB', '#F39C12', '#8E44AD', '#27AE60'
-            ];
-
-            let colorIndex = 0;
-
-            for (const [course, data] of Object.entries(chartData)) {
-                labels.push(...data.map(item => item.date));
-
-                datasets.push({
-                    label: course,
-                    data: data.map(item => {
-                        const [hours, minutes] = item.average_time.split(':');
-                        return parseInt(hours) + parseInt(minutes) / 60; // Convert to hours
-                    }),
-                    backgroundColor: fixedColors[colorIndex % fixedColors.length], // Use fixed color
-                    borderColor: fixedColors[colorIndex % fixedColors.length],
+            const ctx = document.getElementById('avgTimeChart').getContext('2d');
+            const data = {
+                labels: @json($averageTimePerCourse->keys()),
+                datasets: [{
+                    label: 'Average Time (Minutes)',
+                    data: @json($averageTimePerCourse->values()),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
-                });
+                }]
+            };
 
-                colorIndex++;
-            }
-
-            const ctx = document.getElementById('timeInChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: [...new Set(labels)].sort(),
-                    datasets: datasets
-                },
+                data: data,
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
-                    },
                     scales: {
                         y: {
-                            title: {
-                                display: true,
-                                text: 'Average Time-In (Hours)'
-                            },
                             beginAtZero: true
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
                         }
                     }
                 }
             });
         });
     </script>
+
 
 
     <style>
@@ -157,16 +108,5 @@
             font-size: 60px;
             opacity: 0.4;
         }
-
-        .card {
-            height: 400px;
-        }
-
-        .card-body {
-            position: relative;
-            height: 100%;
-        }
     </style>
-
-
 </x-app-layout>

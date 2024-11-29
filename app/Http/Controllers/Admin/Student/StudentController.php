@@ -217,6 +217,7 @@ class StudentController extends Controller
             });
         })
         ->with('student')
+        ->orderBy('created_at', 'desc')
         ->paginate(10); // Paginate the results with 10 records per page
 
     // Calculate duration for each session
