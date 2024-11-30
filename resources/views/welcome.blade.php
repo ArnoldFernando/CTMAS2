@@ -27,6 +27,17 @@
             <div class="d-flex justify-content-center">
                 <div class="text-center">
                     <h1 class="mx-auto my-0 text-uppercase">CSU LIBRARY</h1>
+                    <h3 class="text-success mx-auto mt-2 p-3"
+                        style="/* From https://css.glass */
+background: rgba(255, 255, 255, 0.07);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(1.2px);
+-webkit-backdrop-filter: blur(1.8px);
+">
+                        LibVOCACY: Unity Towards Inclusive and Empowered
+                        Libraries</h3>
+
                     <h2 class="text-white-50 mx-auto mt-2 mb-5">Welcome to CSU-Aparri Library.</h2>
                     @if (Route::has('login'))
                         <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
