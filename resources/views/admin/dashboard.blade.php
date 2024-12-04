@@ -54,7 +54,11 @@
     </div>
 
 
-    <div class="container">
+
+
+
+    <div class="container border border-black-subtle">
+        <div class="py-2 border-bottom">Average Monthly Time-In by Course</div>
         <canvas id="avgTimeChart" height="100"></canvas>
     </div>
 

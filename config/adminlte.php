@@ -348,7 +348,8 @@ return [
                 [
                     'text' => 'Calculator',
                     'url' => '/admin/chart',
-                    'icon' => '',
+                    'icon' => 'fas fa-fw fa-calculator',
+
                 ],
             ],
         ],
@@ -379,7 +380,7 @@ return [
         ],
         [
             'text' => 'Programs',
-            'icon' => 'fas fa-fw fa-clock',
+            'icon' => 'fas fa-fw fa-graduation-cap',
             'submenu' => [
                 [
                     'text' => 'add-College',
@@ -399,7 +400,7 @@ return [
         ],
         [
             'text' => 'Student',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-user-pen',
             'submenu' => [
                 [
                     'text' => 'Add Student',
@@ -492,28 +493,28 @@ return [
             'icon_color' => 'green',
 
         ],
-        [
-            'text' => 'Computer log Book',
-            'url' => 'admin/all-computer-records',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        // ********************************************
-        ['header' => 'account_settings'],
-        [
-            'text' => 'Profile',
-            'url' => '#',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => '#',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'User List',
-            'url' => 'admin/userlist',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+        // [
+        //     'text' => 'Computer log Book',
+        //     'url' => 'admin/all-computer-records',
+        //     'icon' => 'fas fa-fw fa-book',
+        // ],
+        // // ********************************************
+        // ['header' => 'account_settings'],
+        // [
+        //     'text' => 'Profile',
+        //     'url' => '#',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'change_password',
+        //     'url' => '#',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
+        // [
+        //     'text' => 'User List',
+        //     'url' => 'admin/userlist',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
 
 
     ],

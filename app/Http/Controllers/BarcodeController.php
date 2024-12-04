@@ -11,7 +11,7 @@ class BarcodeController extends Controller
 {
     public function studentBarcode()
     {
-        // Retrieve all students
+
         $students = StudentList::all();
         // Generate barcode for each student
         $students->map(function ($student) {

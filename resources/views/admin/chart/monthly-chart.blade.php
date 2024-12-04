@@ -3,16 +3,16 @@
         Monthly Library Visits by Course and College
     </x-slot>
 
-    <div class="w-100 h-80">
-        <div class="container mt-1" id="courseVisitsSection">
-            <h2 class="text-center mb-2">Monthly Course Visits</h2>
+    <div class="w-100 h-70">
+        <div class="container border border-black-subtle p-3" id="courseVisitsSection">
+            <h3 class="text-start mb-2 fw-normal p-2 border-bottom">Monthly Course Visits</h3>
             <div class="chart-container">
                 <canvas id="libraryCoursesMonthlyChart"></canvas>
             </div>
         </div>
 
-        <div class="container mt-1" id="collegeVisitsSection" style="display: none;">
-            <h2 class="text-center mb-4">Monthly College Visits</h2>
+        <div class="container mt-1 border border-black-subtle p-3" id="collegeVisitsSection" style="display: none;">
+            <h3 class="text-start mb-2 fw-normal p-2 border-bottom">Monthly College Visits</h3>
             <div class="chart-container">
                 <canvas id="libraryCollegeMonthlyChart"></canvas>
             </div>
@@ -25,9 +25,9 @@
         </div>
 
         <div class="container mt-4 text-center">
-            <div class="btn-group" role="group" aria-label="Visits toggle">
+            <div class="btn-group gap-4" role="group" aria-label="Visits toggle">
                 <button id="courseVisitsBtn" class="btn btn-primary">Show Course Visits</button>
-                <button id="collegeVisitsBtn" class="btn btn-secondary" style="display: none;">Show College
+                <button id="collegeVisitsBtn" class="btn btn-secondary">Show College
                     Visits</button>
             </div>
         </div>
@@ -36,8 +36,8 @@
     <style>
         .chart-container {
             width: 100%;
-            max-width: 1000px;
-            height: 500px;
+            max-width: 1200px;
+            height: 400px;
             margin: auto;
             padding: 20px;
             border-radius: 10px;
