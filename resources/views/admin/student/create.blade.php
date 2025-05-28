@@ -66,7 +66,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-lg-6 col-sm-12">
+                                <div class="mb-3 col-lg-3 col-sm-12">
                                     <label for="year" class="form-label">Year</label>
                                     <select required name="year" id="year" class="form-control">
                                         <option value="" disabled selected>Select Year</option>
@@ -76,6 +76,18 @@
                                         <option value="4">4</option>
                                     </select>
                                     @error('year')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3 col-lg-3 col-sm-12">
+                                    <label for="sex" class="form-label">Sex</label>
+                                    <select required name="sex" id="sex" class="form-control">
+                                        <option value="" disabled selected>Select Sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    @error('sex')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>

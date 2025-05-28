@@ -16,7 +16,7 @@ class BackupDatabase extends Command
 
     public function handle()
     {
-        $dbName = 'ctams2';
+        $dbName = 'defense_ctams';
         $dbUser = env('DB_USERNAME', 'root');
         $dbPass = env('DB_PASSWORD', '');
         $dbHost = env('DB_HOST', '127.0.0.1');

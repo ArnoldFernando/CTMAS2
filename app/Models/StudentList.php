@@ -11,7 +11,7 @@ class StudentList extends Model
     public $incrementing = false;  // Non-incrementing key
     protected $keyType = 'string';
 
-    protected $fillable = ['student_id', 'first_name', 'middle_initial', 'last_name', 'year', 'image', 'college_id', 'course_id' ,'status'];
+    protected $fillable = ['student_id', 'first_name', 'middle_initial', 'last_name', 'year', 'sex', 'image', 'college_id', 'course_id', 'status'];
 
 
     public function college()

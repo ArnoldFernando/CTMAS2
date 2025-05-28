@@ -172,6 +172,7 @@
                                             <th>Course</th>
                                             <th>College</th>
                                             <th>Year</th>
+                                            <th>Sex</th>
                                             <th>Time In</th>
                                             <th>Time Out</th>
                                             <th>Duration</th>
@@ -191,6 +192,7 @@
                                                 <td>{{ $session->student->course_id }}</td>
                                                 <td>{{ $session->student->college_id }}</td>
                                                 <td>{{ $session->student->year }}</td>
+                                                <td>{{ $session->student->sex }}</td>
                                                 <td>{{ $session->time_in }}</td>
                                                 <td>{{ $session->time_out ?: 'N/A' }}</td>
                                                 <td>{{ $session->duration ?: 'N/A' }}</td>

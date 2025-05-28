@@ -55,7 +55,7 @@
                         @method('PATCH')
 
                         <div class="row">
-                            <div class="mb-3 col-9">
+                            <div class="mb-3 col-6">
                                 <label for="student_id" class="form-label">Student I.D</label>
                                 <input type="text" name="student_id" placeholder="input student I.D"
                                     value="{{ $student->student_id }}" class="form-control">
@@ -71,6 +71,22 @@
                                     <option value="4">4</option>
                                 </select>
                             </div>
+
+                            <div class="mb-3 col-3">
+                                <label for="sex" class="form-label">Sex</label>
+                                <select name="sex" id="sex" class="form-control" required>
+                                    <option value="{{ $student->sex }}" selected>{{ ucfirst($student->sex) }}</option>
+                                    <option value="male" {{ $student->sex === 'male' ? 'selected' : '' }}>Male
+                                    </option>
+                                    <option value="female" {{ $student->sex === 'female' ? 'selected' : '' }}>Female
+                                    </option>
+                                </select>
+                                @error('sex')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
                         </div>
 
                         <div class="row">

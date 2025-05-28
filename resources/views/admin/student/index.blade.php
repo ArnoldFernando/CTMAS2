@@ -85,6 +85,7 @@
                                 <th>COURSE</th>
                                 <th>COLLEGE</th>
                                 <th>YEAR</th>
+                                <th>Sex</th>
                                 <th class="image">IMAGE</th>
                                 <th class="action">ACTION</th>
                             </tr>
@@ -93,12 +94,12 @@
                             @php $counter = $data->firstItem() ?? 1; @endphp
                             @if ($groupedData->isEmpty())
                                 <tr>
-                                    <td colspan="8" class="py-1">No results found</td>
+                                    <td colspan="9" class="py-1">No results found</td>
                                 </tr>
                             @else
                                 @foreach ($groupedData as $course => $students)
                                     <tr class="bg-light">
-                                        <td colspan="8" class="py-1 table-warning text-uppercase">
+                                        <td colspan="9" class="py-1 table-warning text-uppercase">
                                             {{ strtoupper($course) }}
                                         </td>
                                     </tr>
@@ -112,6 +113,7 @@
                                             <td>{{ $student->course_id }}</td>
                                             <td>{{ $student->college_id }}</td>
                                             <td>{{ $student->year }}</td>
+                                            <td>{{ $student->sex }}</td>
                                             <td class="image">
                                                 @if ($student->image)
                                                     <img src="{{ asset('student-images/' . $student->image) }}"
