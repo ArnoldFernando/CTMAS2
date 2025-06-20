@@ -26,7 +26,8 @@
         rel="stylesheet">
 
     {{--  Sweet Alert  --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.css') }}">
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     {{-- Bootstrap CDN --}}
 

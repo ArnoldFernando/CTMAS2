@@ -48,7 +48,8 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <form action="{{ route('student-records.pdf') }}" method="GET">
+                                                <form action="{{ route('student-records.pdf') }}" method="GET"
+                                                    id="exportPdfForm">
                                                     <div class="form-group px-2">
                                                         <label for="start_date">Start Date:</label>
                                                         <input type="date" name="start_date" id="start_date"
@@ -71,9 +72,41 @@
                                                     </div>
                                                     <div class="form-group px-2 py-2">
                                                         <input type="submit" value="Export PDF"
-                                                            class="btn btn-primary w-100">
+                                                            class="btn btn-primary w-100" id="exportPdfBtn">
                                                     </div>
                                                 </form>
+
+                                                <script>
+                                                    const exportForm = document.getElementById('exportPdfForm');
+
+                                                    exportForm.addEventListener('submit', function(e) {
+                                                        e.preventDefault(); // prevent immediate submit
+
+                                                        Swal.fire({
+                                                            title: 'Generating PDF...',
+                                                            text: 'Please wait while your PDF is being prepared.',
+                                                            icon: 'info',
+                                                            allowOutsideClick: false,
+                                                            showConfirmButton: false,
+                                                            didOpen: () => {
+                                                                Swal.showLoading();
+
+                                                                // Submit the form after a short delay
+                                                                setTimeout(() => {
+                                                                    exportForm.submit();
+                                                                }, 500);
+
+                                                                // Auto-close the loading modal after 6 seconds
+                                                                setTimeout(() => {
+                                                                    Swal.close();
+                                                                }, 6000);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+
+
+
                                             </li>
                                         </ul>
                                     </div>
