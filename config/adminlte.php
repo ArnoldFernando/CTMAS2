@@ -321,19 +321,19 @@ return [
             'text' => 'Dashboard',
             'url' => 'admin/dashboard',
             'icon' => 'fa-solid fa-house',
-            'icon_color' => 'blue',
+            'icon_color' => '',
         ],
         [
             'text' => 'Visits',
             'url' => 'admin/dashboard-visits',
             'icon' => 'fa-solid fa-eye',
-            'icon_color' => 'red',
+            'icon_color' => '',
         ],
 
         [
             'text' => 'Chart',
             'icon' => 'fa-solid fa-chart-simple',
-            'icon_color' => 'green',
+            'icon_color' => '',
             'submenu' => [
                 [
                     'text' => 'Weekly',

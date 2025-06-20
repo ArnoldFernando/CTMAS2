@@ -157,13 +157,13 @@
             <tbody>
                 @foreach ($studentRecords as $record)
                     <tr>
-                        <td>{{ $record->created_at->format('F j, Y') }}</td>
-                        <td>{{ $record->student->first_name }} {{ $record->student->middle_inital }}
-                            {{ $record->student->last_name }}</td>
-                        <td>{{ $record->student->course_id }}</td>
-                        <td>{{ $record->student->college_id }}</td>
-                        <td>{{ \Carbon\Carbon::parse($record->time_in)->format('g:i A') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($record->time_out)->format('g:i A') }}</td>
+                        <td>{{ $record->created_at->format('F j, Y') ?? '' }}</td>
+                        <td>{{ $record->student->first_name ?? '' }} {{ $record->student->middle_inital ?? '' }}
+                            {{ $record->student->last_name ?? '' }}</td>
+                        <td>{{ $record->student->course_id ?? '' }}</td>
+                        <td>{{ $record->student->college_id ?? '' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($record->time_in)->format('g:i A') ?? '' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($record->time_out)->format('g:i A') ?? '' }}</td>
                     </tr>
                 @endforeach
             </tbody>

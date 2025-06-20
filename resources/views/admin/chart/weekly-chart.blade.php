@@ -1,10 +1,15 @@
 <x-app-layout>
     <div class="container">
-        <!-- Navigation for Month Selection -->
+
 
         <!-- Chart Section for Course Visits -->
         <div class="chart-section border border-black-subtle p-2 " id="courseVisitsSection">
-            <h3 class="text-start mb-2 p-2 border-bottom fw-normal">Weekly Course Visits</h3>
+            <div class="d-flex justify-content-between">
+                <h3 class="text-start mb-2 p-2 border-bottom fw-normal">Weekly Visits</h3>
+                <div class="d-flex align-items-center">
+                    <button id="collegeVisitsBtn" class="btn btn-secondary" tyle="display: none;">Show College</button>
+                </div>
+            </div>
             <div class="card mb-3">
                 <div class="card-body ">
                     <canvas id="libraryCoursesWeeklyChart"></canvas>
@@ -14,7 +19,13 @@
 
         <!-- Chart Section for College Visits -->
         <div class="chart-section border border-black-subtle p-2 " id="collegeVisitsSection" style="display: none;">
-            <h3 class="text-start mb-2 p-2 border-bottom fw-normal">Weekly College Visits</h3>
+            <div class="d-flex justify-content-between">
+                <h3 class="text-start mb-2 p-2 border-bottom fw-normal">Weekly Visits</h3>
+                <div class="d-flex align-items-center">
+                    <button id="courseVisitsBtn" class="btn btn-primary">Show Course</button>
+                </div>
+            </div>
+
             <div class="card mb-3 ">
                 <div class="card-body">
                     <canvas id="libraryCollegeWeeklyChart"></canvas>
@@ -32,13 +43,7 @@
             </div>
 
             <!-- Button Group for Visits Toggle -->
-            <div class="text-center mb-4">
-                <div class="btn-group gap-4" role="group" aria-label="Visits toggle">
-                    <button id="courseVisitsBtn" class="btn btn-primary">Show Course Visits</button>
-                    <button id="collegeVisitsBtn" class="btn btn-secondary" tyle="display: none;">Show College
-                        Visits</button>
-                </div>
-            </div>
+
         </div>
 
     </div>

@@ -17,8 +17,8 @@
             <div class="col-md-3 col-sm-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ $weeklyAverage }}</h3>
-                        <p>Weekly Average Time-In</p>
+                        <h3>{{ number_format($weeklyAverage, 0) }} <small>({{ $weeklyCount }})</small></h3>
+                        <p>Weekly Average Time-in</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-calendar-week"></i>

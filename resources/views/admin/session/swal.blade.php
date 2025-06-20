@@ -213,21 +213,37 @@
             });
         }
 
-        function facultyTimein() {
+        function facultyTimein(data) {
             let timerInterval;
+            let imageUrl = data.image ? data.image : 'IMG/default.jpg'; // Replace with actual default image path
+
             Swal.fire({
-                title: "Success!",
-                text: "faculty time in recorded successfully.",
-                icon: "success",
-                html: "faculty time in recorded successfully.",
+                title: "Time in Successfully",
+                text: "Faculty time in recorded successfully.",
+                imageUrl: imageUrl,
+                imageHeight: 200, // Adjust the image height to 300px
+                imageAlt: "Student image",
                 timer: 2000, // Set the timer duration (in milliseconds)
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
+                    const timerElement = Swal.getHtmlContainer().querySelector('b');
+                    if (timerElement) {
+                        timerInterval = setInterval(() => {
+                            timerElement.textContent = Swal.getTimerLeft();
+                        }, 100);
+                    }
+
+                    // Force the image to be round
+                    const swalImage = Swal.getHtmlContainer().querySelector('.swal2-image');
+                    if (swalImage) {
+                        swalImage.style.borderRadius = '50% !important';
+                        swalImage.style.width = '200px !important';
+                        swalImage.style.height = '200px !important';
+                        swalImage.style.objectFit = 'cover !important';
+                        swalImage.style.overflow = 'hidden !important';
+
+                    }
                 },
                 willClose: () => {
                     clearInterval(timerInterval);
@@ -235,9 +251,12 @@
                     setTimeout(() => {
                         document.getElementById('faculty_id').focus();
                     }, 50); // Adjust the timeout if necessary
-                }
+                },
+                html: '<b></b>' // Adding a timer display element
             }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {}
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    // Handle what happens when the timer ends, if needed
+                }
             });
         }
 
@@ -269,31 +288,48 @@
             });
         }
 
-        function facultyTimeout() {
+        function facultyTimeout(data) {
             let timerInterval;
+            let imageUrl = data.image ? data.image : 'IMG/default.jpg';
+
             Swal.fire({
-                title: "Timeout",
-                text: "faculty time out recorded successfully.",
-                icon: "info",
-                html: "faculty time out recorded successfully.",
-                timer: 2000, // Set the timer duration (in milliseconds)
+                title: "Time Out successfully.",
+                text: "Faculty time Out recorded successfully.",
+                imageUrl: imageUrl,
+                imageHeight: 200,
+                imageAlt: "Student image",
+                timer: 2000,
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();
-                    const timer = Swal.getPopup().querySelector("b");
-                    timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                    }, 100);
+                    const timerElement = Swal.getHtmlContainer().querySelector('b');
+                    if (timerElement) {
+                        timerInterval = setInterval(() => {
+                            timerElement.textContent = Swal.getTimerLeft();
+                        }, 100);
+                    }
+                    const swalImage = Swal.getHtmlContainer().querySelector('.swal2-image');
+                    if (swalImage) {
+                        swalImage.style.borderRadius = '50% !important';
+                        swalImage.style.width = '200px !important';
+                        swalImage.style.height = '200px !important';
+                        swalImage.style.objectFit = 'cover !important';
+                        swalImage.style.overflow = 'hidden !important';
+
+                    }
                 },
                 willClose: () => {
                     clearInterval(timerInterval);
                     // Focus on the input field after the alert closes
                     setTimeout(() => {
-                        document.getElementById('faculty_id').focus();
+                        document.getElementById('student_id').focus();
                     }, 50); // Adjust the timeout if necessary
-                }
+                },
+                html: '<b></b>' // Adding a timer display element
             }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {}
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    // Handle what happens when the timer ends, if needed
+                }
             });
         }
     </script>

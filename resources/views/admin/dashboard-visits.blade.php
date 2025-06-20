@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="container-fluid font">
+            <div class="container font">
                 <div class="row">
                     @php
                         $timeframes = [
@@ -154,9 +154,9 @@
                 </div>
             </div>
 
-            <div class="container-fluid font">
+            <div class="container font">
                 <div class="row">
-                    @foreach (['Most Visited Course' => $mostVisitedCourse, 'Least Visited Course' => $leastVisitedCourse] as $title => $course)
+                    @foreach (['Top Visitors' => $mostVisitedCourse, 'Least Visits' => $leastVisitedCourse] as $title => $course)
                         <div class=" col-lg-3 col-md-6 col-sm-6 mb-3">
                             <div class="card">
                                 <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">
@@ -180,7 +180,7 @@
         <section class="content font pt-4 faculty">
             <h4 class="text-center fw-semibold font pb-4">Faculty Records</h4>
 
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row text-center">
                     @php
                         $faculty_records = [
@@ -227,7 +227,7 @@
                 </div>
             </div>
 
-            <div class="container-fluid font">
+            <div class="container font">
                 <div class="row">
                     @php
                         $faculty_timeframes = [
@@ -261,9 +261,9 @@
                 </div>
             </div>
 
-            <div class="container-fluid font">
+            <div class="container font">
                 <div class="row">
-                    @foreach (['Most Visited Course' => $mostVisitedCollege, 'Least Visited Course' => $leastVisitedCollege] as $title => $college)
+                    @foreach (['Most Visitors' => $mostVisitedCollege, 'Least Visits' => $leastVisitedCollege] as $title => $college)
                         <div class="col-lg-3 col-md-6 col-12 mb-3">
                             <div class="card">
                                 <h5 class="card-header most fw-bold {{ strtolower(str_replace(' ', '-', $title)) }}">

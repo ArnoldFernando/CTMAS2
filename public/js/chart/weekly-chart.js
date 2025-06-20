@@ -77,9 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 const ctx = document.getElementById(type === 'course' ? 'libraryCoursesWeeklyChart' : 'libraryCollegeWeeklyChart').getContext('2d');
                 const datasets = [];
                 const colors = [
-                    'rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)',
-                    'rgba(255, 206, 86, 0.5)', 'rgba(54, 162, 235, 0.5)',
-                    'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(0, 128, 128, 0.5)', // Teal
+                    'rgba(128, 0, 128, 0.5)', // Purple
+                    'rgba(255, 215, 0, 0.5)', // Gold
+                    'rgba(220, 20, 60, 0.5)' // Crimson
+
                 ];
 
                 let colorIndex = 0;

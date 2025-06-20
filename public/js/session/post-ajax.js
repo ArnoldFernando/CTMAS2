@@ -62,6 +62,14 @@ $(document).ready(function () {
 
 
 
+function clearDisplayedData() {
+    $('#studentName').text('');
+    $('#studentCourse').text('');
+    $('#studentDepartment').text('');
+    $('#currentTime').text('');
+    $('.student-image').attr('src', '/IMG/default.jpg'); // Path to the default image
+    $('#type').text('');
+}
 
 function displayStudentInfo_in(studentData) {
     $('#studentName').text(studentData.first_name + ' ' + studentData.middle_initial + ' ' + studentData.last_name);
@@ -71,6 +79,9 @@ function displayStudentInfo_in(studentData) {
     $('.student-image').attr('src', studentData.image);
     $('#type').text('Student');
     studentTimein(studentData);
+
+    // Clear data after 10 seconds
+    setTimeout(clearDisplayedData, 10000);
 }
 
 function displayStudentInfo_out(studentData) {
@@ -81,6 +92,9 @@ function displayStudentInfo_out(studentData) {
     $('.student-image').attr('src', studentData.image);
     $('#type').text('Student');
     studentTimeout(studentData);
+
+    // Clear data after 10 seconds
+    setTimeout(clearDisplayedData, 10000);
 }
 
 function displayFacultyInfo_in(facultyData) {
@@ -91,6 +105,9 @@ function displayFacultyInfo_in(facultyData) {
     $('.student-image').attr('src', facultyData.image);
     $('#type').text('Faculty');
     facultyTimein(facultyData);
+
+    // Clear data after 10 seconds
+    setTimeout(clearDisplayedData, 10000);
 }
 
 function displayFacultyInfo_out(facultyData) {
@@ -101,4 +118,7 @@ function displayFacultyInfo_out(facultyData) {
     $('.student-image').attr('src', facultyData.image);
     $('#type').text('Faculty');
     facultyTimeout(facultyData);
+
+    // Clear data after 10 seconds
+    setTimeout(clearDisplayedData, 10000);
 }

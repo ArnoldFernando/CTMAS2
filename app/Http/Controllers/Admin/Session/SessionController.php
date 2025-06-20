@@ -26,9 +26,10 @@ class SessionController extends Controller
             ->get();
         return view('admin..session.start-session', compact('rankedStudents'));
     }
-    public function fetchRankedStudents() {
+    public function fetchRankedStudents()
+    {
         $datas = StudentList::select('student_id', 'first_name', 'image') // Add 'image' or other necessary fields
-                        ->get();
+            ->get();
         return response()->json($datas);
     }
 
@@ -48,7 +49,7 @@ class SessionController extends Controller
         } elseif ($faculty) {
             return $this->handleFacultyTime($id, $faculty);
         } else {
-            return response()->json([ 'idnotexist' => 'ID does not exist.'], 404);
+            return response()->json(['idnotexist' => 'ID does not exist.'], 404);
         }
     }
 
@@ -72,7 +73,6 @@ class SessionController extends Controller
 
                     if ($diffInSeconds < 20) {
                         return response()->json(['outStudent' => 'Cannot time in within 20 seconds of time out.'], 400);
-
                     }
                 }
             } else {
@@ -103,8 +103,8 @@ class SessionController extends Controller
             'course_id' => $student->course_id, // Assuming 'course' is a field in StudentList
             'college_id' => $student->college_id ? $student->college_id : "", // Assuming 'department' is a field
             'image' => $student->image
-            ? asset('student-images/' . $student->image)
-            : asset('IMG/default.jpg'), // Path to default image
+                ? asset('student-images/' . $student->image)
+                : asset('IMG/default.jpg'), // Path to default image
             'currentTime' => Carbon::now()->format('h:i A') // Current time formatted
         ];
         return response()->json(['studentTimein' => 'Student time in recorded successfully.', 'studentData' => $studentData]);
@@ -117,8 +117,7 @@ class SessionController extends Controller
         $diffInSeconds = $currentTime->diffInSeconds($timeIn);
 
         if ($diffInSeconds < 20) {
-            return response()->json([ 'inStudent' => 'Cannot time out within 20 seconds of time in.'], 400);
-
+            return response()->json(['inStudent' => 'Cannot time out within 20 seconds of time in.'], 400);
         }
 
         $latestRecord->time_out = $currentTime->toTimeString();
@@ -130,8 +129,8 @@ class SessionController extends Controller
             'course_id' => $student->course_id, // Assuming 'course' is a field in StudentList
             'college_id' => $student->college_id ? $student->college_id : "", // Assuming 'department' is a field
             'image' => $student->image
-            ? asset('student-images/' . $student->image)
-            : asset('IMG/default.jpg'), // Path to default image
+                ? asset('student-images/' . $student->image)
+                : asset('IMG/default.jpg'), // Path to default image
             'currentTime' => Carbon::now()->format('h:i A')
         ];
 
@@ -182,7 +181,7 @@ class SessionController extends Controller
 
         $facultyData = [
             'first_name' => $faculty->first_name ? $faculty->first_name :  "",
-            'middle_initial' => $faculty->middle_initial ? $faculty->middle_initial: "",
+            'middle_initial' => $faculty->middle_initial ? $faculty->middle_initial : "",
             'last_name' => $faculty->last_name ? $faculty->last_name : "",
             'course_id' => $faculty->course_id, // Assuming 'course' is a field in facultyList
             'college_id' => $faculty->college_id, // Assuming 'department' is a field
@@ -202,7 +201,7 @@ class SessionController extends Controller
         $diffInSeconds = $currentTime->diffInSeconds($timeIn);
 
         if ($diffInSeconds < 20) {
-            return response()->json([ 'inFaculty' => 'Cannot time out within 20 seconds of time in.'], 400);
+            return response()->json(['inFaculty' => 'Cannot time out within 20 seconds of time in.'], 400);
         }
 
         $latestRecord->time_out = $currentTime->toTimeString();
@@ -210,7 +209,7 @@ class SessionController extends Controller
 
         $facultyData = [
             'first_name' => $faculty->first_name ? $faculty->first_name :  "",
-            'middle_initial' => $faculty->middle_initial ? $faculty->middle_initial: "",
+            'middle_initial' => $faculty->middle_initial ? $faculty->middle_initial : "",
             'last_name' => $faculty->last_name ? $faculty->last_name : "",
             'course_id' => $faculty->course_id, // Assuming 'course' is a field in facultyList
             'college_id' => $faculty->college_id, // Assuming 'department' is a field
@@ -251,27 +250,27 @@ class SessionController extends Controller
 
 
 
-//     protected function getSessionData()
-// {
-//     $sessionTypes = ['student', 'faculty'];
-//     $sessionData = [];
+    //     protected function getSessionData()
+    // {
+    //     $sessionTypes = ['student', 'faculty'];
+    //     $sessionData = [];
 
-//     foreach ($sessionTypes as $type) {
-//         if (session($type)) {
-//             $data = session($type);
-//             $sessionData[] = [
-//                 'image' => $data->image ? asset("$type-images/{$data->image}") : asset('IMG/default.jpg'),
-//                 'first_name' => $data->first_name,
-//                 'middle_initial' => $data->middle_initial,
-//                 'last_name' => $data->last_name,
-//                 'course_id' => in_array($type, ['student']) ? $data->course_id : 'N/A',
-//                 'college_id' => in_array($type, ['student', 'faculty']) ? $data->college_id : 'N/A',
-//                 'currentTime' => session('currentTime')
-//             ];
-//         }
-//     }
+    //     foreach ($sessionTypes as $type) {
+    //         if (session($type)) {
+    //             $data = session($type);
+    //             $sessionData[] = [
+    //                 'image' => $data->image ? asset("$type-images/{$data->image}") : asset('IMG/default.jpg'),
+    //                 'first_name' => $data->first_name,
+    //                 'middle_initial' => $data->middle_initial,
+    //                 'last_name' => $data->last_name,
+    //                 'course_id' => in_array($type, ['student']) ? $data->course_id : 'N/A',
+    //                 'college_id' => in_array($type, ['student', 'faculty']) ? $data->college_id : 'N/A',
+    //                 'currentTime' => session('currentTime')
+    //             ];
+    //         }
+    //     }
 
-//     return response()->json($sessionData);
-// }
+    //     return response()->json($sessionData);
+    // }
 
 }
